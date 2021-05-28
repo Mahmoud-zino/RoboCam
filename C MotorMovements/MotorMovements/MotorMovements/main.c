@@ -32,7 +32,7 @@ int main(void)
 	
 	sei();
 	
-	move_motors_to_target();
+	servo_moveToStartPosition();
 	unsigned char continueFlag = 0;	
 
 	while(1)

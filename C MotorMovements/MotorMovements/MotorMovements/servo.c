@@ -6,9 +6,9 @@ void timer0_init()
 	TCCR0A |= (1 << WGM01);
 	//Prescaler: 8
 	TCCR0B |= (1 << CS01);
-	//See documentation
+	//See documentation for math
 	OCR0A = 19;
-	// Timer/Counter0 Output Compare Match A Interrupt Enable
+	// Enable interrupt
 	TIMSK0 |= (1 << OCIE0A);
 }
 
@@ -29,7 +29,7 @@ static volatile unsigned char motor_vals[] = { ((SERVO_BASE_START * 10UL) / 9UL)
 
 ISR(TIMER0_COMPA_vect)
 {
-	////After cycle
+	// End of cycle
 	if(pwm_cycle++ > 2000)
 	{
 		SERVO_BASE_PORT &= ~(1<<SERVO_BASE);
@@ -39,6 +39,7 @@ ISR(TIMER0_COMPA_vect)
 		SERVO_CAM_PORT &= ~(1<<SERVO_CAM);
 		pwm_cycle = 0;
 	}
+	//1750 to 2000 => Control pulse
 	if(pwm_cycle > 1750)
 	{
 		if(pwm_cycle > 1950 - motor_vals[0])
