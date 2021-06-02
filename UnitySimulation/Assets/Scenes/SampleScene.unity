@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1993,7 +1993,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!64 &1166422536
 MeshCollider:
@@ -3163,6 +3163,14 @@ PrefabInstance:
       propertyPath: sliders.Array.data[3]
       value: 
       objectReference: {fileID: 938610119}
+    - target: {fileID: 2661551460228176783, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 5054904358228495780, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5059094099145407546, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
       propertyPath: m_RootOrder
       value: 2
