@@ -806,14 +806,14 @@ END GROUP
  .debug_frame   0x00000108      0x190 servo.o
  .debug_frame   0x00000298       0x68 uart.o
 
-.debug_str      0x00000000      0x566
+.debug_str      0x00000000      0x5c5
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_str     0x00000208      0x210 main.o
-                                0x252 (size before relaxing)
- .debug_str     0x00000418       0xc4 servo.o
-                                0x2bf (size before relaxing)
- .debug_str     0x000004dc       0x8a uart.o
+ .debug_str     0x00000208      0x214 main.o
+                                0x256 (size before relaxing)
+ .debug_str     0x0000041c       0xc4 servo.o
+                                0x2c3 (size before relaxing)
+ .debug_str     0x000004e0       0xe5 uart.o
                                 0x211 (size before relaxing)
 
 .debug_loc      0x00000000      0x874

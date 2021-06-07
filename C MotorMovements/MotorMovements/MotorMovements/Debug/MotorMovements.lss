@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000300  00000000  00000000  00003964  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000566  00000000  00000000  00003c64  2**0
+ 10 .debug_str    000005c5  00000000  00000000  00003c64  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000874  00000000  00000000  000041ca  2**0
+ 11 .debug_loc    00000874  00000000  00000000  00004229  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000e0  00000000  00000000  00004a3e  2**0
+ 12 .debug_ranges 000000e0  00000000  00000000  00004a9d  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -226,12 +226,14 @@ int main(void)
       f2:	e1 f7       	brne	.-8      	; 0xec <main+0xa>
       f4:	00 c0       	rjmp	.+0      	; 0xf6 <main+0x14>
       f6:	00 00       	nop
+	
 	_delay_ms(100);
+	
 	sei();
       f8:	78 94       	sei
 	
-	move_motors_to_target();
-      fa:	e0 df       	rcall	.-64     	; 0xbc <move_motors_to_target>
+	servo_moveToStartPosition();
+      fa:	0e d3       	rcall	.+1564   	; 0x718 <servo_moveToStartPosition>
       fc:	c7 e1       	ldi	r28, 0x17	; 23
 		clear_buffer(tbuffer);
 		continueFlag = 0;
@@ -250,11 +252,11 @@ int main(void)
      108:	df 2e       	mov	r13, r31
      10a:	f0 2d       	mov	r31, r0
      10c:	0f 2e       	mov	r0, r31
-		//Test Brackets
+			
+		//Test Brackets Positioning
 		if(tbuffer[0] != '[' || tbuffer[5] != '[' || tbuffer[10] != '[' || tbuffer[15] != '['
 		|| tbuffer[4] != ']' || tbuffer[9] != ']' || tbuffer[14] != ']' || tbuffer[19] != ']')
 		{
-			//printf("\n\rError: one of the brackets are incorrect positioned\n\r");
 			printf("\n\rError in Bracket Position\n\r");
      10e:	f2 ea       	ldi	r31, 0xA2	; 162
      110:	8f 2e       	mov	r8, r31
@@ -262,11 +264,11 @@ int main(void)
      114:	9f 2e       	mov	r9, r31
      116:	f0 2d       	mov	r31, r0
      118:	0f 2e       	mov	r0, r31
+			continue;
 		
-		//Check length of sent data
+		//Check length data
 		if(strlen(tbuffer) != 20)
 		{
-			//printf("\n\rError: Length of array: %u\n\r",strlen(tbuffer));
 			printf("\n\rError in Buffer Length\n\r");
      11a:	f7 e8       	ldi	r31, 0x87	; 135
      11c:	af 2e       	mov	r10, r31
@@ -285,7 +287,7 @@ int main(void)
      12a:	f1 e0       	ldi	r31, 0x01	; 1
      12c:	7f 2e       	mov	r7, r31
      12e:	f0 2d       	mov	r31, r0
-	move_motors_to_target();
+	servo_moveToStartPosition();
 	unsigned char continueFlag = 0;	
 
 	while(1)
@@ -305,11 +307,11 @@ int main(void)
 		
 		for (unsigned char i = 0;i < 20; i++)
      144:	72 01       	movw	r14, r4
-				break;
 			}
 			
 			if(i == 0)
 			{
+				//Reset Position
 				if(tbuffer[0] == 'R')
      146:	5f 92       	push	r5
 		clear_buffer(tbuffer);
@@ -349,6 +351,7 @@ int main(void)
      16e:	f7 01       	movw	r30, r14
      170:	80 81       	ld	r24, Z
 			{
+				//Reset Position
 				if(tbuffer[0] == 'R')
      172:	82 35       	cpi	r24, 0x52	; 82
      174:	59 f5       	brne	.+86     	; 0x1cc <main+0xea>
@@ -404,6 +407,7 @@ int main(void)
      1c8:	8d bf       	out	0x3d, r24	; 61
      1ca:	b2 cf       	rjmp	.-156    	; 0x130 <main+0x4e>
 				}
+				//Get Position (Print position)
 				else if(tbuffer[0] == 'G')
      1cc:	87 34       	cpi	r24, 0x47	; 71
      1ce:	01 f5       	brne	.+64     	; 0x210 <main+0x12e>
@@ -448,6 +452,7 @@ int main(void)
      212:	09 f4       	brne	.+2      	; 0x216 <main+0x134>
      214:	9b c0       	rjmp	.+310    	; 0x34c <main+0x26a>
 				}
+				//Error
 				else if(tbuffer[0] != '[')
      216:	df 92       	push	r13
      218:	cf 92       	push	r12
@@ -500,11 +505,11 @@ int main(void)
      250:	bf 92       	push	r11
      252:	af 92       	push	r10
      254:	b0 d3       	rcall	.+1888   	; 0x9b6 <printf>
+			continue;
 		
-		//Check length of sent data
+		//Check length data
 		if(strlen(tbuffer) != 20)
 		{
-			//printf("\n\rError: Length of array: %u\n\r",strlen(tbuffer));
 			printf("\n\rError in Buffer Length\n\r");
      256:	0f 90       	pop	r0
      258:	0f 90       	pop	r0
@@ -515,7 +520,7 @@ int main(void)
      262:	e1 f4       	brne	.+56     	; 0x29c <main+0x1ba>
 		}
 			
-		//Test Brackets
+		//Test Brackets Positioning
 		if(tbuffer[0] != '[' || tbuffer[5] != '[' || tbuffer[10] != '[' || tbuffer[15] != '['
      264:	80 91 19 02 	lds	r24, 0x0219	; 0x800219 <tbuffer+0x5>
      268:	8b 35       	cpi	r24, 0x5B	; 91
@@ -543,7 +548,6 @@ int main(void)
      29e:	8f 92       	push	r8
      2a0:	8a d3       	rcall	.+1812   	; 0x9b6 <printf>
 		{
-			//printf("\n\rError: one of the brackets are incorrect positioned\n\r");
 			printf("\n\rError in Bracket Position\n\r");
      2a2:	0f 90       	pop	r0
      2a4:	0f 90       	pop	r0
@@ -555,7 +559,7 @@ int main(void)
      2ae:	8f 93       	push	r24
 		}
 	
-			
+		//Read Values and save them in Array
 		sscanf(tbuffer,"%*c%3u%*c%*c%3u%*c%*c%3u%*c%*c%3u%*c",&tDegrees[0], &tDegrees[1], &tDegrees[2], &tDegrees[3]);
      2b0:	82 e0       	ldi	r24, 0x02	; 2
      2b2:	91 e0       	ldi	r25, 0x01	; 1
@@ -620,6 +624,7 @@ int main(void)
      322:	cc de       	rcall	.-616    	; 0xbc <move_motors_to_target>
      324:	89 ef       	ldi	r24, 0xF9	; 249
 		}
+		
 		move_motors_to_target();
      326:	91 e0       	ldi	r25, 0x01	; 1
      328:	9f 93       	push	r25
@@ -638,7 +643,7 @@ int main(void)
 		if(continueFlag)
 			continue;
 		
-		//Check length of sent data
+		//Check length data
 		if(strlen(tbuffer) != 20)
      33c:	e9 f7       	brne	.-6      	; 0x338 <main+0x256>
      33e:	e9 52       	subi	r30, 0x29	; 41
@@ -685,11 +690,11 @@ void timer0_init()
      364:	85 b5       	in	r24, 0x25	; 37
      366:	82 60       	ori	r24, 0x02	; 2
      368:	85 bd       	out	0x25, r24	; 37
-	//See documentation
+	//See documentation for math
 	OCR0A = 19;
      36a:	83 e1       	ldi	r24, 0x13	; 19
      36c:	87 bd       	out	0x27, r24	; 39
-	// Timer/Counter0 Output Compare Match A Interrupt Enable
+	// Enable interrupt
 	TIMSK0 |= (1 << OCIE0A);
      36e:	ee e6       	ldi	r30, 0x6E	; 110
      370:	f0 e0       	ldi	r31, 0x00	; 0
@@ -736,7 +741,7 @@ ISR(TIMER0_COMPA_vect)
      398:	4f 93       	push	r20
      39a:	8f 93       	push	r24
      39c:	9f 93       	push	r25
-	////After cycle
+	// End of cycle
 	if(pwm_cycle++ > 2000)
      39e:	80 91 12 02 	lds	r24, 0x0212	; 0x800212 <__data_end>
      3a2:	90 91 13 02 	lds	r25, 0x0213	; 0x800213 <__data_end+0x1>
@@ -763,6 +768,7 @@ ISR(TIMER0_COMPA_vect)
      3c4:	10 92 13 02 	sts	0x0213, r1	; 0x800213 <__data_end+0x1>
      3c8:	10 92 12 02 	sts	0x0212, r1	; 0x800212 <__data_end>
 	}
+	//1750 to 2000 => Control pulse
 	if(pwm_cycle > 1750)
      3cc:	80 91 12 02 	lds	r24, 0x0212	; 0x800212 <__data_end>
      3d0:	90 91 13 02 	lds	r25, 0x0213	; 0x800213 <__data_end+0x1>
@@ -1332,190 +1338,92 @@ void servo_moveToStartPosition(void)
      764:	08 95       	ret
 
 00000766 <uart_putchar>:
-    //  |    Return:    0x00    ->  Transmission complete               |
-    //  +---------------------------------------------------------------+
-    int uart_putchar(char data, FILE *stream)
-    {
-        // Wait until last transmission completed
-        while(!(UCSR0A & (1<<UDRE0)))
      766:	90 91 c0 00 	lds	r25, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
      76a:	95 fd       	sbrc	r25, 5
      76c:	06 c0       	rjmp	.+12     	; 0x77a <uart_putchar+0x14>
      76e:	e0 ec       	ldi	r30, 0xC0	; 192
      770:	f0 e0       	ldi	r31, 0x00	; 0
-            asm volatile("NOP");
      772:	00 00       	nop
-    //  |    Return:    0x00    ->  Transmission complete               |
-    //  +---------------------------------------------------------------+
-    int uart_putchar(char data, FILE *stream)
-    {
-        // Wait until last transmission completed
-        while(!(UCSR0A & (1<<UDRE0)))
      774:	90 81       	ld	r25, Z
      776:	95 ff       	sbrs	r25, 5
      778:	fc cf       	rjmp	.-8      	; 0x772 <uart_putchar+0xc>
-            asm volatile("NOP");
-    
-        UDR0 = data; // Write data to transmission register
      77a:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
-    
-        // C99 functions needs an int as a return parameter
-        return 0;   // Return that there was no fault
-    }
      77e:	80 e0       	ldi	r24, 0x00	; 0
      780:	90 e0       	ldi	r25, 0x00	; 0
      782:	08 95       	ret
 
 00000784 <uart_getchar>:
-    //  | Parameter:    stream (ptr)    ->  Datastream                  |
-    //  |                                                               |
-    //  |    Return:    0x??    ->  data/NUL                            |
-    //  +---------------------------------------------------------------+
-    int uart_getchar(FILE *stream)
-    {
      784:	cf 93       	push	r28
-        // Wait until data has been received
-        while(!(UCSR0A & (1<<RXC0)));
      786:	e0 ec       	ldi	r30, 0xC0	; 192
      788:	f0 e0       	ldi	r31, 0x00	; 0
      78a:	80 81       	ld	r24, Z
      78c:	88 23       	and	r24, r24
      78e:	ec f7       	brge	.-6      	; 0x78a <uart_getchar+0x6>
-    
-        // Ckeck if there was an error
-        // Frame error
-        if(UCSR0A & (1<<FE0))
      790:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
      794:	84 ff       	sbrs	r24, 4
      796:	05 c0       	rjmp	.+10     	; 0x7a2 <uart_getchar+0x1e>
-        {
-            UDR0;        // Clear UART data register
      798:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
-            return 0;   // Return NUL
      79c:	80 e0       	ldi	r24, 0x00	; 0
      79e:	90 e0       	ldi	r25, 0x00	; 0
      7a0:	1c c0       	rjmp	.+56     	; 0x7da <uart_getchar+0x56>
-        }
-        // Data Overrun error
-        else if(UCSR0A & (1<<DOR0))
      7a2:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
      7a6:	83 ff       	sbrs	r24, 3
      7a8:	05 c0       	rjmp	.+10     	; 0x7b4 <uart_getchar+0x30>
-        {
-            UDR0;        // Clear UART data register
      7aa:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
-            return 0;   // Return NUL
      7ae:	80 e0       	ldi	r24, 0x00	; 0
      7b0:	90 e0       	ldi	r25, 0x00	; 0
      7b2:	13 c0       	rjmp	.+38     	; 0x7da <uart_getchar+0x56>
-        }
-        // Parity error
-        else if(UCSR0A & (1<<UPE0))
      7b4:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
      7b8:	82 ff       	sbrs	r24, 2
      7ba:	05 c0       	rjmp	.+10     	; 0x7c6 <uart_getchar+0x42>
-        {
-            UDR0;        // Clear UART data register
      7bc:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
-            return 0;   // Return NUL
      7c0:	80 e0       	ldi	r24, 0x00	; 0
      7c2:	90 e0       	ldi	r25, 0x00	; 0
      7c4:	0a c0       	rjmp	.+20     	; 0x7da <uart_getchar+0x56>
-        }
-    
-        #ifdef UART_RXC_ECHO
-            // Write UART data register to data variable
-            char data = UDR0;
      7c6:	c0 91 c6 00 	lds	r28, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
-        
-            // Send echo of received data to UART 
-            uart_putchar(data, stdout);
      7ca:	60 91 2f 02 	lds	r22, 0x022F	; 0x80022f <__iob+0x2>
      7ce:	70 91 30 02 	lds	r23, 0x0230	; 0x800230 <__iob+0x3>
      7d2:	8c 2f       	mov	r24, r28
      7d4:	c8 df       	rcall	.-112    	; 0x766 <uart_putchar>
-        
-            return data;    // Return received data
      7d6:	8c 2f       	mov	r24, r28
      7d8:	90 e0       	ldi	r25, 0x00	; 0
-        #else
-            return UDR0; // Return UART data register
-        #endif
-    }
      7da:	cf 91       	pop	r28
      7dc:	08 95       	ret
 
 000007de <uart_init>:
-{   
-    // Check which bit sampling mode should be activated
-    #if USE_2X
-    UCSR0A |= (1<<U2X0);      // Setup 8 samples/bit
-    #else
-    UCSR0A &= ~(1<<U2X0);     // Setup 16 samples/bit
      7de:	e0 ec       	ldi	r30, 0xC0	; 192
      7e0:	f0 e0       	ldi	r31, 0x00	; 0
      7e2:	80 81       	ld	r24, Z
      7e4:	8d 7f       	andi	r24, 0xFD	; 253
      7e6:	80 83       	st	Z, r24
-    #endif
-
-    UBRR0H = (0x0F & UBRRH_VALUE);   // Calculated through setbaud.h
      7e8:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7f80c5>
-    UBRR0L = UBRRL_VALUE;            // Calculated through setbaud.h
      7ec:	87 e6       	ldi	r24, 0x67	; 103
      7ee:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
-    
-    #if UART_STOPBITS > 1
-        SETREG |= (0x08 & (UART_STOPBITS<<3));      // Setup stop bits
-    #endif
-    
-    UCSR0C = SETREG;                 // Write SETREG settings to UCSRC
      7f2:	86 e8       	ldi	r24, 0x86	; 134
      7f4:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
-    UCSR0B = (1<<RXEN0) | (1<<TXEN0);  // Activate UART transmitter and receiver
      7f8:	88 e1       	ldi	r24, 0x18	; 24
      7fa:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
-        sei();
-    #endif
-
-    // Setup stream to stdout
-    #if !defined(UARTTXCIE) && !defined(UARTUDRIE)
-        stdout = &std_uart;
      7fe:	ed e2       	ldi	r30, 0x2D	; 45
      800:	f2 e0       	ldi	r31, 0x02	; 2
      802:	89 e0       	ldi	r24, 0x09	; 9
      804:	91 e0       	ldi	r25, 0x01	; 1
      806:	93 83       	std	Z+3, r25	; 0x03
      808:	82 83       	std	Z+2, r24	; 0x02
-    #endif
-    
-    // Setup stream to stdin
-    #if !defined(UARTRXCIE)
-        stdin = &std_uart;
      80a:	91 83       	std	Z+1, r25	; 0x01
      80c:	80 83       	st	Z, r24
      80e:	08 95       	ret
 
 00000810 <uart_error>:
-
-    //  +---------------------------------------------------------------+
-    //  |                   UART error handler                          |
-    //  +---------------------------------------------------------------+
-    void uart_error(void)
-    {
      810:	cf 93       	push	r28
      812:	df 93       	push	r29
-        clearerr(stdin);    // Clear error on stream
      814:	cd e2       	ldi	r28, 0x2D	; 45
      816:	d2 e0       	ldi	r29, 0x02	; 2
      818:	88 81       	ld	r24, Y
      81a:	99 81       	ldd	r25, Y+1	; 0x01
      81c:	89 d0       	rcall	.+274    	; 0x930 <clearerr>
-        getchar();          // Remove character from stream
      81e:	88 81       	ld	r24, Y
      820:	99 81       	ldd	r25, Y+1	; 0x01
      822:	8b d0       	rcall	.+278    	; 0x93a <fgetc>
-    }
      824:	df 91       	pop	r29
      826:	cf 91       	pop	r28
      828:	08 95       	ret
