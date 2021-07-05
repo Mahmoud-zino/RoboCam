@@ -22,11 +22,18 @@ public class SerialConnectionController : MonoBehaviour
         return SerialPort.GetPortNames().ToList();
     }
 
-    public void TriggerConnection(TextMeshPro connect, TextMeshPro disconnect, TMP_Dropdown dropdown)
+    public void TriggerConnection(TMP_Text connect, TMP_Text disconnect, TMP_Dropdown dropdown)
     {
         //Connect
         if(connect.gameObject.activeSelf)
         {
+            //No port was selected
+            if(dropdown.value < 0)
+            {
+                Debug.LogError("No port was selected!");
+                return;
+            }   
+            
             this.serialPort = new SerialPort(dropdown.options[dropdown.value].text, 9600, Parity.None, 8, StopBits.One);
             this.serialPort.Open();
             if(this.serialPort.IsOpen)
@@ -47,6 +54,29 @@ public class SerialConnectionController : MonoBehaviour
             connect.gameObject.SetActive(true);
             disconnect.gameObject.SetActive(false);
         }
+    }
+
+    public void SendMoveMessage(int[] positions)
+    {
+        string message = "[";
+        for (int i = 0; i < positions.Length; i++)
+        {
+            message += positions[i].ToString("000");
+            message += "][";
+        }
+        message = message.Remove(message.Length - 1);
+        this.serialPort.Write(message);
+    }
+
+    public void SendResetMessage()
+    {
+        this.serialPort.Write("R");
+    }
+
+    public string GetCurrentPostion()
+    {
+        this.serialPort.Write("G");
+        return this.serialPort.ReadLine();
     }
 
     private void OnApplicationQuit()
