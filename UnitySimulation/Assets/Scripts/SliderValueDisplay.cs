@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SliderValueDisplay : MonoBehaviour
 {
-    public Slider slider;
-    public Text valueField;
+    [SerializeField]
+    private Slider slider;
+    [SerializeField]
+    private TMP_Text valueField;
 
     private float startValue;
 

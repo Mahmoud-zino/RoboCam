@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class RobotManualMovementController : MonoBehaviour
 {
-    public GameObject[] motors;
-    public Slider[] sliders;
+    [SerializeField]
+    private GameObject[] motors;
+    [SerializeField]
+    private Slider[] sliders;
     private readonly int valueShift = -90;
     private readonly int shoulderShift = -5;
     private readonly int elbowShift = 15;
