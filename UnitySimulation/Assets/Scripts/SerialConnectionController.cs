@@ -40,6 +40,9 @@ public class SerialConnectionController : MonoBehaviour
             {
                 connect.gameObject.SetActive(false);
                 disconnect.gameObject.SetActive(true);
+                RobotManualMovementController roboScript = GameObject.Find("Robot").GetComponent<RobotManualMovementController>();
+                //roboScript.SetValuesToMotors(ConvertStringMessageToRobotValues(GetCurrentPostion()));
+                Debug.Log(GetCurrentPostion());
             }
             //Error opening serial connection
             else
@@ -58,6 +61,9 @@ public class SerialConnectionController : MonoBehaviour
 
     public void SendMoveMessage(int[] positions)
     {
+        if (this.serialPort == null || this.serialPort.IsOpen)
+            return;
+
         string message = "[";
         for (int i = 0; i < positions.Length; i++)
         {
@@ -70,13 +76,43 @@ public class SerialConnectionController : MonoBehaviour
 
     public void SendResetMessage()
     {
+        if (this.serialPort == null || this.serialPort.IsOpen)
+            return;
         this.serialPort.Write("R");
     }
 
     public string GetCurrentPostion()
     {
+        if (this.serialPort == null || !this.serialPort.IsOpen)
+            return "";
         this.serialPort.Write("G");
+        //Debug.Log("Writed G Serially");
         return this.serialPort.ReadLine();
+    }
+
+    public int[] ConvertStringMessageToRobotValues(string message)
+    {
+        if (message.Length < 19)
+        {
+            Debug.LogError("String message is too short");
+            return null;
+        }
+
+        int[] values = new int[4];
+
+        int messageIndex = 1;
+
+        for (int i = 0; i < 4; i++)
+        {
+            string stringVal = $"{message[messageIndex]}{message[messageIndex + 1]}{message[messageIndex + 2]}";
+            if(!int.TryParse(stringVal, out values[i]))
+            {
+                Debug.LogError("Convertion Error");
+                return null;
+            }
+            messageIndex += 5;
+        }
+        return values;
     }
 
     private void OnApplicationQuit()

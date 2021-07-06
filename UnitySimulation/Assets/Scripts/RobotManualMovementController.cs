@@ -22,4 +22,15 @@ public class RobotManualMovementController : MonoBehaviour
         motors[2].transform.localRotation = Quaternion.Euler(-(sliders[2].value + valueShift + elbowShift), motors[2].transform.localRotation.y, motors[2].transform.localRotation.z);
         motors[3].transform.localRotation = Quaternion.Euler(-(sliders[3].value + valueShift), motors[3].transform.localRotation.y, motors[3].transform.localRotation.z);
     }
+
+    public void SetValuesToMotors(int[] values)
+    {
+        if (values.Length != sliders.Length)
+            Debug.LogError("Extra or less values were sent");
+
+        for (int i = 0; i < sliders.Length; i++)
+        {
+            sliders[i].value = values[i];
+        }
+    }
 }
