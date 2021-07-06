@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [DefaultExecutionOrder(1000)]
+//if this script loads early it will cause an error
+//TODO: a solution could be a min 2 seconds splash screen // Google it 
 public class CanvasManager : MonoBehaviour
 {
     [SerializeField]
@@ -14,24 +16,59 @@ public class CanvasManager : MonoBehaviour
     [SerializeField]
     private TMP_Text disconnectionButtonText;
 
-
     private void Start()
     {
-        UpdateComList(serialPortsDropDown);
+        UpdateComList();
     }
 
     //Refreshes the list of available serial Ports
-    public void UpdateComList(TMP_Dropdown dropdown)
+    public void UpdateComList()
     {
-        dropdown.options.Clear();
-        foreach (string port in SerialConnectionController.Instance.GetAvailablePorts())
+        serialPortsDropDown.options.Clear();
+        foreach (string port in SerialConnectionManager.Instance.GetAvailablePorts())
         {
-            dropdown.options.Add(new TMP_Dropdown.OptionData(port));
+            serialPortsDropDown.options.Add(new TMP_Dropdown.OptionData(port));
         }
     }
 
     public void TriggerSerialConnection()
     {
-        SerialConnectionController.Instance.TriggerConnection(connectionButtonText, disconnectionButtonText, serialPortsDropDown);
+        //Connecting
+        if(connectionButtonText.gameObject.activeSelf)
+        {
+            if (serialPortsDropDown.value < 0)
+            {
+                Debug.LogError("Choose an Port Before connecting!");
+                return;
+            }
+            SerialConnectionManager.Instance.Connect(serialPortsDropDown.options[serialPortsDropDown.value].text);
+
+            connectionButtonText.gameObject.SetActive(false);
+            disconnectionButtonText.gameObject.SetActive(true);
+            StartCoroutine(CheckConnectionRoutine());
+        }
+        //Disconnecting
+        else
+        {
+            SerialConnectionManager.Instance.CloseConnection();
+
+            connectionButtonText.gameObject.SetActive(true);
+            disconnectionButtonText.gameObject.SetActive(false);
+        }
+    }
+
+    private IEnumerator CheckConnectionRoutine()
+    {
+        yield return new WaitForSeconds(2);
+
+        if (SerialConnectionManager.Instance.IsConnected())
+        {
+            StartCoroutine(CheckConnectionRoutine());
+        }
+        else
+        {
+            Debug.Log("Connection Lost!");
+            TriggerSerialConnection();
+        }
     }
 }
