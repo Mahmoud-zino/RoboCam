@@ -4,9 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[DefaultExecutionOrder(1000)]
-//if this script loads early it will cause an error
-//TODO: a solution could be a min 2 seconds splash screen // Google it 
 public class CanvasManager : MonoBehaviour
 {
     [SerializeField]
@@ -49,10 +46,10 @@ public class CanvasManager : MonoBehaviour
                 return;
             }
             SerialConnectionManager.Instance.Connect(serialPortsDropDown.options[serialPortsDropDown.value].text);
+            TriggerConnectionTextVisibility(false);
 
-            connectionButtonText.gameObject.SetActive(false);
-            disconnectionButtonText.gameObject.SetActive(true);
             StartCoroutine(CheckConnectionRoutine());
+
             //Send movement command
             GameObject.Find("Robot").GetComponent<RobotManualMovementController>().OnSendPositionClick(sendButton);
         }
@@ -60,10 +57,14 @@ public class CanvasManager : MonoBehaviour
         else
         {
             SerialConnectionManager.Instance.CloseConnection();
-
-            connectionButtonText.gameObject.SetActive(true);
-            disconnectionButtonText.gameObject.SetActive(false);
+            TriggerConnectionTextVisibility(true);
         }
+    }
+
+    private void TriggerConnectionTextVisibility(bool connected)
+    {
+        connectionButtonText.gameObject.SetActive(connected);
+        disconnectionButtonText.gameObject.SetActive(!connected);
     }
 
     private IEnumerator CheckConnectionRoutine()
@@ -78,9 +79,7 @@ public class CanvasManager : MonoBehaviour
         {
             Debug.Log("Connection Lost!");
             SerialConnectionManager.Instance.CloseConnection();
-
-            connectionButtonText.gameObject.SetActive(true);
-            disconnectionButtonText.gameObject.SetActive(false);
+            TriggerConnectionTextVisibility(true);
         }
     }
 }

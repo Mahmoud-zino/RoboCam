@@ -29,6 +29,7 @@ public static class StringExtensions
         return res;
     }
 
+    //"int[]{0,0,0,0} => [000][000][000][000] 
     public static string BuildMovementCommand(this int[] values)
     {
 

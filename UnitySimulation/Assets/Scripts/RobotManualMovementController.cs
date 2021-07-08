@@ -9,6 +9,7 @@ public class RobotManualMovementController : MonoBehaviour
     private GameObject[] motors;
     [SerializeField]
     private Slider[] sliders;
+
     private readonly int valueShift = -90;
     private readonly int shoulderShift = -5;
     private readonly int elbowShift = 15;
@@ -20,15 +21,20 @@ public class RobotManualMovementController : MonoBehaviour
 
     public void OnSendPositionClick(Button btnSelf)
     {
-        if (SerialConnectionManager.Instance.IsConnected())
-        {
-            int[] vals = new int[] { (int)sliders[0].value, (int)sliders[1].value,
+        if (!SerialConnectionManager.Instance.IsConnected())
+            return;
+
+        int[] sliderVals = new int[] { (int)sliders[0].value, (int)sliders[1].value,
                 (int)sliders[2].value, (int)sliders[3].value };
-            SerialConnectionManager.Instance.SendSerialMessage(vals.BuildMovementCommand());
-            Debug.Log($"Move Command: {vals.BuildMovementCommand()}");
-            btnSelf.interactable = false;
-            StartCoroutine(DetectPhysicalMotorsAtPosition(btnSelf));
-        }
+
+        string movementCommand = sliderVals.BuildMovementCommand();
+
+        SerialConnectionManager.Instance.SendSerialMessage(movementCommand);
+        Debug.Log($"Move Command: {movementCommand}");
+
+        btnSelf.interactable = false;
+
+        StartCoroutine(DetectPhysicalMotorsAtPosition(btnSelf));
     }
 
     public void MoveRobotOnSliderValueChange()
@@ -51,20 +57,24 @@ public class RobotManualMovementController : MonoBehaviour
     private IEnumerator DetectPhysicalMotorsAtPosition(Button sendBtn)
     {
         yield return new WaitForSecondsRealtime(0.5f);
+
+        //Get position Command
         SerialConnectionManager.Instance.SendSerialMessage("G");
+
         string message = SerialConnectionManager.Instance.RecieveSerialMessage();
         Debug.Log($"Recieved Serial Message: {message}");
+
         if (!string.IsNullOrEmpty(message) && message.StartsWith("["))
         {
             int[] vals = message.ExtractMotorValues();
             for (int i = 0; i < vals.Length; i++)
             {
+                //physical motors are not at position yet
                 if (sliders[i].value < vals[i] - 1 || sliders[i].value > vals[i] + 1)
+                    //Relaunch the coroutine
                     StartCoroutine(DetectPhysicalMotorsAtPosition(sendBtn));
                 else
-                {
                     sendBtn.interactable = true;
-                }
             }
         }
     }
