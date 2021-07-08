@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class StringExtensions
+public static class SerialExtensions
 {
     //"[000][000][000][000] => int[]{0,0,0,0}
     public static int[] ExtractMotorValues(this string message)

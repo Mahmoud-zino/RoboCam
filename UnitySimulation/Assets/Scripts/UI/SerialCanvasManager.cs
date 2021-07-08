@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CanvasManager : MonoBehaviour
+public class SerialCanvasManager : MonoBehaviour
 {
     [SerializeField]
     private TMP_Dropdown serialPortsDropDown;
