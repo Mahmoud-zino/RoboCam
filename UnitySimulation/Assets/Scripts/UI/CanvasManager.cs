@@ -67,6 +67,7 @@ public class CanvasManager : MonoBehaviour
         disconnectionButtonText.gameObject.SetActive(!connected);
     }
 
+
     private IEnumerator CheckConnectionRoutine()
     {
         yield return new WaitForSecondsRealtime(2);

@@ -10,9 +10,9 @@ public class RobotManualMovementController : MonoBehaviour
     [SerializeField]
     private Slider[] sliders;
 
-    private readonly int valueShift = -90;
-    private readonly int shoulderShift = -5;
-    private readonly int elbowShift = 15;
+    private const int valueShift = -90;
+    private const int shoulderShift = -5;
+    private const int elbowShift = 15;
 
     private void Start()
     {
@@ -39,7 +39,7 @@ public class RobotManualMovementController : MonoBehaviour
 
     public void MoveRobotOnSliderValueChange()
     {
-        //Parent object (Base MOtor) can be controled using eulerAngles
+        //Parent object (Base Motor) can be controled using eulerAngles
         motors[0].transform.eulerAngles = new Vector3(motors[0].transform.eulerAngles.x, sliders[0].value,
             motors[0].transform.eulerAngles.z);
 
