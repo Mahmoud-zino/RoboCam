@@ -12,9 +12,9 @@ public class CamController : MonoBehaviour
     private void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-        this.transform.Rotate(Vector3.up * roataionSpeed * horizontalInput * Time.deltaTime);
+        this.transform.Rotate(horizontalInput * roataionSpeed * Time.deltaTime * Vector3.up);
 
         float verticalInput = Input.GetAxis("Vertical");
-        this.transform.Translate(Vector3.forward * movementSpeed * verticalInput * Time.deltaTime);
+        this.transform.Translate(verticalInput * movementSpeed * Time.deltaTime * Vector3.forward);
     }
 }

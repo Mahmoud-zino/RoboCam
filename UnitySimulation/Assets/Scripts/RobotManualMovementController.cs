@@ -13,24 +13,60 @@ public class RobotManualMovementController : MonoBehaviour
     private readonly int shoulderShift = -5;
     private readonly int elbowShift = 15;
 
-    private void Update()
+    private void Start()
     {
-        //Parent object (Base MOtor) can be controled using eulerAngles
-        motors[0].transform.eulerAngles = new Vector3(motors[0].transform.eulerAngles.x, sliders[0].value, motors[0].transform.eulerAngles.z);
-        //Because the Rotation in unity is not the same in real life the value should be shifted be -90 and inverted
-        motors[1].transform.localRotation = Quaternion.Euler(-(sliders[1].value + valueShift + shoulderShift), motors[1].transform.localRotation.y, motors[1].transform.localRotation.z);
-        motors[2].transform.localRotation = Quaternion.Euler(-(sliders[2].value + valueShift + elbowShift), motors[2].transform.localRotation.y, motors[2].transform.localRotation.z);
-        motors[3].transform.localRotation = Quaternion.Euler(-(sliders[3].value + valueShift), motors[3].transform.localRotation.y, motors[3].transform.localRotation.z);
+        MoveRobotOnSliderValueChange();
     }
 
-    public void SetValuesToMotors(int[] values)
+    public void OnSendPositionClick(Button btnSelf)
     {
-        if (values.Length != sliders.Length)
-            Debug.LogError("Extra or less values were sent");
-
-        for (int i = 0; i < sliders.Length; i++)
+        if (SerialConnectionManager.Instance.IsConnected())
         {
-            sliders[i].value = values[i];
+            int[] vals = new int[] { (int)sliders[0].value, (int)sliders[1].value,
+                (int)sliders[2].value, (int)sliders[3].value };
+            SerialConnectionManager.Instance.SendSerialMessage(vals.BuildMovementCommand());
+            Debug.Log($"Move Command: {vals.BuildMovementCommand()}");
+            btnSelf.interactable = false;
+            StartCoroutine(DetectPhysicalMotorsAtPosition(btnSelf));
         }
     }
+
+    public void MoveRobotOnSliderValueChange()
+    {
+        //Parent object (Base MOtor) can be controled using eulerAngles
+        motors[0].transform.eulerAngles = new Vector3(motors[0].transform.eulerAngles.x, sliders[0].value,
+            motors[0].transform.eulerAngles.z);
+
+        //Because the Rotation in unity is not the same in real life the value should be shifted by -90 and inverted
+        motors[1].transform.localRotation = Quaternion.Euler(-(sliders[1].value + valueShift + shoulderShift),
+            motors[1].transform.localRotation.y, motors[1].transform.localRotation.z);
+
+        motors[2].transform.localRotation = Quaternion.Euler(-(sliders[2].value + valueShift + elbowShift),
+            motors[2].transform.localRotation.y, motors[2].transform.localRotation.z);
+
+        motors[3].transform.localRotation = Quaternion.Euler(-(sliders[3].value + valueShift),
+            motors[3].transform.localRotation.y, motors[3].transform.localRotation.z);
+    }
+
+    private IEnumerator DetectPhysicalMotorsAtPosition(Button sendBtn)
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        SerialConnectionManager.Instance.SendSerialMessage("G");
+        string message = SerialConnectionManager.Instance.RecieveSerialMessage();
+        Debug.Log($"Recieved Serial Message: {message}");
+        if (!string.IsNullOrEmpty(message) && message.StartsWith("["))
+        {
+            int[] vals = message.ExtractMotorValues();
+            for (int i = 0; i < vals.Length; i++)
+            {
+                if (sliders[i].value < vals[i] - 1 || sliders[i].value > vals[i] + 1)
+                    StartCoroutine(DetectPhysicalMotorsAtPosition(sendBtn));
+                else
+                {
+                    sendBtn.interactable = true;
+                }
+            }
+        }
+    }
+
 }

@@ -34,11 +34,11 @@ public sealed class SerialConnectionManager : IDisposable
         return SerialPort.GetPortNames().ToList();
     }
 
-    public void Connect(string portName, int baudRate = 9600, Parity partiy = Parity.None, int dataBits = 8, StopBits stopBits = StopBits.One)
+    public void Connect(string portName)
     {
         try
         {
-            this.serialPort = new SerialPort(portName, baudRate, partiy, dataBits, stopBits);
+            this.serialPort = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
             StartThread();
         }
         catch (Exception)
@@ -49,6 +49,8 @@ public sealed class SerialConnectionManager : IDisposable
 
     public bool IsConnected()
     {
+        if (this.serialPort is null)
+            return false;
         return this.serialPort.IsOpen;
     }
 
@@ -65,6 +67,7 @@ public sealed class SerialConnectionManager : IDisposable
         return inputQueue.Dequeue() as string;
     }
 
+    #region MultiThread Setup & actions
     private void StartThread()
     {
         outputQueue = Queue.Synchronized(new Queue());
@@ -74,7 +77,6 @@ public sealed class SerialConnectionManager : IDisposable
         thread.Start();
     }
 
-    #region MultiThread Setup & actions
     private void WriteSerialMessage(string message)
     {
         if (!this.serialPort.IsOpen)

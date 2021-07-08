@@ -15,10 +15,17 @@ public class CanvasManager : MonoBehaviour
     private TMP_Text connectionButtonText;
     [SerializeField]
     private TMP_Text disconnectionButtonText;
+    [SerializeField]
+    private Button sendButton;
 
     private void Start()
     {
         UpdateComList();
+    }
+
+    private void Update()
+    {
+        sendButton.gameObject.SetActive(SerialConnectionManager.Instance.IsConnected());
     }
 
     //Refreshes the list of available serial Ports
@@ -46,6 +53,8 @@ public class CanvasManager : MonoBehaviour
             connectionButtonText.gameObject.SetActive(false);
             disconnectionButtonText.gameObject.SetActive(true);
             StartCoroutine(CheckConnectionRoutine());
+            //Send movement command
+            GameObject.Find("Robot").GetComponent<RobotManualMovementController>().OnSendPositionClick(sendButton);
         }
         //Disconnecting
         else
@@ -59,7 +68,7 @@ public class CanvasManager : MonoBehaviour
 
     private IEnumerator CheckConnectionRoutine()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSecondsRealtime(2);
 
         if (SerialConnectionManager.Instance.IsConnected())
         {
@@ -68,7 +77,10 @@ public class CanvasManager : MonoBehaviour
         else
         {
             Debug.Log("Connection Lost!");
-            TriggerSerialConnection();
+            SerialConnectionManager.Instance.CloseConnection();
+
+            connectionButtonText.gameObject.SetActive(true);
+            disconnectionButtonText.gameObject.SetActive(false);
         }
     }
 }
