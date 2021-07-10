@@ -27,7 +27,7 @@ namespace RobotWebApi.Controllers
         public void Post([FromBody]Camera camera)
         {
             this.camera = camera;
-            logger.LogInformation($"Post(Face) was called => {camera}");
+            logger.LogInformation($"Post(Camera) was called => {camera}");
         }
     }
 }
