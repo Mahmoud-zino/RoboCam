@@ -4,6 +4,8 @@ from picamera import PiCamera
 from picamera.array import PiRGBArray
 import argparse
 import cv2
+import requests
+import time
 
 #ArgParser parse all the arguments defined by the user
 #Argumentlist:
@@ -48,10 +50,45 @@ class Camera:
             return PiRGBArray(self.cam, size=(args.width, args.height))
         except Exception as e:
             print('Cant initialize RawCapture')
+
+class ApiManager:
+    def __init__(self, url):
+        self.url = url
+    
+    def PostCamera(self, args):
+        data = {'width' : args.width, 'height' : args.height}
+        r = requests.post(url = self.url + '/Camera', json = data, verify=False)
+        if(r.status_code != 200):
+            print('status code: ' + str(r.status_code))
+            time.sleep(1)
+            print('post camera failed, trying it again!')
+            self.PostCamera(args)
+
+    def PostFace(self, x, y, width, height):
+        data = {'xPoint' : x, 'YPoint' : y, 'width' : width, 'height' : height}
+        r = requests.post(url = self.url + '/face', json = data, verify=False)
+        if(r.status_code != 200):
+            print('status code: ' + str(r.status_code))
+            time.sleep(1)
+            print('post Face failed, trying it again!')
+            self.PostFace(x, y, width, height)
+
+    def PostFaceCount(self, count):
+        r = requests.post(url = self.url + '/facecount', json = {count}, verify=False)
+        if(r.status_code != 200):
+            print('status code: ' + str(r.status_code))
+            time.sleep(1)
+            print('post Face Count failed, trying it again!')
+            self.PostFaceCount(count)
+    
        
 def main():
     args = ArgParser().extract_args()
     picam = Camera(args)
+
+    apiManager = ApiManager('https://localhost:5001/api')
+    apiManager.PostCamera(args)
+
     raw_capture = picam.raw_capture
     face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
     #Try is here so when ctrl + c is clicked the program stoppes
@@ -69,6 +106,7 @@ def main():
                     #detect faces on frame
                     faces = face_cascade.detectMultiScale(gray_captured_frame, 1.2, 5)
                     print("Detected Faces: {0:d}".format(len(faces)))
+                    apiManager.PostFaceCount(len(faces))
                 except Exception as e:
                     print("Face Recognition Error" + e)
                     raw_capture.truncate(0)
@@ -82,6 +120,7 @@ def main():
                             #draw rectangle around face
                             cv2.rectangle(captured_frame_array, (x,y), (x + width, y + height), (255, 255, 0), 2)
                             print("Face Position: x = {0:d}, y = {1:d}, width = {2:d}, height = {3:d}".format(x, y, width, height))
+                            apiManager.PostFace(x, y, width, height)
                     else:
                         print("Detected {0:d} Faces".format(len(faces)))
                 except Exception as e:

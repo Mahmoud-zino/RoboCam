@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RobotWebApi.Models;
+using static RobotWebApi.Extensions.CameraExtensions;
 
 namespace RobotWebApi.Controllers
 {
@@ -8,7 +9,6 @@ namespace RobotWebApi.Controllers
     [Route("api/[controller]")]
     public class CameraController : ControllerBase
     {
-        Camera camera;
         private readonly ILogger<FaceController> logger;
 
         public CameraController(ILogger<FaceController> logger)
@@ -19,14 +19,15 @@ namespace RobotWebApi.Controllers
         [HttpGet]
         public Camera Get()
         {
-            logger.LogInformation($"Get(Camera) was called => {this.camera}");
-            return this.camera;
+            Camera camera = GetCameraFromJson();
+            logger.LogInformation($"Get(Camera) was called => {camera}");
+            return camera;
         }
 
         [HttpPost]
         public void Post([FromBody]Camera camera)
         {
-            this.camera = camera;
+            camera.PostCameraToJson();
             logger.LogInformation($"Post(Camera) was called => {camera}");
         }
     }

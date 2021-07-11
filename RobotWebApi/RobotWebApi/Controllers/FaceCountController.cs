@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using static RobotWebApi.Extensions.FaceCountExtensions;
+using RobotWebApi.Models;
 
 namespace RobotWebApi.Controllers
 {
@@ -8,7 +10,6 @@ namespace RobotWebApi.Controllers
     public class FaceCountController : ControllerBase
     {
         private readonly ILogger<FaceCountController> logger;
-        int faceCount = 0;
 
         public FaceCountController(ILogger<FaceCountController> logger)
         {
@@ -16,16 +17,17 @@ namespace RobotWebApi.Controllers
         }
 
         [HttpGet]
-        public int Get()
+        public FaceCount Get()
         {
-            logger.LogInformation($"Get(FaceCount) was called => {this.faceCount}");
-            return this.faceCount;
+            FaceCount faceCount = GetFaceCountFromJson();
+            logger.LogInformation($"Get(FaceCount) was called => {faceCount}");
+            return faceCount;
         }
 
         [HttpPost]
-        public void Post(int faceCount)
+        public void Post([FromBody]FaceCount faceCount)
         {
-            this.faceCount = faceCount;
+            faceCount.PostFaceCountToJson();
             logger.LogInformation($"Post(FaceCount) was called => {faceCount}");
         }
     }

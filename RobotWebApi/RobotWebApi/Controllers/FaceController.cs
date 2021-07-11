@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RobotWebApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using static RobotWebApi.Extensions.FaceExtensions;
 
 namespace RobotWebApi.Controllers
 {
@@ -12,7 +9,6 @@ namespace RobotWebApi.Controllers
     [Route("api/[controller]")]
     public class FaceController : ControllerBase
     {
-        Face face;
         private readonly ILogger<FaceController> logger;
 
         public FaceController(ILogger<FaceController> logger)
@@ -23,14 +19,15 @@ namespace RobotWebApi.Controllers
         [HttpGet]
         public Face Get()
         {
-            logger.LogInformation($"Get(Face) was called => {this.face}");
-            return this.face;
+            Face face = GetFaceFromJson();
+            logger.LogInformation($"Get(Face) was called => {face}");
+            return face;
         }
 
         [HttpPost]
         public void Post([FromBody]Face face)
         {
-            this.face = face;
+            face.PostFaceToJson();
             logger.LogInformation($"Post(Face) was called => {face}");
         }
     }
