@@ -1,4 +1,7 @@
+using System;
+
+[Serializable]
 public class FaceCount
 {
-    public float Count { get; set; }
+    public float count;
 }
