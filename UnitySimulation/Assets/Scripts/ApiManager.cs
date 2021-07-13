@@ -9,11 +9,14 @@ public class ApiManager : MonoBehaviour
     [SerializeField]
     private string url;
     [SerializeField]
-    private GameObject headGo;
+    private GameObject headRef;
+
+    private GameObject headInstance;
+
 
     private Camera raspCamera = new Camera();
     private Face face = new Face();
-    private FaceCount faceCount = new FaceCount();
+    private FaceCount faceCount;
 
     private void Awake()
     {
@@ -27,12 +30,16 @@ public class ApiManager : MonoBehaviour
             this.raspCamera = JsonUtility.FromJson<Camera>(value);
         }));
         StartCoroutine(GetFaceCountRoutine());
+        headInstance = Instantiate(headRef, Vector3.zero, Quaternion.identity);
     }
 
     private void Update()
     {
-        //if the count of the faces is 1 activate this game object
-        headGo.SetActive(this.faceCount.count == 1);
+        if(faceCount != null)
+            //if the count of the faces is 1 activate this game object
+            this.headInstance.SetActive(this.faceCount.count == 1.0f);
+        else
+            this.headInstance.SetActive(false);
     }
 
     private IEnumerator GetFaceCountRoutine()
@@ -57,9 +64,15 @@ public class ApiManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"{req.result} Error:\n{req.error}");
+            Debug.LogError($"{req.result}: {req.error}\nurl was: {url}/{section}");
             yield return new WaitForSecondsRealtime(1);
             StartCoroutine(RequestObjectRoutine(section, callback));
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (headInstance != null)
+            Destroy(headInstance);
     }
 }

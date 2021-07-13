@@ -5,8 +5,12 @@ using UnityEngine.Events;
 
 public class HeadController : MonoBehaviour
 {
-    [SerializeField]
     private GameObject camGO;
+
+    private void Start()
+    {
+        camGO = GameObject.Find("CamBody");
+    }
 
 
     //better for continus movement

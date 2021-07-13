@@ -10,13 +10,8 @@ public class SliderValueDisplay : MonoBehaviour
     private Slider slider;
     [SerializeField]
     private TMP_Text valueField;
-
-    private float startValue;
-
-    private void Start()
-    {
-        startValue = slider.value;
-    }
+    [SerializeField]
+    private float resetPosition;
 
     private void Update()
     {
@@ -25,6 +20,6 @@ public class SliderValueDisplay : MonoBehaviour
 
     public void ResetPosition()
     {
-        slider.value = startValue;
+        slider.value = resetPosition;
     }
 }
