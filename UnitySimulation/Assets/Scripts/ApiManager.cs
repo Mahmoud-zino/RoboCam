@@ -9,9 +9,9 @@ public class ApiManager : MonoBehaviour
     [SerializeField]
     private string url;
     [SerializeField]
-    private GameObject headRef;
-
-    private GameObject headInstance;
+    private GameObject headGO;
+    
+    private GameObject roboCam;
 
 
     private Camera raspCamera = new Camera();
@@ -25,21 +25,33 @@ public class ApiManager : MonoBehaviour
 
     private void Start()
     {
+        roboCam = GameObject.Find("CamBody");
+        headGO = GameObject.Find("MortyHead");
+
         StartCoroutine(RequestObjectRoutine("Camera", (value) =>
         {
             this.raspCamera = JsonUtility.FromJson<Camera>(value);
         }));
         StartCoroutine(GetFaceCountRoutine());
-        headInstance = Instantiate(headRef, Vector3.zero, Quaternion.identity);
     }
 
     private void Update()
     {
         if(faceCount != null)
             //if the count of the faces is 1 activate this game object
-            this.headInstance.SetActive(this.faceCount.count == 1.0f);
+        {
+            this.headGO.SetActive(this.faceCount.count == 1.0f);
+            StartCoroutine(GetFacePositionRoutine());
+            SetHeadPosition();
+        }
         else
-            this.headInstance.SetActive(false);
+            this.headGO.SetActive(false);
+
+    }
+
+    private void SetHeadPosition()
+    {
+        this.headGO.gameObject.transform.position = new Vector3(this.roboCam.transform.position.x, this.roboCam.transform.position.y, this.roboCam.transform.position.z + 20);
     }
 
     private IEnumerator GetFaceCountRoutine()
@@ -50,6 +62,17 @@ public class ApiManager : MonoBehaviour
             this.faceCount = JsonUtility.FromJson<FaceCount>(value);
             //making sure the first routine has ended
             StartCoroutine(GetFaceCountRoutine());
+        }));
+    }
+
+    private IEnumerator GetFacePositionRoutine()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        StartCoroutine(RequestObjectRoutine("Face", (value) =>
+        {
+            this.face = JsonUtility.FromJson<Face>(value);
+            //making sure the first routine has ended
+            StartCoroutine(GetFacePositionRoutine());
         }));
     }
 
@@ -72,7 +95,6 @@ public class ApiManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (headInstance != null)
-            Destroy(headInstance);
+        headGO.SetActive(false);
     }
 }
