@@ -12,7 +12,7 @@ public static class SerialExtensions
             Debug.LogError("message contained less information as needed!");
             return null;
         }
-
+        message = message.Remove(0, 1);
         int index = 1;
         int[] res = new int[4];
         for (int i = 0; i < 4; i++)

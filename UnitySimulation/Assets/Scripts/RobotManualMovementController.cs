@@ -64,18 +64,26 @@ public class RobotManualMovementController : MonoBehaviour
         string message = SerialConnectionManager.Instance.RecieveSerialMessage();
         Debug.Log($"Recieved Serial Message: {message}");
 
-        if (!string.IsNullOrEmpty(message) && message.StartsWith("["))
+        if ((!string.IsNullOrEmpty(message)) && message.StartsWith("G"))
         {
             int[] vals = message.ExtractMotorValues();
             for (int i = 0; i < vals.Length; i++)
             {
                 //physical motors are not at position yet
-                if (sliders[i].value < vals[i] - 1 || sliders[i].value > vals[i] + 1)
+                if ((sliders[i].value < vals[i] - 1) || (sliders[i].value > vals[i] + 1))
                     //Relaunch the coroutine
-                    StartCoroutine(DetectPhysicalMotorsAtPosition(sendBtn));
+                    yield return DetectPhysicalMotorsAtPosition(sendBtn);
                 else
+                {
+                    SerialConnectionManager.Instance.FlushData();
                     sendBtn.interactable = true;
+                    Debug.Log("Physical motors at postion");
+                }
             }
+        }
+        else
+        {
+            yield return DetectPhysicalMotorsAtPosition(sendBtn);
         }
     }
 

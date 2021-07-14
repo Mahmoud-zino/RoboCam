@@ -67,6 +67,12 @@ public sealed class SerialConnectionManager : IDisposable
         return inputQueue.Dequeue() as string;
     }
 
+    public void FlushData()
+    {
+        inputQueue.Clear();
+        outputQueue.Clear();
+    }
+
     #region MultiThread Setup & actions
     private void StartThread()
     {

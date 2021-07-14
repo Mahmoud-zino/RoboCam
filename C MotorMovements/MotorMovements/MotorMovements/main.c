@@ -45,7 +45,7 @@ int main(void)
 			if(scanf("%c", &tbuffer[i]) != 1)
 			{
 				uart_error();
-				printf("\n\rError reading letter\n\r");
+				//printf("\n\rError reading letter\n\r");
 				
 				continueFlag = 1;
 				break;
@@ -56,10 +56,10 @@ int main(void)
 				//Reset Position
 				if(tbuffer[0] == 'R')
 				{
-					printf("esetting motors...\n\r");
+					//printf("esetting motors...\n\r");
 					servo_moveToStartPosition();
-					printf("Reached destination.\n\r");
-					printf("[%3u][%3u][%3u][%3u]\n\r", servo_get_base(), servo_get_shoulder(), servo_get_elbow(), servo_get_wrist());
+					//printf("Reached destination.\n\r");
+					//printf("[%3u][%3u][%3u][%3u]\n\r", servo_get_base(), servo_get_shoulder(), servo_get_elbow(), servo_get_wrist());
 					
 					continueFlag = 1;
 					break;
@@ -67,7 +67,7 @@ int main(void)
 				//Get Position (Print position)
 				else if(tbuffer[0] == 'G')
 				{
-					printf("\n\r[%3u][%3u][%3u][%3u]\n\r", servo_get_base(), servo_get_shoulder(), servo_get_elbow(), servo_get_wrist());
+					printf("[%3u][%3u][%3u][%3u]\n\r", servo_get_base(), servo_get_shoulder(), servo_get_elbow(), servo_get_wrist());
 					
 					continueFlag = 1;
 					break;
@@ -75,7 +75,7 @@ int main(void)
 				//Error
 				else if(tbuffer[0] != '[')
 				{
-					printf("\n\rError reading letter\n\r");
+					//printf("\n\rError reading letter\n\r");
 					continueFlag = 1;
 					break;
 				}
@@ -84,7 +84,7 @@ int main(void)
 			//Invalid number or char
 			if(tbuffer[i] != '[' && tbuffer[i] != ']' && (tbuffer[i] < 48 || tbuffer[i] > 57))
 			{
-				printf("\n\rError Invalid number or character\n\r");
+				//printf("\n\rError Invalid number or character\n\r");
 				continueFlag = 1;
 				break;
 			}
@@ -96,7 +96,7 @@ int main(void)
 		//Check length data
 		if(strlen(tbuffer) != 20)
 		{
-			printf("\n\rError in Buffer Length\n\r");
+			//printf("\n\rError in Buffer Length\n\r");
 			continue;
 		}
 			
@@ -104,7 +104,7 @@ int main(void)
 		if(tbuffer[0] != '[' || tbuffer[5] != '[' || tbuffer[10] != '[' || tbuffer[15] != '['
 		|| tbuffer[4] != ']' || tbuffer[9] != ']' || tbuffer[14] != ']' || tbuffer[19] != ']')
 		{
-			printf("\n\rError in Bracket Position\n\r");
+			//printf("\n\rError in Bracket Position\n\r");
 			continue;
 		}
 	
@@ -114,13 +114,13 @@ int main(void)
 		if((tDegrees[0] < SERVO_BASE_MIN || tDegrees[0] > SERVO_BASE_MAX) || (tDegrees[1] < SERVO_SHOULDER_MIN || tDegrees[1] > SERVO_SHOULDER_MAX) 
 		|| (tDegrees[2] < SERVO_ELBOW_MIN || tDegrees[2] > SERVO_ELBOW_MAX) || (tDegrees[3] < SERVO_WRIST_MIN || tDegrees[3] > SERVO_WRIST_MAX))
 		{
-			printf("\n\rError in Limits\n\r");
+			//printf("\n\rError in Limits\n\r");
 			continue;
 		}
 		
 		move_motors_to_target();
 		
-		printf("\n\rReached destination.\n\r");
+		//printf("\n\rReached destination.\n\r");
     }
 }
 
