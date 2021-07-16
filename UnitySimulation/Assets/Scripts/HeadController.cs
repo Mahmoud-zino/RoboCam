@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class HeadController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject camGO;
-
     private Camera raspCamera = new Camera();
     private Face face = new Face();
 
+    private GameObject camCenter;
+
     private void Start()
     {
+        camCenter = GameObject.Find("CamBody");
+
         StartCoroutine(ApiManager.Instance.RequestObjectRoutine("Camera", (value) =>
         {
             this.raspCamera = JsonUtility.FromJson<Camera>(value);
@@ -38,15 +39,12 @@ public class HeadController : MonoBehaviour
     }
 
     //better for continus movement
-    private void FixedUpdate()
+    private void Update()
     {
-        this.transform.LookAt(camGO.transform);
+        Vector3 targetDirection = camCenter.transform.position - this.gameObject.transform.position;
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+        this.transform.rotation = targetRotation;
 
-        SetHeadPosition();
-    }
-
-    private void SetHeadPosition()
-    {
-        this.transform.position = new Vector3(this.camGO.transform.position.x, this.camGO.transform.position.y, this.camGO.transform.position.z + 20);
+        Debug.Log(this.gameObject.transform.position);
     }
 }
