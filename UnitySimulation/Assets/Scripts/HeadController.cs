@@ -41,10 +41,21 @@ public class HeadController : MonoBehaviour
     //better for continus movement
     private void Update()
     {
+        SetHeadDimesionalPosition();
+        SetHeadDirectionRotation();
+    }
+
+    public void SetHeadDimesionalPosition()
+    {
+        if (this.face.height == 0)
+            return;
+        this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, this.camCenter.transform.localPosition.z - (250 * 400 / this.face.height));
+    }
+
+    public void SetHeadDirectionRotation()
+    {
         Vector3 targetDirection = camCenter.transform.position - this.gameObject.transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
         this.transform.rotation = targetRotation;
-
-        Debug.Log(this.gameObject.transform.position);
     }
 }

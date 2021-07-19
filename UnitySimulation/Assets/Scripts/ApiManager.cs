@@ -40,10 +40,9 @@ public class ApiManager : MonoBehaviour
     {
         //if the count of the faces is 1 activate this game object
         if (faceCount != null)
-            headGo.SetActive(this.faceCount.count == 1.0f);
+            headGo.SetActive(this.faceCount.faceCount == 1);
         else
             this.headGo.SetActive(false);
-
     }
 
     private IEnumerator GetFaceCountRoutine()
