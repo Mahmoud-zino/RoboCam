@@ -3,19 +3,17 @@ using UnityEngine;
 
 public class HeadController : MonoBehaviour
 {
-    private Camera raspCamera = new Camera();
     private Face face = new Face();
-
     private GameObject camCenter;
+
+    // Offset values of headPosition to convert kamera sigth into real world position
+    private const int HEAD_WIDTH_OFFSET = 350;
+    private const int HEAD_HEIGTH_OFFSET = 220;
+    private const int HEAD_DEPTH_OFFSET = 250 * 400;
 
     private void Start()
     {
         camCenter = GameObject.Find("CamBody");
-
-        StartCoroutine(ApiManager.Instance.RequestObjectRoutine("Camera", (value) =>
-        {
-            this.raspCamera = JsonUtility.FromJson<Camera>(value);
-        }));
     }
 
     private void OnEnable()
@@ -47,9 +45,15 @@ public class HeadController : MonoBehaviour
 
     public void SetHeadDimesionalPosition()
     {
-        if (this.face.height == 0)
+        if (this.face?.height == 0)
             return;
-        this.transform.localPosition = new Vector3(this.transform.localPosition.x, this.transform.localPosition.y, this.camCenter.transform.localPosition.z - (250 * 400 / this.face.height));
+        
+        // Every axies needs to be inverted except for the y axies because it is physically upside down.
+        var headWidth = HEAD_WIDTH_OFFSET - (this.face.xPoint + (this.face.width / 2));
+        var headHeigth = (this.face.yPoint + (this.face.height / 2)) - HEAD_HEIGTH_OFFSET;
+        var headDepth = this.camCenter.transform.localPosition.z - (HEAD_DEPTH_OFFSET / this.face.height);
+
+        this.transform.localPosition = new Vector3(headWidth, headHeigth, headDepth);
     }
 
     public void SetHeadDirectionRotation()
