@@ -51,6 +51,7 @@ public class VideoManager : MonoBehaviour
             ImageConversion.LoadImage(texture, UDPManager.Instance.RecievedData);
         }
         catch { }
+
         return texture;
     }
 }

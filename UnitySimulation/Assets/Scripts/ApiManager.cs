@@ -38,7 +38,7 @@ public class ApiManager : MonoBehaviour
 
     private void Update()
     {
-        //if the count of the faces is 1 activate this game object
+        //if the count of the faces is 1 activate Head gameobject
         if (faceCount != null)
             headGo.SetActive(this.faceCount.faceCount == 1);
         else
