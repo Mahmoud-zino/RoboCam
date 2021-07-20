@@ -9,7 +9,7 @@ public class HeadController : MonoBehaviour
     // Offset values of headPosition to convert kamera sigth into real world position
     private const int HEAD_WIDTH_OFFSET = 350;
     private const int HEAD_HEIGTH_OFFSET = 220;
-    private const int HEAD_DEPTH_OFFSET = 250 * 400;
+    private const int HEAD_DEPTH_OFFSET = 100000;
 
     private void Start()
     {
@@ -37,13 +37,13 @@ public class HeadController : MonoBehaviour
     }
 
     //better for continus movement
-    private void Update()
+    private void FixedUpdate()
     {
-        SetHeadDimesionalPosition();
-        SetHeadDirectionRotation();
+        SetHeadPosition();
+        SetHeadRotation();
     }
 
-    public void SetHeadDimesionalPosition()
+    public void SetHeadPosition()
     {
         if (this.face?.height == 0)
             return;
@@ -56,7 +56,7 @@ public class HeadController : MonoBehaviour
         this.transform.localPosition = new Vector3(headWidth, headHeigth, headDepth);
     }
 
-    public void SetHeadDirectionRotation()
+    public void SetHeadRotation()
     {
         Vector3 targetDirection = camCenter.transform.position - this.gameObject.transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
