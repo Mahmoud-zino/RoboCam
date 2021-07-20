@@ -8,9 +8,8 @@ public class VideoManager : MonoBehaviour
     private const int WINDOW_OFFSET = 10;
     private const int RESIZE_BUTTON_SIZE = 20;
     private const int WINDOW_ID = 0;
-    private const string WINDOW_TITLE = "RoboCam Footage";
 
-    private readonly Vector2 MIN_WINDOW_SIZE = new Vector2(400, 200);
+    private readonly Vector2 MIN_WINDOW_SIZE = new Vector2(300, 150);
     private readonly Rect DRAG_RECT_DIMS = new Rect(0, 0, 10000, 10000);
 
     private Rect windowRect = new Rect(20, 20, 640, 480);
@@ -20,7 +19,7 @@ public class VideoManager : MonoBehaviour
     //Called when rendering Gui
     private void OnGUI()
     {
-        windowRect = GUI.Window(WINDOW_ID, windowRect, CreateWindowContent, WINDOW_TITLE);
+        windowRect = GUI.Window(WINDOW_ID, windowRect, CreateWindowContent, GetImageFromStream());
     }
     private void Update()
     {
@@ -42,5 +41,16 @@ public class VideoManager : MonoBehaviour
 
         //Window draggable
         GUI.DragWindow(DRAG_RECT_DIMS);
+    }
+
+    private Texture GetImageFromStream()
+    {
+        Texture2D texture = new Texture2D((int)windowRect.width + 50, (int)windowRect.height + 50);
+        try
+        {
+            ImageConversion.LoadImage(texture, UDPManager.Instance.RecievedData);
+        }
+        catch { }
+        return texture;
     }
 }
