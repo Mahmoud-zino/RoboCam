@@ -33,7 +33,8 @@ public class ApiManager : MonoBehaviour
     private void OnDisable()
     {
         StopCoroutine(GetFaceCountRoutine());
-        this.headGo.SetActive(false);
+        if(this.headGo != null)
+            this.headGo.SetActive(false);
     }
 
     private void Update()
