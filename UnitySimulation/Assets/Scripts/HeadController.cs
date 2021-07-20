@@ -47,11 +47,16 @@ public class HeadController : MonoBehaviour
     {
         if (this.face?.height == 0)
             return;
-        
+
+        float xCenter = (this.face.xPoint + (this.face.width / 2));
+        float yCenter = (this.face.yPoint + (this.face.height / 2));
+
         // Every axies needs to be inverted except for the y axies because it is physically upside down.
-        var headWidth = HEAD_WIDTH_OFFSET - (this.face.xPoint + (this.face.width / 2));
-        var headHeigth = (this.face.yPoint + (this.face.height / 2)) - HEAD_HEIGTH_OFFSET;
-        var headDepth = this.camCenter.transform.localPosition.z - (HEAD_DEPTH_OFFSET / this.face.height);
+        float headWidth = HEAD_WIDTH_OFFSET - xCenter;
+        float headHeigth = yCenter - HEAD_HEIGTH_OFFSET;
+        // To position the head in front of camera using the local cam position
+        // and adding the inverted OFFSET of the face
+        float headDepth = this.camCenter.transform.localPosition.z - (HEAD_DEPTH_OFFSET / this.face.height);
 
         this.transform.localPosition = new Vector3(headWidth, headHeigth, headDepth);
     }
