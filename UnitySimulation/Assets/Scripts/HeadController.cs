@@ -63,7 +63,7 @@ public class HeadController : MonoBehaviour
 
     public void SetHeadRotation()
     {
-        Vector3 targetDirection = camCenter.transform.position - this.gameObject.transform.position;
+        Vector3 targetDirection = this.camCenter.transform.position - this.transform.position;
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
         this.transform.rotation = targetRotation;
     }
