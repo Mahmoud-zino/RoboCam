@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Ports;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,15 @@ public class SerialCanvasManager : MonoBehaviour
     private TMP_Text disconnectionButtonText;
     [SerializeField]
     private Button sendButton;
+    [Header("Serial Settings")]
+    [SerializeField]
+    private TMP_Dropdown baudRateDropDown;
+    [SerializeField]
+    private TMP_Dropdown parityDropDown;
+    [SerializeField]
+    private TMP_Dropdown dataBitsDropDown;
+    [SerializeField]
+    private TMP_Dropdown StopBitsDropDown;
 
     private void Start()
     {
@@ -35,6 +45,17 @@ public class SerialCanvasManager : MonoBehaviour
         }
     }
 
+    private void ConnectSerially()
+    {
+        string portName = serialPortsDropDown.options[serialPortsDropDown.value].text;
+        int baudRate = int.Parse(baudRateDropDown.options[baudRateDropDown.value].text);
+        Parity parity = (Parity)parityDropDown.value;
+        int dataBits = dataBitsDropDown.value == 0 ? 7 : 8;
+        StopBits stopBits = StopBitsDropDown.value == 0 ? StopBits.One : StopBits.Two;
+
+        SerialConnectionManager.Instance.Connect(portName, baudRate, parity, dataBits, stopBits);
+    }
+
     public void TriggerSerialConnection()
     {
         //Connecting
@@ -45,7 +66,9 @@ public class SerialCanvasManager : MonoBehaviour
                 Debug.LogError("Choose an Port Before connecting!");
                 return;
             }
-            SerialConnectionManager.Instance.Connect(serialPortsDropDown.options[serialPortsDropDown.value].text);
+
+            ConnectSerially();
+
             TriggerConnectionTextVisibility(false);
 
             StartCoroutine(CheckConnectionRoutine());

@@ -34,7 +34,7 @@ public sealed class SerialConnectionManager : IDisposable
         return SerialPort.GetPortNames().ToList();
     }
 
-    public void Connect(string portName)
+    public void Connect(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
     {
         try
         {
@@ -123,7 +123,14 @@ public sealed class SerialConnectionManager : IDisposable
     private void ThreadLoop()
     {
         this.serialPort.ReadTimeout = 50;
-        this.serialPort.Open();
+        try
+        {
+            this.serialPort.Open();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+        }
 
         while (IsLooping())
         {
