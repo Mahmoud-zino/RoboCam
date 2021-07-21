@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class GameManager : MonoBehaviour
     private GameObject manualControls;
     [SerializeField]
     private GameObject apiManager;
+    [SerializeField]
+    private GameObject videoManager;
 
     public void OnMenuSelectionChanged(TMP_Dropdown dropDown)
     {
@@ -22,5 +25,11 @@ public class GameManager : MonoBehaviour
             manualControls.SetActive(false);
             apiManager.SetActive(true);
         }
+    }
+
+    public void TriggerVideoVisibility(TextMeshProUGUI btnText)
+    {
+        this.videoManager.SetActive(!this.videoManager.activeSelf);
+        btnText.text = this.videoManager.activeSelf ? "Hide Video" : "Show Video";
     }
 }

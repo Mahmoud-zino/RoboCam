@@ -9,6 +9,7 @@ using UnityEngine;
 public class UDPManager : MonoBehaviour
 {
     public static UDPManager Instance;
+    [HideInInspector]
     public byte[] RecievedData;
 
     [SerializeField]
@@ -21,7 +22,7 @@ public class UDPManager : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
+    private void OnEnable()
     {
         readThread = new Thread(new ThreadStart(RecieveData))
         {
@@ -49,14 +50,9 @@ public class UDPManager : MonoBehaviour
         }
     }
 
-    private void OnApplicationQuit()
+    private void OnDisable()
     {
-        StopThread();
-    }
-
-    private void StopThread()
-    {
-        if(readThread.IsAlive)
+        if (readThread.IsAlive)
             readThread.Abort();
 
         if (udpClient != null)
