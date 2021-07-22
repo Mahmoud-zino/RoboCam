@@ -3,55 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RobotManualMovementController : MonoBehaviour
+public class ManualMovementController : MovementController
 {
-    [SerializeField]
-    private GameObject[] motors;
     [SerializeField]
     private Slider[] sliders;
 
-    private const int valueShift = -90;
-    private const int shoulderShift = -5;
-    private const int elbowShift = 15;
-
     private void Start()
     {
-        MoveRobotOnSliderValueChange();
+        MoveRobotArmOnSliderValueChange();
     }
 
     public void OnSendPositionClick(Button btnSelf)
     {
-        if (!SerialConnectionManager.Instance.IsConnected())
-            return;
-
         int[] sliderVals = new int[] { (int)sliders[0].value, (int)sliders[1].value,
                 (int)sliders[2].value, (int)sliders[3].value };
 
-        string movementCommand = sliderVals.BuildMovementCommand();
-
-        SerialConnectionManager.Instance.SendSerialMessage(movementCommand);
-        Debug.Log($"Move Command: {movementCommand}");
+        if (!base.SendPositionCommand(sliderVals))
+            return;
 
         btnSelf.interactable = false;
-
         StartCoroutine(DetectPhysicalMotorsAtPosition(btnSelf));
     }
 
-    public void MoveRobotOnSliderValueChange()
+    public void MoveRobotArmOnSliderValueChange()
     {
-        //Parent object (Base Motor) can be controled using eulerAngles
-        motors[0].transform.eulerAngles = new Vector3(motors[0].transform.eulerAngles.x, sliders[0].value,
-            motors[0].transform.eulerAngles.z);
-
-        //Because the Rotation in unity is not the same in real life the value should be shifted by -90 and inverted
-        motors[1].transform.localRotation = Quaternion.Euler(-(sliders[1].value + valueShift + shoulderShift),
-            motors[1].transform.localRotation.y, motors[1].transform.localRotation.z);
-
-        motors[2].transform.localRotation = Quaternion.Euler(-(sliders[2].value + valueShift + elbowShift),
-            motors[2].transform.localRotation.y, motors[2].transform.localRotation.z);
-
-        motors[3].transform.localRotation = Quaternion.Euler(-(sliders[3].value + valueShift),
-            motors[3].transform.localRotation.y, motors[3].transform.localRotation.z);
+        int[] sliderVals = new int[] { (int)sliders[0].value, (int)sliders[1].value,
+                (int)sliders[2].value, (int)sliders[3].value };
+        base.MoveUnityRobotArm(sliderVals);
     }
 
     private IEnumerator DetectPhysicalMotorsAtPosition(Button sendBtn)
@@ -83,5 +61,4 @@ public class RobotManualMovementController : MonoBehaviour
         else
             yield return DetectPhysicalMotorsAtPosition(sendBtn);
     }
-
 }

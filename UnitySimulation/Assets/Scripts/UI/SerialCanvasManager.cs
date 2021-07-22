@@ -74,7 +74,7 @@ public class SerialCanvasManager : MonoBehaviour
             StartCoroutine(CheckConnectionRoutine());
 
             //Send movement command
-            GameObject.Find("Robot").GetComponent<RobotManualMovementController>().OnSendPositionClick(sendButton);
+            //GameObject.Find("Robot").GetComponent<ManualMovementController>().OnSendPositionClick(sendButton);
         }
         //Disconnecting
         else

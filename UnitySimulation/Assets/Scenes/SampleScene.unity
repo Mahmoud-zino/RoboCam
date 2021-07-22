@@ -1042,6 +1042,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108380458}
   m_CullTransparentMesh: 1
+--- !u!1 &119641671 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1353494967112719897, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+  m_PrefabInstance: {fileID: 1548642379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &133152594
 GameObject:
   m_ObjectHideFlags: 0
@@ -3558,6 +3563,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 675057071}
   m_CullTransparentMesh: 1
+--- !u!1 &700278051 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6127319678120486778, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+  m_PrefabInstance: {fileID: 1548642379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &710590284
 GameObject:
   m_ObjectHideFlags: 0
@@ -4147,6 +4157,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 795906216}
   m_CullTransparentMesh: 1
+--- !u!1 &798591160 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2573595667487501877, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+  m_PrefabInstance: {fileID: 1548642379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &812490343
 GameObject:
   m_ObjectHideFlags: 0
@@ -4627,17 +4642,6 @@ Transform:
   m_Father: {fileID: 1895200242}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 23.51, y: 0, z: 0}
---- !u!114 &906967192 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2083568383, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-  m_PrefabInstance: {fileID: 1548642379}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e5074d4b14c2cc41b23c3b60134edf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &908341844
 GameObject:
   m_ObjectHideFlags: 0
@@ -4952,7 +4956,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 906967192}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RobotManualMovementController, Assembly-CSharp
         m_MethodName: MoveRobotOnSliderValueChange
         m_Mode: 1
@@ -6158,7 +6162,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 906967192}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RobotManualMovementController, Assembly-CSharp
         m_MethodName: MoveRobotOnSliderValueChange
         m_Mode: 1
@@ -6512,6 +6516,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1130243694}
   m_CullTransparentMesh: 1
+--- !u!1 &1133340982 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8968510834320149971, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+  m_PrefabInstance: {fileID: 1548642379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1133340984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133340982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fec5b870b0593544a79f68ee202d753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  motors:
+  - {fileID: 119641671}
+  - {fileID: 1328937807}
+  - {fileID: 798591160}
+  - {fileID: 700278051}
+  sliders:
+  - {fileID: 1056914900}
+  - {fileID: 1385919002}
+  - {fileID: 1296336232}
+  - {fileID: 938610119}
 --- !u!1 &1159219272
 GameObject:
   m_ObjectHideFlags: 0
@@ -7641,7 +7672,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 906967192}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RobotManualMovementController, Assembly-CSharp
         m_MethodName: MoveRobotOnSliderValueChange
         m_Mode: 1
@@ -7779,6 +7810,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!1 &1328937807 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7480642431416181054, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+  m_PrefabInstance: {fileID: 1548642379}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1349094695
 GameObject:
   m_ObjectHideFlags: 0
@@ -7955,7 +7991,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 906967192}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RobotManualMovementController, Assembly-CSharp
         m_MethodName: OnSendPositionClick
         m_Mode: 2
@@ -8170,7 +8206,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 906967192}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RobotManualMovementController, Assembly-CSharp
         m_MethodName: MoveRobotOnSliderValueChange
         m_Mode: 1
@@ -9145,6 +9181,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2083568383, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2083568383, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
       propertyPath: sliders.Array.data[0]
       value: 
       objectReference: {fileID: 1056914900}
@@ -9272,7 +9312,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Robot
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2083568383, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
 --- !u!1 &1560685214
 GameObject:
