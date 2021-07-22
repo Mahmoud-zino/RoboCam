@@ -18,12 +18,16 @@ public class GameManager : MonoBehaviour
         {
             manualControls.SetActive(true);
             apiManager.SetActive(false);
+            GameObject.Find("Robot").GetComponent<AutoMovementController>().enabled = false;
+            GameObject.Find("Robot").GetComponent<ManualMovementController>().enabled = true;
         }
         //Auto
         else
         {
             manualControls.SetActive(false);
             apiManager.SetActive(true);
+            GameObject.Find("Robot").GetComponent<AutoMovementController>().enabled = true;
+            GameObject.Find("Robot").GetComponent<ManualMovementController>().enabled = false;
         }
     }
 

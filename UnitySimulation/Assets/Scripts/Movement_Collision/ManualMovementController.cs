@@ -8,7 +8,7 @@ public class ManualMovementController : MovementController
     [SerializeField]
     private Slider[] sliders;
 
-    private void Start()
+    private void OnEnable()
     {
         MoveRobotArmOnSliderValueChange();
     }
