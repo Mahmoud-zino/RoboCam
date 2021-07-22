@@ -77,14 +77,11 @@ public class RobotManualMovementController : MonoBehaviour
                 {
                     SerialConnectionManager.Instance.FlushData();
                     sendBtn.interactable = true;
-                    Debug.Log("Physical motors at postion");
                 }
             }
         }
         else
-        {
             yield return DetectPhysicalMotorsAtPosition(sendBtn);
-        }
     }
 
 }
