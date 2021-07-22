@@ -4,11 +4,12 @@ using UnityEngine;
 public class HeadController : MonoBehaviour
 {
     private Face face = new Face();
+    private Camera raspCamera = new Camera();
     private GameObject camCenter;
+    private float headWidthOffset;
+    private float headHeigthOffset;
 
     // Offset values of headPosition to convert kamera sigth into real world position
-    private const int HEAD_WIDTH_OFFSET = 350;
-    private const int HEAD_HEIGTH_OFFSET = 220;
     private const int HEAD_DEPTH_OFFSET = 100000;
 
     private void Start()
@@ -19,6 +20,14 @@ public class HeadController : MonoBehaviour
     private void OnEnable()
     {
         StartCoroutine(GetFacePositionRoutine());
+
+        StartCoroutine(ApiManager.Instance.RequestObjectRoutine("Camera", (value) =>
+        {
+            this.raspCamera = JsonUtility.FromJson<Camera>(value);
+            headWidthOffset = raspCamera.width / 2;
+            headHeigthOffset = raspCamera.height / 2;
+        }));
+
     }
 
     private void OnDisable()
@@ -52,8 +61,8 @@ public class HeadController : MonoBehaviour
         float yCenter = (this.face.yPoint + (this.face.height / 2));
 
         // Every axies needs to be inverted except for the y axies because it is physically upside down.
-        float headWidth = HEAD_WIDTH_OFFSET - xCenter;
-        float headHeigth = yCenter - HEAD_HEIGTH_OFFSET;
+        float headWidth = headWidthOffset - xCenter;
+        float headHeigth = yCenter - headHeigthOffset;
         // To position the head in front of camera using the local cam position
         // and adding the inverted OFFSET of the face
         float headDepth = this.camCenter.transform.localPosition.z - (HEAD_DEPTH_OFFSET / this.face.height);
