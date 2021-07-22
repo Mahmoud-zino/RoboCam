@@ -896,18 +896,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7023693001042416284, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
   m_PrefabInstance: {fileID: 1548642379}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &96515791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96515789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a317c96c921508d4b85cad39312ea313, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &108380458
 GameObject:
   m_ObjectHideFlags: 0
@@ -4956,9 +4944,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: RobotManualMovementController, Assembly-CSharp
-        m_MethodName: MoveRobotOnSliderValueChange
+      - m_Target: {fileID: 1133340984}
+        m_TargetAssemblyTypeName: ManualMovementController, Assembly-CSharp
+        m_MethodName: MoveRobotArmOnSliderValueChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6162,9 +6150,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: RobotManualMovementController, Assembly-CSharp
-        m_MethodName: MoveRobotOnSliderValueChange
+      - m_Target: {fileID: 1133340984}
+        m_TargetAssemblyTypeName: ManualMovementController, Assembly-CSharp
+        m_MethodName: MoveRobotArmOnSliderValueChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6521,11 +6509,10 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8968510834320149971, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
   m_PrefabInstance: {fileID: 1548642379}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1133340984
+--- !u!114 &1133340984 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1133340984, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+  m_PrefabInstance: {fileID: 1548642379}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133340982}
   m_Enabled: 1
@@ -6533,16 +6520,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fec5b870b0593544a79f68ee202d753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1133340985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133340982}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13f66a3610903694186d36ed81890097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   motors:
   - {fileID: 119641671}
   - {fileID: 1328937807}
   - {fileID: 798591160}
   - {fileID: 700278051}
-  sliders:
-  - {fileID: 1056914900}
-  - {fileID: 1385919002}
-  - {fileID: 1296336232}
-  - {fileID: 938610119}
 --- !u!1 &1159219272
 GameObject:
   m_ObjectHideFlags: 0
@@ -7672,9 +7666,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: RobotManualMovementController, Assembly-CSharp
-        m_MethodName: MoveRobotOnSliderValueChange
+      - m_Target: {fileID: 1133340984}
+        m_TargetAssemblyTypeName: ManualMovementController, Assembly-CSharp
+        m_MethodName: MoveRobotArmOnSliderValueChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7991,8 +7985,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: RobotManualMovementController, Assembly-CSharp
+      - m_Target: {fileID: 1133340984}
+        m_TargetAssemblyTypeName: ManualMovementController, Assembly-CSharp
         m_MethodName: OnSendPositionClick
         m_Mode: 2
         m_Arguments:
@@ -8206,9 +8200,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: RobotManualMovementController, Assembly-CSharp
-        m_MethodName: MoveRobotOnSliderValueChange
+      - m_Target: {fileID: 1133340984}
+        m_TargetAssemblyTypeName: ManualMovementController, Assembly-CSharp
+        m_MethodName: MoveRobotArmOnSliderValueChange
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9180,23 +9174,19 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2083568383, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2083568383, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+    - target: {fileID: 1133340984, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
       propertyPath: sliders.Array.data[0]
       value: 
       objectReference: {fileID: 1056914900}
-    - target: {fileID: 2083568383, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+    - target: {fileID: 1133340984, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
       propertyPath: sliders.Array.data[1]
       value: 
       objectReference: {fileID: 1385919002}
-    - target: {fileID: 2083568383, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+    - target: {fileID: 1133340984, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
       propertyPath: sliders.Array.data[2]
       value: 
       objectReference: {fileID: 1296336232}
-    - target: {fileID: 2083568383, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+    - target: {fileID: 1133340984, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
       propertyPath: sliders.Array.data[3]
       value: 
       objectReference: {fileID: 938610119}
@@ -9244,76 +9234,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7023693001042416284, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7080449216484129150, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7080449216484129150, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7080449216484129150, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7080449216484129150, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7080449216484129150, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7080449216484129150, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7652454964189956134, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7652454964189956134, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7652454964189956134, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7652454964189956134, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7652454964189956134, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -150
-      objectReference: {fileID: 0}
-    - target: {fileID: 7652454964189956134, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7652454964189956134, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7652454964189956134, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7652454964189956134, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 180
-      objectReference: {fileID: 0}
     - target: {fileID: 8968510834320149971, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
       propertyPath: m_Name
       value: Robot
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2083568383, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
 --- !u!1 &1560685214
 GameObject:
