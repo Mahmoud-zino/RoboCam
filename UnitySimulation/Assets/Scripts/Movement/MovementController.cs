@@ -7,10 +7,15 @@ public abstract class MovementController : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] motors;
+    private int[] lastMotorVals = new int[4];
 
     private const int VALUE_SHIFT = -90;
     private const int SHOULDER_SHIFT = -5;
     private const int ELBOW_SHIFT = 15;
+
+    //x => min, y => max
+    protected Vector2 baseLimit = new Vector2(0, 180);
+    protected Vector2 wristLimit = new Vector2(45, 180);
 
     public virtual bool SendPositionCommand(int[] vals)
     {
@@ -26,6 +31,8 @@ public abstract class MovementController : MonoBehaviour
 
     public virtual void MoveUnityRobotArm(int[] vals)
     {
+        this.lastMotorVals = vals;
+
         //Parent object (Base Motor) can be controled using eulerAngles
         motors[0].transform.eulerAngles = new Vector3(motors[0].transform.eulerAngles.x, vals[0],
             motors[0].transform.eulerAngles.z);
@@ -39,5 +46,10 @@ public abstract class MovementController : MonoBehaviour
 
         motors[3].transform.localRotation = Quaternion.Euler(-(vals[3] + VALUE_SHIFT),
             motors[3].transform.localRotation.y, motors[3].transform.localRotation.z);
+    }
+
+    public int[] GetCurrentPositions()
+    {
+        return this.lastMotorVals;
     }
 }
