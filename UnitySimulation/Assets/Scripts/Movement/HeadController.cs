@@ -48,7 +48,7 @@ public class HeadController : MonoBehaviour
 
     public void SetHeadPosition()
     {
-        if (this.face?.height == 0)
+        if (this.face is null || this.face.height == 0)
             return;
 
         float xCenter = (this.face.xPoint + (this.face.width / 2));

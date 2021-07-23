@@ -43,10 +43,10 @@ public class ApiManager : MonoBehaviour
     private void Update()
     {
         //if the count of the faces is 1 activate Head gameobject
-        if (FaceCount != null)
-            headGo.SetActive(this.FaceCount.faceCount == 1);
-        else
-            this.headGo.SetActive(false);
+        //if (FaceCount != null)
+        //    headGo.SetActive(this.FaceCount.faceCount == 1);
+        //else
+        //    this.headGo.SetActive(false);
     }
 
     private IEnumerator GetApiData()
@@ -59,7 +59,7 @@ public class ApiManager : MonoBehaviour
         StartCoroutine(RequestObjectRoutine("FaceCount", (value) =>
         {
             this.FaceCount = JsonUtility.FromJson<FaceCount>(value);
-            if(this.FaceCount.faceCount == 1)
+            if(this.FaceCount?.faceCount == 1)
             {
                 StartCoroutine(RequestObjectRoutine("Face", (value) =>
                 {
