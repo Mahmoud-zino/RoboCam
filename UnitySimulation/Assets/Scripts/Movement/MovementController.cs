@@ -5,17 +5,29 @@ using UnityEngine;
 //Parent class of Robot movement
 public abstract class MovementController : MonoBehaviour
 {
+    public struct Limit
+    {
+        public Limit(int min, int max)
+        {
+            this.Min = min;
+            this.Max = max;
+        }
+        public int Min { get; set; }
+        public int Max { get; set; }
+    }
+
     [SerializeField]
     private GameObject[] motors;
-    private int[] lastMotorVals = new int[4];
 
     private const int VALUE_SHIFT = -90;
     private const int SHOULDER_SHIFT = -5;
     private const int ELBOW_SHIFT = 15;
 
     //x => min, y => max
-    protected Vector2 baseLimit = new Vector2(0, 180);
-    protected Vector2 wristLimit = new Vector2(45, 180);
+    protected Limit baseLimit = new Limit(0, 180);
+    protected Limit shoulderLimit = new Limit(45, 160);
+    protected Limit elbowLimit = new Limit(45, 160);
+    protected Limit wristLimit = new Limit(45, 180);
 
     public virtual bool SendPositionCommand(int[] vals)
     {
@@ -31,8 +43,6 @@ public abstract class MovementController : MonoBehaviour
 
     public virtual void MoveUnityRobotArm(int[] vals)
     {
-        this.lastMotorVals = vals;
-
         //Parent object (Base Motor) can be controled using eulerAngles
         motors[0].transform.eulerAngles = new Vector3(motors[0].transform.eulerAngles.x, vals[0],
             motors[0].transform.eulerAngles.z);
@@ -50,6 +60,19 @@ public abstract class MovementController : MonoBehaviour
 
     public int[] GetCurrentPositions()
     {
-        return this.lastMotorVals;
+        return new int[] { (int)motors[0].transform.eulerAngles.y,
+            (180 - (int)WrapAngle(motors[1].transform.localEulerAngles.x) + VALUE_SHIFT - SHOULDER_SHIFT),
+            (180 - (int)WrapAngle(motors[2].transform.localEulerAngles.x) + VALUE_SHIFT - ELBOW_SHIFT),
+            (180 - (int)WrapAngle(motors[3].transform.localEulerAngles.x) + VALUE_SHIFT)};
+    }
+
+    //Returns same value like the one in inspector
+    private float WrapAngle(float angle)
+    {
+        angle %= 360;
+        if (angle > 180)
+            return angle - 360;
+
+        return angle;
     }
 }
