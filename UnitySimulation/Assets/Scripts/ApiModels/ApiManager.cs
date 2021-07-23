@@ -12,8 +12,9 @@ public class ApiManager : MonoBehaviour
     [SerializeField]
     private GameObject headGo;
 
-    private FaceCount faceCount;
-
+    public FaceCount FaceCount { get; set; } = new FaceCount();
+    public Face Face { get; set; } = new Face();
+    public Camera RaspCamera { get; set; } = new Camera();
 
     private void Awake()
     {
@@ -23,41 +24,56 @@ public class ApiManager : MonoBehaviour
         //TODO: Activate Asp.netcore web api
     }
 
+
     //instead of start
     private void OnEnable()
     {
-        StartCoroutine(GetFaceCountRoutine());
+        StartCoroutine(GetApiData());
     }
 
     //instead of OnDestroy
     private void OnDisable()
     {
-        StopCoroutine(GetFaceCountRoutine());
-        if(this.headGo != null)
+        StopAllCoroutines();
+
+        if (this.headGo != null)
             this.headGo.SetActive(false);
     }
 
     private void Update()
     {
         //if the count of the faces is 1 activate Head gameobject
-        if (faceCount != null)
-            headGo.SetActive(this.faceCount.faceCount == 1);
+        if (FaceCount != null)
+            headGo.SetActive(this.FaceCount.faceCount == 1);
         else
             this.headGo.SetActive(false);
     }
 
-    private IEnumerator GetFaceCountRoutine()
+    private IEnumerator GetApiData()
     {
-        yield return new WaitForSecondsRealtime(0.1f);
+        StartCoroutine(RequestObjectRoutine("Camera", (value) =>
+        {
+            this.RaspCamera = JsonUtility.FromJson<Camera>(value);
+        }));
+
         StartCoroutine(RequestObjectRoutine("FaceCount", (value) =>
         {
-            this.faceCount = JsonUtility.FromJson<FaceCount>(value);
-            //making sure the first routine has ended
-            StartCoroutine(GetFaceCountRoutine());
+            this.FaceCount = JsonUtility.FromJson<FaceCount>(value);
+            if(this.FaceCount.faceCount == 1)
+            {
+                StartCoroutine(RequestObjectRoutine("Face", (value) =>
+                {
+                    this.Face = JsonUtility.FromJson<Face>(value);
+                }));
+            }
         }));
+
+        yield return new WaitForSecondsRealtime(0.1f);
+        StartCoroutine(GetApiData());
     }
 
-    public IEnumerator RequestObjectRoutine(string section, UnityAction<string> callback)
+
+    private IEnumerator RequestObjectRoutine(string section, UnityAction<string> callback)
     {
         UnityWebRequest req = UnityWebRequest.Get($"{url}/{section}");
         yield return req.SendWebRequest();

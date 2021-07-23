@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class HeadController : MonoBehaviour
 {
-    private Face face = new Face();
-    private Camera raspCamera = new Camera();
+    private Face face;
+    private Camera raspCamera;
     private GameObject camCenter;
     private float headWidthOffset;
     private float headHeigthOffset;
@@ -19,30 +19,24 @@ public class HeadController : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(GetFacePositionRoutine());
+        StartCoroutine(GetFacePositionsRoutine());
 
-        StartCoroutine(ApiManager.Instance.RequestObjectRoutine("Camera", (value) =>
-        {
-            this.raspCamera = JsonUtility.FromJson<Camera>(value);
-            headWidthOffset = raspCamera.width / 2;
-            headHeigthOffset = raspCamera.height / 2;
-        }));
-
+        this.raspCamera = ApiManager.Instance.RaspCamera;
+        headWidthOffset = raspCamera.width / 2;
+        headHeigthOffset = raspCamera.height / 2;
     }
 
     private void OnDisable()
     {
-        StopCoroutine(GetFacePositionRoutine());
+        StopCoroutine(GetFacePositionsRoutine());
     }
 
-    private IEnumerator GetFacePositionRoutine()
+    private IEnumerator GetFacePositionsRoutine()
     {
+        this.face = ApiManager.Instance.Face;
+
         yield return new WaitForSecondsRealtime(0.1f);
-        StartCoroutine(ApiManager.Instance.RequestObjectRoutine("Face", (value) =>
-        {
-            this.face = JsonUtility.FromJson<Face>(value);
-            StartCoroutine(GetFacePositionRoutine());
-        }));
+        StartCoroutine(GetFacePositionsRoutine());
     }
 
     //better for continus movement
