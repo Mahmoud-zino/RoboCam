@@ -35,18 +35,6 @@ public class ApiManager : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
-
-        if (this.headGo != null)
-            this.headGo.SetActive(false);
-    }
-
-    private void Update()
-    {
-        //if the count of the faces is 1 activate Head gameobject
-        //if (FaceCount != null)
-        //    headGo.SetActive(this.FaceCount.faceCount == 1);
-        //else
-        //    this.headGo.SetActive(false);
     }
 
     private IEnumerator GetApiData()
@@ -67,9 +55,8 @@ public class ApiManager : MonoBehaviour
                 }));
             }
         }));
-
-        yield return new WaitForSecondsRealtime(0.1f);
-        StartCoroutine(GetApiData());
+        yield return new WaitForSecondsRealtime(0.05f);
+        yield return GetApiData();
     }
 
 

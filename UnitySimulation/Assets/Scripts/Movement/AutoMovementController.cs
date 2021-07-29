@@ -5,56 +5,91 @@ using UnityEngine;
 
 public class AutoMovementController : MovementController
 {
+    private struct LastImage
+    {
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Height { get; set; }
+        public Vector3 Position { get; set; }
+    }
 
     private const int SCREEN_MID_SPAN = 100;
     private const int FACE_OFFSET = 10;
+    private LastImage lastImage;
 
-    private void FixedUpdate()
+    private void OnEnable()
     {
-        if (ApiManager.Instance.FaceCount.faceCount != 1)
-            return;
+        StartCoroutine(MoveRobotRoutine());
+    }
 
-        base.MoveUnityRobotArm(CalculateTargetPos());
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    private IEnumerator MoveRobotRoutine()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        if (ApiManager.Instance.FaceCount != null && ApiManager.Instance.FaceCount.faceCount == 1)
+        {
+            Debug.Log("routine");
+            int[] vals = CalculateTargetPos();
+            base.MoveUnityRobotArm(vals);
+            base.SendPositionCommand(vals);
+        }
+
+        yield return MoveRobotRoutine();
     }
 
     public int[] CalculateTargetPos()
     {
+        int[] targetPosition = base.GetCurrentPositions();
+
         Camera raspCam = ApiManager.Instance.RaspCamera;
+
+        if (raspCam is null)
+            return targetPosition;
+
         Vector2 screenMiddle = new Vector2(raspCam.width / 2, raspCam.height / 2);
-        Debug.Log($"Screen midle x: {screenMiddle.x}, y: {screenMiddle.y}");
 
         Face face = ApiManager.Instance.Face;
+        if (face is null)
+            return targetPosition;
+
+
         Vector2 faceMiddle = new Vector2(face.xPoint + (face.width / 2), face.yPoint + (face.height / 2));
-        Debug.Log($"face midle x: {faceMiddle.x}, y: {faceMiddle.y}");
 
         Vector3 destination = new Vector3(faceMiddle.x - screenMiddle.x, faceMiddle.y - screenMiddle.y, SCREEN_MID_SPAN - face.width);
-        Debug.Log($"destination x: {destination.x}, y: {destination.y}, z: {destination.z}");
 
-        int[] resultPositions = base.GetCurrentPositions();
+        //Base / Horizontal
+        targetPosition[0] = GetHorizontalPostion(targetPosition[0], (int)destination.x);
+        //Wrist / Vertical
+        targetPosition[3] = GetVerticalPosition(targetPosition[3], (int)destination.y);
 
-        //Base
-        resultPositions[0] = GetHorizontalPostion(resultPositions[0], (int)destination.x);
+        targetPosition = GetZoomPosition(targetPosition, (int)destination.z);
 
-        ////Wrist
-        //resultPositions[3] = GetVerticalPosition(resultPositions[3], (int)destination.y);
-
-        //resultPositions = GetZoomPosition(resultPositions, (int)destination.z);
-
-        Debug.Log(resultPositions[0]);
-
-        return resultPositions;
+        return targetPosition;
     }
 
     private int GetHorizontalPostion(int currentPos, int destination)
     {
         //Target moved to the left more than the offset(-10) & its in limits 
         if(destination < -FACE_OFFSET)
-            if(currentPos < base.baseLimit.Max)
-                return currentPos + 1;
+        {
+            if (currentPos < base.baseLimit.Max)
+            {
+                return ++currentPos;
+            }
+        }
         //Target moved to the right more than the offset(10) & its in limits 
         else if (destination > FACE_OFFSET)
-               if(currentPos > base.baseLimit.Min)
-                return currentPos - 1;
+        {
+            if (currentPos > base.baseLimit.Min)
+            {
+                return --currentPos;
+            }
+        }
+
         return currentPos;
     }
 
@@ -62,11 +97,17 @@ public class AutoMovementController : MovementController
     {
         //Y is inverted 
         //Target moved down
-        if (destination > FACE_OFFSET && currentPos < base.wristLimit.Max)
-            return currentPos + 1;
+        if (destination > FACE_OFFSET)
+        {
+            if(currentPos < base.wristLimit.Max)
+                return ++currentPos;
+        }
         //Target moved up
-        else if (destination < -FACE_OFFSET && currentPos > base.wristLimit.Min)
-            return currentPos - 1;
+        else if (destination < -FACE_OFFSET)
+        {
+            if(currentPos > base.wristLimit.Min)
+                return --currentPos;
+        }
 
         return currentPos;
     }

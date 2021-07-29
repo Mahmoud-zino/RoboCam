@@ -37,7 +37,6 @@ public abstract class MovementController : MonoBehaviour
         string movementCommand = vals.BuildMovementCommand();
 
         SerialConnectionManager.Instance.SendSerialMessage(movementCommand);
-        Debug.Log($"Move Command: {movementCommand}");
         return true;
     }
 
@@ -60,10 +59,10 @@ public abstract class MovementController : MonoBehaviour
 
     public int[] GetCurrentPositions()
     {
-        return new int[] { (int)motors[0].transform.eulerAngles.y,
-            (180 - (int)WrapAngle(motors[1].transform.localEulerAngles.x) + VALUE_SHIFT - SHOULDER_SHIFT),
-            (180 - (int)WrapAngle(motors[2].transform.localEulerAngles.x) + VALUE_SHIFT - ELBOW_SHIFT),
-            (180 - (int)WrapAngle(motors[3].transform.localEulerAngles.x) + VALUE_SHIFT)};
+        return new int[] { Mathf.RoundToInt(motors[0].transform.eulerAngles.y),
+            (180 - Mathf.RoundToInt(WrapAngle(motors[1].transform.localEulerAngles.x)) + VALUE_SHIFT - SHOULDER_SHIFT),
+            (180 - Mathf.RoundToInt(WrapAngle(motors[2].transform.localEulerAngles.x)) + VALUE_SHIFT - ELBOW_SHIFT),
+            (180 - Mathf.RoundToInt(WrapAngle(motors[3].transform.localEulerAngles.x)) + VALUE_SHIFT)};
     }
 
     //Returns same value like the one in inspector

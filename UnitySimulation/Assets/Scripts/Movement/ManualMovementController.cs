@@ -40,7 +40,6 @@ public class ManualMovementController : MovementController
         SerialConnectionManager.Instance.SendSerialMessage("G");
 
         string message = SerialConnectionManager.Instance.RecieveSerialMessage();
-        Debug.Log($"Recieved Serial Message: {message}");
 
         if ((!string.IsNullOrEmpty(message)) && message.StartsWith("G"))
         {

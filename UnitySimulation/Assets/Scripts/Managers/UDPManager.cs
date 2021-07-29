@@ -58,4 +58,13 @@ public class UDPManager : MonoBehaviour
         if (udpClient != null)
             udpClient.Close();
     }
+
+    private void OnApplicationQuit()
+    {
+        if (readThread.IsAlive)
+            readThread.Abort();
+
+        if (udpClient != null)
+            udpClient.Close();
+    }
 }
