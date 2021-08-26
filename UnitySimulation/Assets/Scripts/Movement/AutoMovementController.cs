@@ -5,17 +5,8 @@ using UnityEngine;
 
 public class AutoMovementController : MovementController
 {
-    private struct LastImage
-    {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Height { get; set; }
-        public Vector3 Position { get; set; }
-    }
-
     private const int SCREEN_MID_SPAN = 100;
     private const int FACE_OFFSET = 10;
-    private LastImage lastImage;
 
     private void OnEnable()
     {
