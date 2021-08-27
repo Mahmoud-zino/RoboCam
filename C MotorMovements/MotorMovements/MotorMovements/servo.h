@@ -111,7 +111,7 @@
 
 
 #ifndef DELAY_TIME
-#define DELAY_TIME 50
+#define DELAY_TIME 20
 #endif
 
 #ifndef F_CPU

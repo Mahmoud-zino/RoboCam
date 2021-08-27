@@ -25,5 +25,4 @@
 #include "servo.h"
 
 int main(void);
-
 #endif
