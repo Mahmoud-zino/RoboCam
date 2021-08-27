@@ -4,10 +4,10 @@ using UnityEngine;
 
 public static class SerialExtensions
 {
-    //"[000][000][000][000] => int[]{0,0,0,0}
+    //"[000;000;000;000] => int[]{0,0,0,0}
     public static int[] ExtractMotorValues(this string message)
     {
-        if (message.Length < 19)
+        if (message.Length < 17)
         {
             Debug.LogError("message contained less information as needed!");
             return null;
@@ -18,7 +18,7 @@ public static class SerialExtensions
         for (int i = 0; i < 4; i++)
         {
             string val = $"{message[index]}{message[index + 1]}{message[index + 2]}";
-            index += 5;
+            index += 4;
 
             if(!int.TryParse(val, out res[i]))
             {
@@ -29,7 +29,7 @@ public static class SerialExtensions
         return res;
     }
 
-    //"int[]{0,0,0,0} => [000][000][000][000] 
+    //"int[]{0,0,0,0} => [000;000;000;000;] 
     public static string BuildMovementCommand(this int[] values)
     {
 
@@ -43,9 +43,9 @@ public static class SerialExtensions
         for (int i = 0; i < 4; i++)
         {
             message += values[i].ToString("000");
-            message += "][";
+            message += ";";
         }
-        message = message.Remove(message.Length - 1);
-        return message;
+
+        return message += "]";
     }
 }

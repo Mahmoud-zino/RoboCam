@@ -5,8 +5,12 @@ using UnityEngine;
 
 public class AutoMovementController : MovementController
 {
-    private const int SCREEN_MID_SPAN = 100;
-    private const int FACE_OFFSET = 10;
+    [SerializeField]
+    private int SCREEN_MID_SPAN = 150;
+
+    [SerializeField]
+    private int FACE_OFFSET = 15;
+
 
     private void OnEnable()
     {
@@ -20,10 +24,9 @@ public class AutoMovementController : MovementController
 
     private IEnumerator MoveRobotRoutine()
     {
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.2f);
         if (ApiManager.Instance.FaceCount != null && ApiManager.Instance.FaceCount.faceCount == 1)
         {
-            Debug.Log("routine");
             int[] vals = CalculateTargetPos();
             base.MoveUnityRobotArm(vals);
             base.SendPositionCommand(vals);
@@ -64,7 +67,7 @@ public class AutoMovementController : MovementController
 
     private int GetHorizontalPostion(int currentPos, int destination)
     {
-        //Target moved to the left more than the offset(-10) & its in limits 
+        //Target moved to the left more than the offset & its in limits 
         if(destination < -FACE_OFFSET)
         {
             if (currentPos < base.baseLimit.Max)
@@ -72,7 +75,7 @@ public class AutoMovementController : MovementController
                 return ++currentPos;
             }
         }
-        //Target moved to the right more than the offset(10) & its in limits 
+        //Target moved to the right more than the offset & its in limits 
         else if (destination > FACE_OFFSET)
         {
             if (currentPos > base.baseLimit.Min)

@@ -74,4 +74,17 @@ public abstract class MovementController : MonoBehaviour
 
         return angle;
     }
+
+    protected bool IsRobotColliding()
+    {
+        foreach (CollisionDetector cd in this.GetComponentsInChildren<CollisionDetector>())
+        {
+            if (cd.IsColliding)
+            {
+                Debug.Log($"Robot Colided with {cd.ColliderObj.name}");
+                return true;
+            }
+        }
+        return false;
+    }
 }

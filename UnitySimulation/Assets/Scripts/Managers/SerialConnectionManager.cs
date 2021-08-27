@@ -38,7 +38,7 @@ public sealed class SerialConnectionManager : IDisposable
     {
         try
         {
-            this.serialPort = new SerialPort(portName, 9600, Parity.None, 8, StopBits.One);
+            this.serialPort = new SerialPort(portName, baudRate, parity, dataBits, stopBits);
             StartThread();
         }
         catch (Exception)
