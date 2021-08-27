@@ -15,8 +15,12 @@ public class ManualMovementController : MovementController
 
     public void OnSendPositionClick(Button btnSelf)
     {
+        if(this.IsRobotColliding())
+            return;
+
         int[] sliderVals = new int[] { (int)sliders[0].value, (int)sliders[1].value,
                 (int)sliders[2].value, (int)sliders[3].value };
+
 
         if (!base.SendPositionCommand(sliderVals))
             return;
