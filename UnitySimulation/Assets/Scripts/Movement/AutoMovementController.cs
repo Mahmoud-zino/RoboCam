@@ -24,7 +24,7 @@ public class AutoMovementController : MovementController
 
     private IEnumerator MoveRobotRoutine()
     {
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.2f);
         if (ApiManager.Instance.FaceCount != null && ApiManager.Instance.FaceCount.faceCount == 1)
         {
             int[] vals = CalculateTargetPos();

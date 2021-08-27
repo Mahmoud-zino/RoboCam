@@ -3393,7 +3393,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 1385919002}
   valueField: {fileID: 1682945910}
-  resetPosition: 45
+  resetPosition: 80
 --- !u!1 &577973493
 GameObject:
   m_ObjectHideFlags: 0
@@ -9814,7 +9814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 938610119}
   valueField: {fileID: 1853688778}
-  resetPosition: 140
+  resetPosition: 150
 --- !u!1 &1451874195
 GameObject:
   m_ObjectHideFlags: 0
@@ -10516,6 +10516,14 @@ PrefabInstance:
       propertyPath: sliders.Array.data[3]
       value: 
       objectReference: {fileID: 938610119}
+    - target: {fileID: 1133340985, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+      propertyPath: FACE_OFFSET
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1133340985, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+      propertyPath: SCREEN_MID_SPAN
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 5059094099145407546, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -14858,7 +14866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 1296336232}
   valueField: {fileID: 88762234}
-  resetPosition: 160
+  resetPosition: 100
 --- !u!1 &2084099364
 GameObject:
   m_ObjectHideFlags: 0
