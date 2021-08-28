@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2862,8 +2862,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1454261554}
-        m_TargetAssemblyTypeName: ObstaclePanelManager, Assembly-CSharp
+      - m_Target: {fileID: 401196508}
+        m_TargetAssemblyTypeName: ObstaclesManager, Assembly-CSharp
         m_MethodName: AddObstacle
         m_Mode: 1
         m_Arguments:
@@ -2996,7 +2996,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1454261554}
-        m_TargetAssemblyTypeName: ObstaclePanelManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: ObstaclesAnimManager, Assembly-CSharp
         m_MethodName: TriggerPanel
         m_Mode: 1
         m_Arguments:
@@ -3276,8 +3276,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 401196506}
+  - component: {fileID: 401196508}
+  - component: {fileID: 401196507}
   m_Layer: 0
-  m_Name: CustomObstacles
+  m_Name: ObstaclesManger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3290,13 +3292,41 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 401196505}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 2113887165}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &401196507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401196505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d2e737492d75b4eb576068a5453575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 2753542163657654371, guid: a68178c2b45d372469644bf5fff99b64, type: 3}
+--- !u!114 &401196508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401196505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8608d1d8c10a536489340924fd850389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstaclePanelPrefab: {fileID: 9207617796896096399, guid: 04b505be220e69d479646965924323cf, type: 3}
+  obstaclePrefab: {fileID: 2753542163657654371, guid: a68178c2b45d372469644bf5fff99b64, type: 3}
+  obstaclesPanel: {fileID: 1971021647}
 --- !u!1 &427014757
 GameObject:
   m_ObjectHideFlags: 0
@@ -9914,7 +9944,7 @@ GameObject:
   - component: {fileID: 1454261553}
   - component: {fileID: 1454261554}
   m_Layer: 5
-  m_Name: ObsaclePanel
+  m_Name: ObstaclePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9969,12 +9999,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1454261551}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8608d1d8c10a536489340924fd850389, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e7f712b84c15d447b9cb4a114b4c117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Obstacle: {fileID: 9207617796896096399, guid: 04b505be220e69d479646965924323cf, type: 3}
-  cube: {fileID: 2753542163657654371, guid: a68178c2b45d372469644bf5fff99b64, type: 3}
-  ObstaclesPanel: {fileID: 1971021647}
 --- !u!1 &1458132602
 GameObject:
   m_ObjectHideFlags: 0
@@ -11940,7 +11967,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hide Video
+  m_text: Show Video
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15077,6 +15104,7 @@ Transform:
   m_Children:
   - {fileID: 860129583}
   - {fileID: 427014758}
+  - {fileID: 401196506}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

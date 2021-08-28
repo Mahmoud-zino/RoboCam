@@ -122,8 +122,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 992375517016980191}
-        m_TargetAssemblyTypeName: ObstacleDataControler, Assembly-CSharp
-        m_MethodName: DeleteThisObstacle
+        m_TargetAssemblyTypeName: PanelObstacleBehaiviour, Assembly-CSharp
+        m_MethodName: DeleteObstacle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "7,5\u200B"
+  m_text: "7.5\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -770,12 +770,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 992375517016980191}
-        m_TargetAssemblyTypeName: ObstacleDataControler, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelObstacleBehaiviour, Assembly-CSharp
         m_MethodName: OnCubeValueChanged
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 9207617796398753758}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1122,7 +1122,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -55}
+  m_AnchoredPosition: {x: 24, y: -54.950012}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9207617796588390520
@@ -1244,12 +1244,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 992375517016980191}
-        m_TargetAssemblyTypeName: ObstacleDataControler, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelObstacleBehaiviour, Assembly-CSharp
         m_MethodName: OnCubeValueChanged
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 9207617796588390526}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1833,12 +1833,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 992375517016980191}
-        m_TargetAssemblyTypeName: ObstacleDataControler, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelObstacleBehaiviour, Assembly-CSharp
         m_MethodName: OnCubeValueChanged
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 9207617796653148675}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2020,12 +2020,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 992375517016980191}
-        m_TargetAssemblyTypeName: ObstacleDataControler, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelObstacleBehaiviour, Assembly-CSharp
         m_MethodName: OnCubeValueChanged
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 9207617796665068898}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2611,12 +2611,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 992375517016980191}
-        m_TargetAssemblyTypeName: ObstacleDataControler, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelObstacleBehaiviour, Assembly-CSharp
         m_MethodName: OnCubeValueChanged
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 9207617796750409694}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2703,7 +2703,7 @@ GameObject:
   - component: {fileID: 751144231531366187}
   - component: {fileID: 992375517016980191}
   m_Layer: 5
-  m_Name: ObstacleTemplate
+  m_Name: ObstaclePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3479,12 +3479,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 992375517016980191}
-        m_TargetAssemblyTypeName: ObstacleDataControler, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelObstacleBehaiviour, Assembly-CSharp
         m_MethodName: OnCubeValueChanged
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 9207617797251480511}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3666,12 +3666,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 992375517016980191}
-        m_TargetAssemblyTypeName: ObstacleDataControler, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelObstacleBehaiviour, Assembly-CSharp
         m_MethodName: OnCubeValueChanged
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 9207617797267139042}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -4399,12 +4399,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 992375517016980191}
-        m_TargetAssemblyTypeName: ObstacleDataControler, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelObstacleBehaiviour, Assembly-CSharp
         m_MethodName: OnCubeValueChanged
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 9207617797820041100}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5164,12 +5164,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 992375517016980191}
-        m_TargetAssemblyTypeName: ObstacleDataControler, Assembly-CSharp
+        m_TargetAssemblyTypeName: PanelObstacleBehaiviour, Assembly-CSharp
         m_MethodName: OnCubeValueChanged
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 9207617798186133279}
-          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_InputField, Unity.TextMeshPro
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5181,7 +5181,7 @@ MonoBehaviour:
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
-  m_Text: 7,5
+  m_Text: 7.5
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
   m_ReadOnly: 0
