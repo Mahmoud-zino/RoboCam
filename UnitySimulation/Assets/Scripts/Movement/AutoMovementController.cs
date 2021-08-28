@@ -27,9 +27,14 @@ public class AutoMovementController : MovementController
         yield return new WaitForSecondsRealtime(0.2f);
         if (ApiManager.Instance.FaceCount != null && ApiManager.Instance.FaceCount.faceCount == 1)
         {
+            int[] lastVals = GetCurrentPositions();
+
             int[] vals = CalculateTargetPos();
             base.MoveUnityRobotArm(vals);
-            base.SendPositionCommand(vals);
+            if(IsRobotColliding())
+                base.MoveUnityRobotArm(lastVals);
+            else
+                base.SendPositionCommand(vals);
         }
 
         yield return MoveRobotRoutine();

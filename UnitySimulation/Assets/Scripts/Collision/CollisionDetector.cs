@@ -11,4 +11,10 @@ public class CollisionDetector : MonoBehaviour
         IsColliding = true;
         ColliderObj = other;
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        IsColliding = false;
+        ColliderObj = null;
+    }
 }
