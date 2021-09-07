@@ -11,6 +11,8 @@ public class AutoMovementController : MovementController
     [SerializeField]
     private int FACE_OFFSET = 15;
 
+    private int[] lastVals = new int[] { 90, 80,  100, 150};
+
 
     private void OnEnable()
     {
@@ -27,12 +29,15 @@ public class AutoMovementController : MovementController
         yield return new WaitForSecondsRealtime(0.2f);
         if (ApiManager.Instance.FaceCount != null && ApiManager.Instance.FaceCount.faceCount == 1)
         {
-            int[] lastVals = GetCurrentPositions();
-
             int[] vals = CalculateTargetPos();
+
             base.MoveUnityRobotArm(vals);
-            if(IsRobotColliding())
+
+            if (IsRobotColliding())
+            {
                 base.MoveUnityRobotArm(lastVals);
+                base.SendPositionCommand(lastVals);
+            }
             else
                 base.SendPositionCommand(vals);
         }
