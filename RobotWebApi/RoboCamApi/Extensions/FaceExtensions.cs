@@ -1,10 +1,10 @@
-﻿using RobotWebApi.Models;
+﻿using ApiTest.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RobotWebApi.Extensions
+namespace ApiTest.Extensions
 {
     public static class FaceExtensions
     {

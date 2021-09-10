@@ -1,4 +1,4 @@
-﻿namespace RobotWebApi.Models
+﻿namespace ApiTest.Models
 {
     //its easier to deserialize objects instead of primitiv data!
     public class FaceCount

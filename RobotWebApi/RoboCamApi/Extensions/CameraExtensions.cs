@@ -1,6 +1,6 @@
-﻿using RobotWebApi.Models;
+﻿using ApiTest.Models;
 
-namespace RobotWebApi.Extensions
+namespace ApiTest.Extensions
 {
     public static class CameraExtensions
     {

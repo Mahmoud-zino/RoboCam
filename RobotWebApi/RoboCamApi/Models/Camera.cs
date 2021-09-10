@@ -1,4 +1,4 @@
-﻿namespace RobotWebApi.Models
+﻿namespace ApiTest.Models
 {
     public class Camera
     {

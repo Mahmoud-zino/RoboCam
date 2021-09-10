@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using static RobotWebApi.Extensions.FaceCountExtensions;
-using RobotWebApi.Models;
+using static ApiTest.Extensions.FaceCountExtensions;
+using ApiTest.Models;
 
-namespace RobotWebApi.Controllers
+namespace ApiTest.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

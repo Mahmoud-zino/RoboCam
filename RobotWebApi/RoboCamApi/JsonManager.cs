@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using RobotWebApi.Models;
+﻿using ApiTest.Models;
+using Newtonsoft.Json;
 using System.IO;
 
-namespace RobotWebApi
+namespace ApiTest
 {
     public static class JsonManager
     {
@@ -43,7 +42,14 @@ namespace RobotWebApi
             {
                 jsonString = JsonConvert.SerializeObject(default);
             }
-            File.WriteAllText(fileFullPath, jsonString);
+
+            try
+            {
+                File.WriteAllText(fileFullPath, jsonString);
+            }
+            catch
+            {
+            }
         }
     }
 }
