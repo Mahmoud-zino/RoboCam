@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 public class AutoMovementController : MovementController
 {
     [SerializeField]
-    private int SCREEN_MID_SPAN = 150;
+    private int SCREEN_MID_SPAN = 100;
 
     [SerializeField]
     private int FACE_OFFSET = 15;
@@ -69,12 +68,13 @@ public class AutoMovementController : MovementController
         targetPosition[0] = GetHorizontalPostion(targetPosition[0], (int)destination.x);
         //Wrist / Vertical
         targetPosition[3] = GetVerticalPosition(targetPosition[3], (int)destination.y);
-
+        //shoulder, elbow and wrist / Zoom
         targetPosition = GetZoomPosition(targetPosition, (int)destination.z);
 
         return targetPosition;
     }
 
+    //controlling only the base motor
     private int GetHorizontalPostion(int currentPos, int destination)
     {
         //Target moved to the left more than the offset & its in limits 
@@ -97,6 +97,7 @@ public class AutoMovementController : MovementController
         return currentPos;
     }
 
+    //controlling only the wrist motor
     private int GetVerticalPosition(int currentPos, int destination)
     {
         //Y is inverted 
@@ -116,6 +117,7 @@ public class AutoMovementController : MovementController
         return currentPos;
     }
 
+    //controlling shoulder, elbow and wrist
     private int[] GetZoomPosition(int[] currentPos, int destination)
     {
         int shoulderVal = currentPos[1];
@@ -140,7 +142,7 @@ public class AutoMovementController : MovementController
                 wristVal--;
             }
         }
-        //TArget too far away
+        //Target too far away
         else if(destination < -FACE_OFFSET)
         {
             if(shoulderVal > base.shoulderLimit.Min)

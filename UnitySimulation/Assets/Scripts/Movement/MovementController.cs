@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //Parent class of Robot movement
@@ -23,7 +21,6 @@ public abstract class MovementController : MonoBehaviour
     private const int SHOULDER_SHIFT = -5;
     private const int ELBOW_SHIFT = 15;
 
-    //x => min, y => max
     protected Limit baseLimit = new Limit(0, 180);
     protected Limit shoulderLimit = new Limit(45, 160);
     protected Limit elbowLimit = new Limit(45, 160);
@@ -46,7 +43,7 @@ public abstract class MovementController : MonoBehaviour
         motors[0].transform.eulerAngles = new Vector3(motors[0].transform.eulerAngles.x, vals[0],
             motors[0].transform.eulerAngles.z);
 
-        //Because the Rotation in unity is not the same in real life the value should be shifted by -90 and inverted
+        //Because of the child inherting its parent rotation in unity the value should be shifted by -90 and inverted
         motors[1].transform.localRotation = Quaternion.Euler(-(vals[1] + VALUE_SHIFT + SHOULDER_SHIFT),
             motors[1].transform.localRotation.y, motors[1].transform.localRotation.z);
 
@@ -65,7 +62,7 @@ public abstract class MovementController : MonoBehaviour
             (180 - Mathf.RoundToInt(WrapAngle(motors[3].transform.localEulerAngles.x)) + VALUE_SHIFT)};
     }
 
-    //Returns same value like the one in inspector
+    //Returns same angle value like the one in inspector
     private float WrapAngle(float angle)
     {
         angle %= 360;

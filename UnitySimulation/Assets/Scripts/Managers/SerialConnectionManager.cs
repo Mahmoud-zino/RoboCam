@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using System.IO.Ports;
 using System;
-using System.Threading;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO.Ports;
+using System.Linq;
+using System.Threading;
+using UnityEngine;
 
 //Serial Connection is multi threaded to avoid freezing the gui
 public sealed class SerialConnectionManager : IDisposable
