@@ -148,7 +148,6 @@ public sealed class SerialConnectionManager : IDisposable
         }
 
         this.serialPort.Close();
-        Debug.Log("serial port is closed");
     }
 
     private bool IsLooping()
