@@ -52,7 +52,14 @@ public class SerialCanvasManager : MonoBehaviour
         int dataBits = dataBitsDropDown.value == 0 ? 7 : 8;
         StopBits stopBits = StopBitsDropDown.value == 0 ? StopBits.One : StopBits.Two;
 
-        SerialConnectionManager.Instance.Connect(portName, baudRate, parity, dataBits, stopBits);
+        try
+        {
+            SerialConnectionManager.Instance.Connect(portName, baudRate, parity, dataBits, stopBits);
+        }
+        catch (System.Exception e)
+        {
+            Debug.Log(e);
+        }
     }
 
     public void TriggerSerialConnection()

@@ -78,7 +78,7 @@ public sealed class SerialConnectionManager : IDisposable
     {
         outputQueue = Queue.Synchronized(new Queue());
         inputQueue = Queue.Synchronized(new Queue());
-
+        this.isLooping = true;
         thread = new Thread(ThreadLoop);
         thread.Start();
     }
@@ -148,6 +148,7 @@ public sealed class SerialConnectionManager : IDisposable
         }
 
         this.serialPort.Close();
+        Debug.Log("serial port is closed");
     }
 
     private bool IsLooping()
@@ -159,7 +160,7 @@ public sealed class SerialConnectionManager : IDisposable
     public void CloseConnection()
     {
         lock (this)
-            isLooping = false;
+            this.isLooping = false;
     }
 
     public void Dispose()
