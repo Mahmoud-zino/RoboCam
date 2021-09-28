@@ -31,31 +31,38 @@ public class ErrorListController : MonoBehaviour
         Logs.Add(new Log() { Message = "1", DateTime = DateTime.Now, LogType = LogType.Information });
         Logs.Add(new Log() { Message = "2", DateTime = DateTime.Now, LogType = LogType.Information });
         Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
+        Logs.Add(new Log() { Message = "3", DateTime = DateTime.Now, LogType = LogType.Information });
 
         for (int i = 0; i < Logs.Count; i++)
         {
             g = Instantiate(buttonTemplate, transform);
             g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = Logs[i].Message;
+            /*
             g.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = Logs[i].DateTime.ToString();
             g.transform.GetChild(2).GetComponent<Image>().sprite = (Logs[i].LogType == LogType.Information) ?
                 Sprite.Create(new Texture2D(10, 10), new Rect(), new Vector2()) :
                 Sprite.Create(new Texture2D(10, 10), new Rect(), new Vector2());
+            */
         }
 
         Destroy(buttonTemplate);
 
         //Thread.Sleep(5000);
-
         //while (Logs.Count != 0) { Destroy(transform.GetChild(0).gameObject); }
-    }
-
-    private void UpdateList()
-    {
-    }
-
-    private void ClearList()
-    {
-
-
     }
 }
