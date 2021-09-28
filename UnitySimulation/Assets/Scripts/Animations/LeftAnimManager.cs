@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ObstaclesAnimManager : MonoBehaviour
+public class LeftAnimManager : MonoBehaviour
 {
     private bool isPanelOpen = false;
     private Animator anim;
