@@ -117,6 +117,8 @@ def main():
                 try:
                     #assign Captured frame
                     captured_frame_array = frame.array
+                    # send image per udp
+                    streamManager.SendImage(captured_frame_array)
                     #convert captured frame array to gray
                     gray_captured_frame = cv2.cvtColor(captured_frame_array, cv2.COLOR_BGR2GRAY)
                     #detect faces on frame
@@ -144,8 +146,6 @@ def main():
                 except Exception as e:
                     print("Error getting face position" + str(e))
                     raw_capture.truncate(0)
-                #send image per udp
-                streamManager.SendImage(captured_frame_array)
                 #display video for test perposes
                 #cv2.imshow("Frame", captured_frame_array)
                 #cv2.waitKey(1) & 0xFF
