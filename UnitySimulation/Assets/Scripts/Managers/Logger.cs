@@ -1,48 +1,49 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Logger : MonoBehaviour
+public class Logger
 {
     [SerializeField]
     private Toggle fileLogCheckBox;
 
-    public static Logger Instance;
-
-    // Singleton in Unity
-    private void Awake() =>
-        Instance = this;
-
-    //instead of OnDestroy
-    private void OnDisable() =>
-        StopAllCoroutines();
+    private static Logger instance;
+    public static Logger Instance
+    {
+        get
+        {
+            if (instance == null)
+                instance = new Logger();
+            return instance;
+        }
+    }
+    private Logger() { }
 
     public void Log(string message, LogType logType)
     {
-        string logMessage = $"{logType.ToString()} : [{DateTime.Now.ToString()}] : \"{message}\"";
-        if (fileLogCheckBox.isOn)
-            LogFile(logMessage);
-
-        LogConsole(logMessage);
+        LogFile($"{logType.ToString()} : [{DateTime.Now.ToString()}] : \"{message}\"");
+        LogConsole(message, logType);
     }
 
     public void LogFile(string message)
     {
-        
+        //TODO: File write
     }
 
-    public void LogConsole(string message)
+    public void LogConsole(string message, LogType logType)
     {
-
+        ConsoleListController.Instance.Log(new Log() { Message = message, DateTime = DateTime.Now, LogType = logType });
     }
 }
 
 public enum LogType
 {
-    Warning,
-    Information
+    Warning,    // Effected nicht
+    Information,   // Info
+    Error // Critical
 }
 
 public struct Log

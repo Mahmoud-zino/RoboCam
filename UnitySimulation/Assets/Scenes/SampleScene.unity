@@ -292,7 +292,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6767f12dd7a1949a183904664f5329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  elementTemplate: {fileID: 2503638525155473336, guid: c8a914681869771498795fbbd5a19696, type: 3}
+  WarningIcon: {fileID: 21300000, guid: b5828391ea96dcc43bdf40257ecd57d1, type: 3}
+  InformationIcon: {fileID: 21300000, guid: dcc89cc4acc3f4244946b47063479330, type: 3}
+  ErrorIcon: {fileID: 21300000, guid: cb8c08a1c880d8944a43ce7743808a9e, type: 3}
+  elementTemplate: {fileID: 6226471384451248117, guid: 14a24a52fe9d5d740b827fe82faf513e, type: 3}
 --- !u!222 &9703543
 CanvasRenderer:
   m_ObjectHideFlags: 0
