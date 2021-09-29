@@ -19,9 +19,9 @@ public class Logger : MonoBehaviour
     private void OnDisable() =>
         StopAllCoroutines();
 
-    public void Log(string message, string source = null)
+    public void Log(string message, LogType logType)
     {
-        string logMessage = $"[{DateTime.Now.ToString()}] \"{message}\" : at {source}";
+        string logMessage = $"{logType.ToString()} : [{DateTime.Now.ToString()}] : \"{message}\"";
         if (fileLogCheckBox.isOn)
             LogFile(logMessage);
 
@@ -37,4 +37,17 @@ public class Logger : MonoBehaviour
     {
 
     }
+}
+
+public enum LogType
+{
+    Warning,
+    Information
+}
+
+public struct Log
+{
+    public string Message;
+    public DateTime DateTime;
+    public LogType LogType;
 }
