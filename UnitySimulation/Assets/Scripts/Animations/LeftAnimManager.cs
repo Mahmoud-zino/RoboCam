@@ -15,4 +15,10 @@ public class LeftAnimManager : MonoBehaviour
         isPanelOpen = !isPanelOpen;
         anim.SetBool("IsPanelOpen", isPanelOpen);
     }
+
+    public void SetPanel(bool state)
+    {
+        isPanelOpen = state;
+        anim.SetBool("IsPanelOpen", isPanelOpen);
+    }
 }

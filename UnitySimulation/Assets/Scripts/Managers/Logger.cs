@@ -24,8 +24,11 @@ public class Logger
 
     public void Log(string message, LogType logType)
     {
-        LogFile($"{logType.ToString()} : [{DateTime.Now.ToString()}] : \"{message}\"");
-        LogConsole(message, logType);
+        lock (Instance)
+        {
+            LogFile($"{logType.ToString()} : [{DateTime.Now.ToString()}] : \"{message}\"");
+            LogConsole(message, logType);
+        }
     }
 
     public void LogFile(string message)

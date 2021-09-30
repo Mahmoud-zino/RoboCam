@@ -295,7 +295,8 @@ MonoBehaviour:
   WarningIcon: {fileID: 21300000, guid: 6d4d78516b636c2419c3a156ad20d045, type: 3}
   InformationIcon: {fileID: 21300000, guid: 93c3c06ba63c5fb41b81b2e911878212, type: 3}
   ErrorIcon: {fileID: 21300000, guid: cb8c08a1c880d8944a43ce7743808a9e, type: 3}
-  elementTemplate: {fileID: 4329290360346629536, guid: 005238d327fcb1d4f83a46b6965bc14d, type: 3}
+  elementTemplate: {fileID: 4339989268755173433, guid: 3c52d60443c81d5498b8620a6a666a5a, type: 3}
+  ErrorPanel: {fileID: 924844792}
 --- !u!222 &9703543
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1483,7 +1484,7 @@ GameObject:
   - component: {fileID: 141516228}
   - component: {fileID: 141516227}
   m_Layer: 5
-  m_Name: MainScroll
+  m_Name: ScrollPort
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5760,7 +5761,19 @@ MonoBehaviour:
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
+        m_MethodName: 
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: SetScrollbar
+          m_BoolArgument: 0
+        m_CallState: 0
 --- !u!114 &837632978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12298,7 +12311,7 @@ GameObject:
   - component: {fileID: 1675607791}
   - component: {fileID: 1675607793}
   m_Layer: 5
-  m_Name: Base
+  m_Name: BaseRect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
