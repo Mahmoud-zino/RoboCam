@@ -35,6 +35,8 @@ public class Logger
 
     public void LogConsole(string message, LogType logType)
     {
+        if(message.Length >= 50)
+            message = message.Substring(0, 50) + "...";
         ConsoleListController.Instance.Log(new Log() { Message = message, DateTime = DateTime.Now, LogType = logType });
     }
 }

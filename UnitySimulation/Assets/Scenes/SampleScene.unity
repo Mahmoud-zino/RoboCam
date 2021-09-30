@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -295,7 +295,7 @@ MonoBehaviour:
   WarningIcon: {fileID: 21300000, guid: 6d4d78516b636c2419c3a156ad20d045, type: 3}
   InformationIcon: {fileID: 21300000, guid: 93c3c06ba63c5fb41b81b2e911878212, type: 3}
   ErrorIcon: {fileID: 21300000, guid: cb8c08a1c880d8944a43ce7743808a9e, type: 3}
-  elementTemplate: {fileID: 5301064156207606331, guid: f88b91e009495fd44b3bfb1c01a7fac7, type: 3}
+  elementTemplate: {fileID: 4329290360346629536, guid: 005238d327fcb1d4f83a46b6965bc14d, type: 3}
 --- !u!222 &9703543
 CanvasRenderer:
   m_ObjectHideFlags: 0
