@@ -20,7 +20,7 @@ public class ConsoleListController : MonoBehaviour
     private GameObject Lastg;
 
     [SerializeField] private GameObject ErrorPanel;
-
+    [SerializeField] private ScrollRect scrollRect;
 
     private Queue<Log> LogQueue { get; set; } = new Queue<Log>();
 
@@ -34,12 +34,19 @@ public class ConsoleListController : MonoBehaviour
     {
         for (int i = 0; i < LogQueue.Count; i++)
         {
-            g = Instantiate(elementTemplate, Instance.transform);
+            Log log = LogQueue.Dequeue();
 
+            if (Lastg != null && log.Message == Lastg.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text)
+            {
+                g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = (int.Parse(g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text) + 1).ToString();
+                g.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[{log.DateTime.ToString()}]";
+                return;
+            }
+
+            g = Instantiate(elementTemplate, Instance.transform);
             if (Lastg == null)
                 Lastg = g;
 
-            Log log = LogQueue.Dequeue();
             if (log.LogType != LogType.Information)
                 (ErrorPanel.GetComponent(typeof(LeftAnimManager)) as LeftAnimManager).SetPanel(true);
 
@@ -47,16 +54,16 @@ public class ConsoleListController : MonoBehaviour
             g.transform.GetChild(1).GetComponent<Image>().sprite = (log.LogType == LogType.Error) ? ErrorIcon :
                 (log.LogType == LogType.Warning) ? WarningIcon : InformationIcon;
             g.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[{log.DateTime.ToString()}]";
-            ColorUtility.TryParseHtmlString("#575D5E", out Color grey);
-            ColorUtility.TryParseHtmlString("#808080", out Color lightGrey);
-            Lastg.transform.GetComponent<Image>().color = grey;
-            g.transform.GetComponent<Image>().color = grey;
+            g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "1";
             Lastg.transform.GetComponent<Outline>().effectColor = Color.black;
             g.transform.GetComponent<Outline>().effectColor = Color.red;
 
             Lastg = g;
         }
     }
+
+    public void SetScrollbar() =>
+        scrollRect.verticalNormalizedPosition = 0.0f;
 
     public void Log(Log log) =>
         LogQueue.Enqueue(log);
