@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ObstaclesAnimManager : MonoBehaviour
+public class LeftAnimManager : MonoBehaviour
 {
     private bool isPanelOpen = false;
     private Animator anim;
@@ -13,6 +13,12 @@ public class ObstaclesAnimManager : MonoBehaviour
     public void TriggerPanel()
     {
         isPanelOpen = !isPanelOpen;
+        anim.SetBool("IsPanelOpen", isPanelOpen);
+    }
+
+    public void SetPanel(bool state)
+    {
+        isPanelOpen = state;
         anim.SetBool("IsPanelOpen", isPanelOpen);
     }
 }

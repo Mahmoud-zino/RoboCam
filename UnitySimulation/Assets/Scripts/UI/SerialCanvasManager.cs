@@ -69,6 +69,7 @@ public class SerialCanvasManager : MonoBehaviour
         {
             if (serialPortsDropDown.value < 0)
             {
+                Logger.Instance.Log("Choose an Port Before connecting!", LogType.Warning);
                 Debug.LogError("Choose an Port Before connecting!");
                 return;
             }
