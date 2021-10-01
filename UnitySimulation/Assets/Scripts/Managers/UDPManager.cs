@@ -44,7 +44,7 @@ public class UDPManager : MonoBehaviour
             catch (Exception e)
             {
                 Debug.Log(e);
-                Logger.Instance.Log(e.ToString(), LogType.Error);
+                Logger.Instance.Log("Udp Client receive error!", LogType.Error);
             }
         }
     }

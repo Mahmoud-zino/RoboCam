@@ -295,7 +295,7 @@ MonoBehaviour:
   WarningIcon: {fileID: 21300000, guid: 6d4d78516b636c2419c3a156ad20d045, type: 3}
   InformationIcon: {fileID: 21300000, guid: 93c3c06ba63c5fb41b81b2e911878212, type: 3}
   ErrorIcon: {fileID: 21300000, guid: cb8c08a1c880d8944a43ce7743808a9e, type: 3}
-  elementTemplate: {fileID: 5098032628344468557, guid: 250b3b74fbbee4f4bac5f7b83cf88142, type: 3}
+  elementTemplate: {fileID: 8221923328454051097, guid: 250b3b74fbbee4f4bac5f7b83cf88142, type: 3}
   ErrorPanel: {fileID: 924844792}
   scrollRect: {fileID: 1675607793}
 --- !u!222 &9703543
