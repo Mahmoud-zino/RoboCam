@@ -48,7 +48,7 @@ public class ConsoleListController : MonoBehaviour
                 Lastg = g;
 
             if (log.LogType != LogType.Information)
-                (ErrorPanel.GetComponent(typeof(LeftAnimManager)) as LeftAnimManager).SetPanel(true);
+                (ErrorPanel.GetComponent(typeof(PanelAnimManager)) as PanelAnimManager).SetPanel(true);
 
             g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = log.Message;
             g.transform.GetChild(1).GetComponent<Image>().sprite = (log.LogType == LogType.Error) ? ErrorIcon :

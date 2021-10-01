@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
     private GameObject manualControls;
     [SerializeField]
     private GameObject apiManager;
-    [SerializeField]
-    private GameObject videoManager;
 
     public void OnMenuSelectionChanged(TMP_Dropdown dropDown)
     {
@@ -28,11 +26,5 @@ public class GameManager : MonoBehaviour
             GameObject.Find("Robot").GetComponent<AutoMovementController>().enabled = true;
             GameObject.Find("Robot").GetComponent<ManualMovementController>().enabled = false;
         }
-    }
-
-    public void TriggerVideoVisibility(TextMeshProUGUI btnText)
-    {
-        this.videoManager.SetActive(!this.videoManager.activeSelf);
-        btnText.text = this.videoManager.activeSelf ? "Hide Video" : "Show Video";
     }
 }

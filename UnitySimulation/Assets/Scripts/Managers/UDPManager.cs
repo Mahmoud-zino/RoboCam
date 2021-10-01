@@ -41,10 +41,9 @@ public class UDPManager : MonoBehaviour
                 IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
                 RecievedData = udpClient.Receive(ref anyIP);
             }
-            catch (Exception e)
+            catch
             {
-                Debug.Log(e);
-                Logger.Instance.Log("Udp Client receive error!", LogType.Error);
+                Logger.Instance.Log("Udp Video receive error!", LogType.Error);
             }
         }
     }
