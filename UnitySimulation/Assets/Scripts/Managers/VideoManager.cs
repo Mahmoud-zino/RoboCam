@@ -10,9 +10,12 @@ public class VideoManager : MonoBehaviour
     private Coroutine streamCoroutine;
     [SerializeField] private Texture2D nosignalImage;
 
+    private Texture2D tex;
+
     private void Start()
     {
         videoImage = this.GetComponent<RawImage>();
+        tex = new Texture2D(640, 480);
     }
 
     public void TriggerVideo()
@@ -33,7 +36,6 @@ public class VideoManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         try
         {
-            Texture2D tex = new Texture2D(640, 480);
             ImageConversion.LoadImage(tex, UDPManager.Instance.RecievedData);
             if (UDPManager.Instance.RecievingError && tex.width <= 8 && tex.height <= 8)
                 throw new System.Exception();
