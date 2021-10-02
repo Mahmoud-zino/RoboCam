@@ -5,14 +5,14 @@ using UnityEngine.UI;
 public class VideoManager : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private GameObject noSignalText;
     [SerializeField] private GameObject udpManagerObj;
-    private Texture videoImage;
+    private RawImage videoImage;
     private Coroutine streamCoroutine;
+    [SerializeField] private Texture2D nosignalImage;
 
     private void Start()
     {
-        videoImage = this.GetComponent<RawImage>().texture;
+        videoImage = this.GetComponent<RawImage>();
     }
 
     public void TriggerVideo()
@@ -33,12 +33,17 @@ public class VideoManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         try
         {
-            noSignalText.SetActive(false);
-            ImageConversion.LoadImage((Texture2D)videoImage, UDPManager.Instance.RecievedData);
+            Texture2D tex = new Texture2D(640, 480);
+            ImageConversion.LoadImage(tex, UDPManager.Instance.RecievedData);
+            if (UDPManager.Instance.RecievingError && tex.width <= 8 && tex.height <= 8)
+                throw new System.Exception();
+            tex.Apply();
+            videoImage.texture = tex;
         }
         catch
         {
-            noSignalText.SetActive(true);
+            videoImage.texture = nosignalImage;
         }
+        yield return StreamRoutine();
     }
 }

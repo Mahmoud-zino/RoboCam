@@ -9,6 +9,7 @@ public class UDPManager : MonoBehaviour
     public static UDPManager Instance;
     [HideInInspector]
     public byte[] RecievedData;
+    [HideInInspector] public bool RecievingError;
 
     [SerializeField]
     private int udpPort = 8000;
@@ -40,10 +41,12 @@ public class UDPManager : MonoBehaviour
             {
                 IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
                 RecievedData = udpClient.Receive(ref anyIP);
+                RecievingError = false;
             }
             catch
             {
-                Logger.Instance.Log("Udp Video receive error!", LogType.Error);
+                //Logger.Instance.Log("Udp Video receive error!", LogType.Error);
+                RecievingError = true;
             }
         }
     }
