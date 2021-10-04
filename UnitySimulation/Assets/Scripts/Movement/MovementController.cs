@@ -79,6 +79,7 @@ public abstract class MovementController : MonoBehaviour
             if (cd.IsColliding)
             {
                 Debug.Log($"Robot Colided with {cd.ColliderObj.name}");
+                Logger.Log.Information($"Robot collided with {cd.ColliderObj.name}");
                 return true;
             }
         }

@@ -59,6 +59,7 @@ public class SerialCanvasManager : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.Log(e);
+            Logger.Log.Warning($"Failed to connect to port: {portName}!");
         }
     }
 
@@ -69,7 +70,7 @@ public class SerialCanvasManager : MonoBehaviour
         {
             if (serialPortsDropDown.value < 0)
             {
-                Logger.Instance.Log("Choose an Port Before connecting!", LogType.Warning);
+                Logger.Log.Warning($"No serial port was selected!");
                 Debug.LogError("Choose an Port Before connecting!");
                 return;
             }
@@ -109,6 +110,7 @@ public class SerialCanvasManager : MonoBehaviour
         else
         {
             Debug.Log("Connection Lost!");
+            Logger.Log.Warning($"Serial connection lost!");
             SerialConnectionManager.Instance.CloseConnection();
             TriggerConnectionTextVisibility(true);
         }

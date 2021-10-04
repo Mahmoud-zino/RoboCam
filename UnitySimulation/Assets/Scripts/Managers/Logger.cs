@@ -11,7 +11,7 @@ public class Logger
     private Toggle fileLogCheckBox;
 
     private static Logger instance;
-    public static Logger Instance
+    public static Logger Log
     {
         get
         {
@@ -22,9 +22,15 @@ public class Logger
     }
     private Logger() { }
 
-    public void Log(string message, LogType logType)
+    public void Information(string message) => ExecuteLog(message, LogType.Information);
+
+    public void Error(string message) => ExecuteLog(message, LogType.Error);
+
+    public void Warning(string message) => ExecuteLog(message, LogType.Warning);
+
+    public void ExecuteLog(string message, LogType logType)
     {
-        lock (Instance)
+        lock (Log)
         {
             LogFile($"{logType.ToString()} : [{DateTime.Now.ToString()}] : \"{message}\"");
             LogConsole(message, logType);
@@ -46,9 +52,9 @@ public class Logger
 
 public enum LogType
 {
-    Warning,    // Effected nicht
-    Information,   // Info
-    Error // Critical
+    Warning,
+    Information,
+    Error
 }
 
 public struct Log
