@@ -29,9 +29,16 @@ public class ConsoleListController : MonoBehaviour
         Instance = this;
     }
 
+    public bool resetScrollbar = false;
     // Not Thread Safe
     private void Update()
     {
+        if (resetScrollbar)
+        {
+            resetScrollbar = false;
+            SetScrollbar();
+        }
+
         for (int i = 0; i < LogQueue.Count; i++)
         {
             Log log = LogQueue.Dequeue();
@@ -59,6 +66,9 @@ public class ConsoleListController : MonoBehaviour
             g.transform.GetComponent<Outline>().effectColor = Color.red;
 
             Lastg = g;
+
+            if (scrollRect.verticalNormalizedPosition <= 0.1f || (scrollRect.content.childCount <= 8 && scrollRect.verticalNormalizedPosition <= 1.0f))
+                resetScrollbar = true;
         }
     }
 

@@ -45,7 +45,7 @@ public class UDPManager : MonoBehaviour
             }
             catch
             {
-                //Logger.Instance.Log("Udp Video receive error!", LogType.Error);
+                Logger.Instance.Log("Can't connect to camera.", LogType.Information);
                 RecievingError = true;
             }
         }
