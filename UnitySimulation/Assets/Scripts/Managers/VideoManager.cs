@@ -6,9 +6,9 @@ public class VideoManager : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject udpManagerObj;
+    [SerializeField] private Texture2D nosignalImage;
     private RawImage videoImage;
     private Coroutine streamCoroutine;
-    [SerializeField] private Texture2D nosignalImage;
 
     private Texture2D tex;
 
@@ -46,6 +46,7 @@ public class VideoManager : MonoBehaviour
         {
             videoImage.texture = nosignalImage;
         }
+
         yield return StreamRoutine();
     }
 }
