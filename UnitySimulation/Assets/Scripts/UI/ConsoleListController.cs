@@ -67,7 +67,7 @@ public class ConsoleListController : MonoBehaviour
 
             Lastg = g;
 
-            if (scrollRect.verticalNormalizedPosition <= 0.1f || (scrollRect.content.childCount <= 8 && scrollRect.verticalNormalizedPosition <= 1.0f))
+            if (scrollRect.verticalNormalizedPosition <= 0.1f || scrollRect.content.childCount <= 9)
                 resetScrollbar = true;
         }
     }

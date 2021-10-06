@@ -7,6 +7,7 @@ public class VideoManager : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject udpManagerObj;
     [SerializeField] private Texture2D nosignalImage;
+    [SerializeField] private Image imagePanel;
     private RawImage videoImage;
     private Coroutine streamCoroutine;
 
@@ -31,6 +32,7 @@ public class VideoManager : MonoBehaviour
             StopCoroutine(streamCoroutine);
         }
     }
+
     private IEnumerator StreamRoutine()
     {
         yield return new WaitForEndOfFrame();
@@ -41,12 +43,13 @@ public class VideoManager : MonoBehaviour
                 throw new System.Exception();
             tex.Apply();
             videoImage.texture = tex;
+            imagePanel.transform.gameObject.SetActive(false);
         }
         catch
         {
-            videoImage.texture = nosignalImage;
+            videoImage.texture = null;
+            imagePanel.transform.gameObject.SetActive(true);
         }
-
-        yield return StreamRoutine();
+        streamCoroutine = StartCoroutine(StreamRoutine());
     }
 }
