@@ -45,7 +45,6 @@ public class UDPManager : MonoBehaviour
             }
             catch
             {
-                Logger.Log.Warning("Can't connect to camera.");
                 RecievingError = true;
             }
         }
