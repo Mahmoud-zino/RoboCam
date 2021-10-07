@@ -7,10 +7,8 @@ public class VideoManager : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject udpManagerObj;
     [SerializeField] private Texture2D nosignalImage;
-    [SerializeField] private Image imagePanel;
     private RawImage videoImage;
     private Coroutine streamCoroutine;
-
     private Texture2D tex;
 
     private void Start()
@@ -43,12 +41,10 @@ public class VideoManager : MonoBehaviour
                 throw new System.Exception();
             tex.Apply();
             videoImage.texture = tex;
-            imagePanel.transform.gameObject.SetActive(false);
         }
         catch
         {
-            videoImage.texture = null;
-            imagePanel.transform.gameObject.SetActive(true);
+            videoImage.texture = nosignalImage;
         }
         streamCoroutine = StartCoroutine(StreamRoutine());
     }

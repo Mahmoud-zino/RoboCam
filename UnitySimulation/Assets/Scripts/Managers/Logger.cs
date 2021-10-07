@@ -5,10 +5,12 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Logger
+public class Logger : IDisposable
 {
     [SerializeField]
     private Toggle fileLogCheckBox;
+    private static string directory = System.IO.Directory.GetCurrentDirectory() + "/log.txt";
+    private TextWriter tw = null;
 
     private static Logger instance;
     public static Logger Log
@@ -39,7 +41,9 @@ public class Logger
 
     public void LogFile(string message)
     {
-        //TODO: File write
+        tw = new StreamWriter(directory, true);
+        tw.WriteLine(message);
+        this.Dispose();
     }
 
     public void LogConsole(string message, LogType logType)
@@ -47,6 +51,12 @@ public class Logger
         if(message.Length >= 50)
             message = message.Substring(0, 50) + "...";
         ConsoleListController.Instance.Log(new Log() { Message = message, DateTime = DateTime.Now, LogType = logType });
+    }
+
+    public void Dispose()
+    {
+        tw.Close();
+        tw.Dispose();
     }
 }
 
