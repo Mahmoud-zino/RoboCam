@@ -37,7 +37,7 @@ public class VideoManager : MonoBehaviour
         try
         {
             ImageConversion.LoadImage(tex, UDPManager.Instance.RecievedData);
-            if (UDPManager.Instance.RecievingError && tex.width <= 8 && tex.height <= 8)
+            if (UDPManager.Instance.RecievingError || tex.width <= 8 || tex.height <= 8)
                 throw new System.Exception();
             tex.Apply();
             videoImage.texture = tex;

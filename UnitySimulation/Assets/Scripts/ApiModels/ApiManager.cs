@@ -71,10 +71,7 @@ public class ApiManager : MonoBehaviour
         }
         else
         {
-            Debug.Log($"{req.result}: {req.error}\nurl was: {url}/{section}");
-            Logger.Log.Error($"{req.result}: {req.error} - URL: {url}/{section}");
-            yield return new WaitForSecondsRealtime(1);
-            StartCoroutine(RequestObjectRoutine(section, callback));
+            // TODO: log only one time in file
         }
     }
 }

@@ -56,9 +56,8 @@ public class SerialCanvasManager : MonoBehaviour
         {
             SerialConnectionManager.Instance.Connect(portName, baudRate, parity, dataBits, stopBits);
         }
-        catch (System.Exception e)
+        catch
         {
-            Debug.Log(e);
             Logger.Log.Warning($"Failed to connect to port: {portName}!");
         }
     }
@@ -71,7 +70,6 @@ public class SerialCanvasManager : MonoBehaviour
             if (serialPortsDropDown.value < 0)
             {
                 Logger.Log.Warning($"No serial port was selected!");
-                Debug.LogError("Choose an Port Before connecting!");
                 return;
             }
 

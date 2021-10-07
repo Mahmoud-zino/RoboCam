@@ -44,7 +44,7 @@ public sealed class SerialConnectionManager : IDisposable
         catch (Exception)
         {
             Debug.LogError("Failed Create and start Thread pool");
-            Logger.Log.Error("Failed Create and start Thread pool");
+            //Logger.Log.Error("Failed Create and start Thread pool");
         }
     }
 
