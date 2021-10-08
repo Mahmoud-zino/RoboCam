@@ -8,73 +8,64 @@ using UnityEngine.UI;
 
 public class ConsoleListController : MonoBehaviour
 {
-    [SerializeField] private Sprite WarningIcon;
-    [SerializeField] private Sprite InformationIcon;
-    [SerializeField] private Sprite ErrorIcon;
+    [SerializeField] private Sprite warningIcon;
+    [SerializeField] private Sprite informationIcon;
+    [SerializeField] private Sprite errorIcon;
 
-    public static ConsoleListController Instance;
+    public static ConsoleListController Log;
 
     [SerializeField]
     private GameObject elementTemplate;
-    private GameObject g;
-    private GameObject Lastg;
+    private GameObject element;
 
-    [SerializeField] private GameObject ErrorPanel;
+    [SerializeField] private GameObject errorPanel;
     [SerializeField] private ScrollRect scrollRect;
 
-    private Queue<Log> LogQueue { get; set; } = new Queue<Log>();
 
     private void Awake()
     {
-        Instance = this;
+        Log = this;
     }
 
     public bool resetScrollbar = false;
-    // Not Thread Safe
-    private void Update()
+    private void OnGUI()
     {
         if (resetScrollbar)
         {
             resetScrollbar = false;
             SetScrollbar();
         }
-
-        for (int i = 0; i < LogQueue.Count; i++)
-        {
-            Log log = LogQueue.Dequeue();
-
-            if (Lastg != null && log.Message == Lastg.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text)
-            {
-                g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = (int.Parse(g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text) + 1).ToString();
-                g.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[{log.DateTime.ToString()}]";
-                return;
-            }
-
-            g = Instantiate(elementTemplate, Instance.transform);
-            if (Lastg == null)
-                Lastg = g;
-
-            if (log.LogType != LogType.Information)
-                (ErrorPanel.GetComponent(typeof(PanelAnimManager)) as PanelAnimManager).SetPanel(true);
-
-            g.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = log.Message;
-            g.transform.GetChild(1).GetComponent<Image>().sprite = (log.LogType == LogType.Error) ? ErrorIcon :
-                (log.LogType == LogType.Warning) ? WarningIcon : InformationIcon;
-            g.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[{log.DateTime.ToString()}]";
-            g.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "1";
-            Lastg.transform.GetComponent<Outline>().effectColor = Color.black;
-            g.transform.GetComponent<Outline>().effectColor = Color.red;
-
-            Lastg = g;
-
-            if (scrollRect.verticalNormalizedPosition <= 0.1f || scrollRect.content.childCount <= 9)
-                resetScrollbar = true;
-        }
     }
 
-    public void SetScrollbar() =>
+    public void SetScrollbar()
+    {
         scrollRect.verticalNormalizedPosition = 0.0f;
+    }
+        
+    public void Add(Log log)
+    {
+        if (log.LogType != LogType.Information)
+            (errorPanel.GetComponent(typeof(PanelAnimManager)) as PanelAnimManager).SetPanel(true);
+        if(element != null)
+            element.transform.GetComponent<Outline>().effectColor = Color.black;
+        element = Instantiate(elementTemplate, Log.transform);
 
-    public void Log(Log log) =>
-        LogQueue.Enqueue(log);
+        element.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = log.Message;
+        element.transform.GetChild(1).GetComponent<Image>().sprite = 
+            (log.LogType == LogType.Error) ? errorIcon :
+            (log.LogType == LogType.Warning) ? warningIcon : 
+            informationIcon;
+        element.transform.GetComponent<Outline>().effectColor = Color.red;
+        element.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "1";
+        element.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[{DateTime.Now}]";
+        if (scrollRect.verticalNormalizedPosition <= 0.01f || scrollRect.content.childCount <= 9)
+            resetScrollbar = true;
+    }
+
+    public void Add()
+    {
+        element.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = 
+            (int.Parse(element.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text) + 1).ToString();
+        element.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = $"[{DateTime.Now}]";
+    }
 }

@@ -7,10 +7,9 @@ using UnityEngine.UI;
 
 public class Logger : IDisposable
 {
-    [SerializeField]
-    private Toggle fileLogCheckBox;
-    private static string directory = System.IO.Directory.GetCurrentDirectory() + "/log.txt";
+    private static string directory = $"{System.IO.Directory.GetCurrentDirectory()}/log.txt";
     private TextWriter tw = null;
+    private Log lastLog;
 
     private static Logger instance;
     public static Logger Log
@@ -32,9 +31,11 @@ public class Logger : IDisposable
 
     public void ExecuteLog(string message, LogType logType)
     {
+        lastLog = new Log() { Message = message, LogType = logType };
+
         lock (Log)
         {
-            LogFile($"{logType.ToString()} : [{DateTime.Now.ToString()}] : \"{message}\"");
+            LogFile($"{logType} : [{DateTime.Now}] : \"{message}\"");
             LogConsole(message, logType);
         }
     }
@@ -49,8 +50,8 @@ public class Logger : IDisposable
     public void LogConsole(string message, LogType logType)
     {
         if(message.Length >= 50)
-            message = message.Substring(0, 50) + "...";
-        ConsoleListController.Instance.Log(new Log() { Message = message, DateTime = DateTime.Now, LogType = logType });
+            message = $"{message.Substring(0, 50)}...";
+        ConsoleListController.Log.Add(new Log() { Message = message, LogType = logType });
     }
 
     public void Dispose()
@@ -66,10 +67,8 @@ public enum LogType
     Information,
     Error
 }
-
 public struct Log
 {
     public string Message;
-    public DateTime DateTime;
     public LogType LogType;
 }
