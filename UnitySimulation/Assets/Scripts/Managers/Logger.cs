@@ -5,70 +5,100 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Logger : IDisposable
+public enum LogType
 {
-    private static string directory = $"{System.IO.Directory.GetCurrentDirectory()}/log.txt";
-    private TextWriter tw = null;
+    Information,
+    Warning,
+    Error
+}
+
+public class Log
+{
+    public Log(string message, LogType logType)
+    {
+        this.Message = message;
+        this.LogType = logType;
+    }
+
+    public string Message { get; private set; }
+    public LogType LogType { get; private set; }
+
+    public override bool Equals(object obj)
+    {
+        Log compareLog = (obj as Log);
+        return compareLog.Message == this.Message && compareLog.LogType == this.LogType;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+}
+
+public class Logger
+{
+    private static readonly string directory = $"{Directory.GetCurrentDirectory()}/log.txt";
     private Log lastLog;
 
+    #region SingletonSetup
     private static Logger instance;
     public static Logger Log
     {
         get
         {
             if (instance == null)
+            {
                 instance = new Logger();
+                File.Delete(directory);
+            }
             return instance;
         }
     }
     private Logger() { }
+    #endregion
 
-    public void Information(string message) => ExecuteLog(message, LogType.Information);
+    public void Information(string message)
+    {
+        ExecuteLog(message, LogType.Information);
+    }
 
-    public void Error(string message) => ExecuteLog(message, LogType.Error);
+    public void Error(string message)
+    {
+        ExecuteLog(message, LogType.Error);
+    }
 
-    public void Warning(string message) => ExecuteLog(message, LogType.Warning);
+    public void Warning(string message)
+    {
+        ExecuteLog(message, LogType.Warning);
+    }
 
     public void ExecuteLog(string message, LogType logType)
     {
-        lastLog = new Log() { Message = message, LogType = logType };
-
-        lock (Log)
+        if (lastLog != null && lastLog.Equals(new Log(message, logType)))
+            ConsoleListController.Instance.Add();
+        else
         {
-            LogFile($"{logType} : [{DateTime.Now}] : \"{message}\"");
+            LogFile(message, logType);
             LogConsole(message, logType);
         }
+
+        lastLog = new Log(message, logType);
     }
 
-    public void LogFile(string message)
+    public void LogFile(string message, LogType logType)
     {
-        tw = new StreamWriter(directory, true);
-        tw.WriteLine(message);
-        this.Dispose();
+        message = $"{logType} : [{DateTime.Now}] : \"{message}\"";
+        using (TextWriter textWriter = new StreamWriter(directory, true))
+        {
+            textWriter.WriteLine(message);
+            textWriter.Close();
+        }
     }
 
     public void LogConsole(string message, LogType logType)
     {
         if(message.Length >= 50)
             message = $"{message.Substring(0, 50)}...";
-        ConsoleListController.Log.Add(new Log() { Message = message, LogType = logType });
+        ConsoleListController.Instance.Add(new Log(message, logType));
     }
-
-    public void Dispose()
-    {
-        tw.Close();
-        tw.Dispose();
-    }
-}
-
-public enum LogType
-{
-    Warning,
-    Information,
-    Error
-}
-public struct Log
-{
-    public string Message;
-    public LogType LogType;
 }
