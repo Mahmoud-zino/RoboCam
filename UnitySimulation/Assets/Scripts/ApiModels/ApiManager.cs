@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -11,6 +12,8 @@ public class ApiManager : MonoBehaviour
     private string url;
     [SerializeField]
     private GameObject headGo;
+    [SerializeField]
+    private GameObject manualControls;
 
     public FaceCount FaceCount { get; set; } = new FaceCount();
     public Face Face { get; set; } = new Face();
@@ -28,7 +31,24 @@ public class ApiManager : MonoBehaviour
     //instead of start
     private void OnEnable()
     {
+        StartCoroutine(HandleGetApiData());
+    }
+
+    private IEnumerator HandleGetApiData()
+    {
         StartCoroutine(GetApiData());
+
+        yield return new WaitForSeconds(10);
+        if (this.RaspCamera.Equals(new Camera()))
+        {
+            GameObject.Find("Robot").GetComponent<AutoMovementController>().enabled = false;
+            GameObject.Find("Robot").GetComponent<ManualMovementController>().enabled = true;
+            GameObject.Find("GameModeDropDown").GetComponent<TMP_Dropdown>().value = 0;
+
+            Logger.Log.Error("Can't connect to auto control api!");
+            manualControls.SetActive(true);
+            this.gameObject.SetActive(false);
+        }
     }
 
     //instead of OnDestroy
@@ -68,10 +88,6 @@ public class ApiManager : MonoBehaviour
         if(req.result == UnityWebRequest.Result.Success)
         {
             callback(req.downloadHandler.text);
-        }
-        else
-        {
-            // TODO: log only one time in file
         }
     }
 }

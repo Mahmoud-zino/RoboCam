@@ -5727,7 +5727,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1804815571}
   m_HandleRect: {fileID: 1804815570}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12356,6 +12356,10 @@ PrefabInstance:
       propertyPath: headGo
       value: 
       objectReference: {fileID: 96515789}
+    - target: {fileID: 4237225841415501487, guid: baeda88aa6e7f0040a6d98839da98b47, type: 3}
+      propertyPath: manualControls
+      value: 
+      objectReference: {fileID: 1676578342}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: baeda88aa6e7f0040a6d98839da98b47, type: 3}
 --- !u!1 &1675607789
