@@ -71,7 +71,7 @@ public class ApiManager : MonoBehaviour
         }
         else
         {
-            // TODO: log only one time in file
+            Debug.Log($"{req.result}: {req.error}\nurl was: {url}/{section}");
         }
     }
 }

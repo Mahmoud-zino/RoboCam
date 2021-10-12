@@ -1,7 +1,9 @@
+using TMPro;
 using UnityEngine;
 
 public class ScreenShotManager : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI screenshotTimerText;
     private int SCREEN_MID_SPAN = 100;
     private int FACE_OFFSET = 15;
 
@@ -32,10 +34,15 @@ public class ScreenShotManager : MonoBehaviour
     private void Update()
     {
         if (!IsFaceInScreenMiddle())
+        {
             screenshotTimer = 3.0f;
+            this.screenshotTimerText.text = "3";
+            this.screenshotTimerText.gameObject.SetActive(false);
+        }
         else
         {
             screenshotTimer -= Time.deltaTime;
+            this.screenshotTimerText.text = ((int)screenshotTimer).ToString();
             if (screenshotTimer < 0)
             {
                 //Take screen shot
