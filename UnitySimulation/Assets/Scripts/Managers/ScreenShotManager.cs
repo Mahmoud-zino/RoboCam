@@ -12,7 +12,7 @@ public class ScreenShotManager : MonoBehaviour
 
     public bool IsFaceInScreenMiddle()
     {
-        if (ApiManager.Instance.FaceCount?.faceCount != 1)
+        if (ApiManager.Instance?.FaceCount?.faceCount != 1)
             return false;
 
 
