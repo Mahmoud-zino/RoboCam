@@ -4,6 +4,7 @@ using UnityEngine;
 public class ScreenShotManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI screenshotTimerText;
+    [SerializeField] private Animator screenShotAnim;
     private int SCREEN_MID_SPAN = 100;
     private int FACE_OFFSET = 15;
 
@@ -36,17 +37,19 @@ public class ScreenShotManager : MonoBehaviour
         if (!IsFaceInScreenMiddle())
         {
             screenshotTimer = 3.0f;
-            this.screenshotTimerText.text = "3";
             this.screenshotTimerText.gameObject.SetActive(false);
         }
         else
         {
             screenshotTimer -= Time.deltaTime;
-            this.screenshotTimerText.text = ((int)screenshotTimer).ToString();
             if (screenshotTimer < 0)
             {
                 //Take screen shot
+                screenshotTimer = 3.0f;
+                this.screenshotTimerText.gameObject.SetActive(false);
+                screenShotAnim.SetTrigger("ScreenShot");
             }
         }
+        this.screenshotTimerText.text = ((int)screenshotTimer).ToString();
     }
 }
