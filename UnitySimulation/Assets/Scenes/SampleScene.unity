@@ -5862,7 +5862,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1804815571}
   m_HandleRect: {fileID: 1804815570}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7304,6 +7304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenshotTimerText: {fileID: 707691823}
+  screenShotAnim: {fileID: 0}
 --- !u!1 &997183214
 GameObject:
   m_ObjectHideFlags: 0
@@ -14958,8 +14959,9 @@ GameObject:
   - component: {fileID: 1972318941}
   - component: {fileID: 1972318943}
   - component: {fileID: 1972318942}
+  - component: {fileID: 1972318944}
   m_Layer: 5
-  m_Name: ScreenShotAnimator
+  m_Name: ScreenShotAnim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15022,6 +15024,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1972318940}
   m_CullTransparentMesh: 1
+--- !u!95 &1972318944
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972318940}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91aec21d949bd064d9560650436fb82f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1972430074
 GameObject:
   m_ObjectHideFlags: 0
