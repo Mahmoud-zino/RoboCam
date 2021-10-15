@@ -17,8 +17,8 @@ public class ScreenShotManager : MonoBehaviour
     {
         if (autoMovement.isActiveAndEnabled)
         {
-            btnScreenShot.SetActive(false);
             AutoScreenShotCapture();
+            btnScreenShot.SetActive(false);
         }
         else
             btnScreenShot.SetActive(true);
@@ -62,6 +62,9 @@ public class ScreenShotManager : MonoBehaviour
 
     public void OnScreenShotClick()
     {
+        if (UDPManager.Instance.RecievingError)
+            return;
+
         screenShotAnim.SetTrigger("ScreenShot");
         TakeScreenShot();
     }
