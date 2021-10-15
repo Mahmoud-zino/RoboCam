@@ -9,20 +9,9 @@ public class ScreenShotManager : MonoBehaviour
     [SerializeField] private Animator screenShotAnim;
     [SerializeField] private AutoMovementController autoMovement;
     [SerializeField] private GameObject btnScreenShot;
+    [SerializeField] private VideoManager videoManager;
 
     private float screenshotTimer = 4.0f;
-    private const string SS_FOLDER_NAME = "Pictures";
-    private string screenShotFolderPath;
-
-    private void Start()
-    {
-        screenShotFolderPath = Directory.GetCurrentDirectory();
-
-        screenShotFolderPath = Path.Combine(screenShotFolderPath, SS_FOLDER_NAME);
-
-        if(!Directory.Exists(screenShotFolderPath))
-            Directory.CreateDirectory(screenShotFolderPath);
-    }
 
     private void Update()
     {
@@ -38,7 +27,7 @@ public class ScreenShotManager : MonoBehaviour
     private void TakeScreenShot()
     {
         string imageName = $"Picture_{DateTime.Now.ToString("ssmmHHddMMyyyy")}.jpg";
-        File.WriteAllBytes(Path.Combine(screenShotFolderPath, imageName), UDPManager.Instance.RecievedData);
+        File.WriteAllBytes(Path.Combine(videoManager.ScreenShotFolderPath, imageName), UDPManager.Instance.RecievedData);
     }
 
     private void AutoScreenShotCapture()

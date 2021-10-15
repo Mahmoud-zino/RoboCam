@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Diagnostics;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +13,22 @@ public class VideoManager : MonoBehaviour
     private Coroutine streamCoroutine;
     private Texture2D tex;
 
+
+    private const string SS_FOLDER_NAME = "Pictures";
+    public string ScreenShotFolderPath { get; set; }
+
     private void Start()
     {
         videoImage = this.GetComponent<RawImage>();
         tex = new Texture2D(640, 480);
+
+
+        ScreenShotFolderPath = Directory.GetCurrentDirectory();
+
+        ScreenShotFolderPath = Path.Combine(ScreenShotFolderPath, SS_FOLDER_NAME);
+
+        if (!Directory.Exists(ScreenShotFolderPath))
+            Directory.CreateDirectory(ScreenShotFolderPath);
     }
 
     public void TriggerVideo()
@@ -47,5 +61,10 @@ public class VideoManager : MonoBehaviour
             videoImage.texture = nosignalImage;
         }
         streamCoroutine = StartCoroutine(StreamRoutine());
+    }
+
+    public void OnExplorerClick()
+    {
+        Process.Start("explorer.exe", this.ScreenShotFolderPath);
     }
 }
