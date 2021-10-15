@@ -8,6 +8,7 @@ public class ScreenShotManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI screenshotTimerText;
     [SerializeField] private Animator screenShotAnim;
     [SerializeField] private AutoMovementController autoMovement;
+    [SerializeField] private GameObject btnScreenShot;
 
     private float screenshotTimer = 4.0f;
     private const string SS_FOLDER_NAME = "Pictures";
@@ -24,6 +25,23 @@ public class ScreenShotManager : MonoBehaviour
     }
 
     private void Update()
+    {
+        if (autoMovement.isActiveAndEnabled)
+        {
+            btnScreenShot.SetActive(false);
+            AutoScreenShotCapture();
+        }
+        else
+            btnScreenShot.SetActive(true);
+    }
+
+    private void TakeScreenShot()
+    {
+        string imageName = $"Picture_{DateTime.Now.ToString("ssmmHHddMMyyyy")}.jpg";
+        File.WriteAllBytes(Path.Combine(screenShotFolderPath, imageName), UDPManager.Instance.RecievedData);
+    }
+
+    private void AutoScreenShotCapture()
     {
         if (ApiManager.Instance?.FaceCount == null || ApiManager.Instance.FaceCount.faceCount != 1)
         {
@@ -53,9 +71,9 @@ public class ScreenShotManager : MonoBehaviour
         this.screenshotTimerText.text = ((int)screenshotTimer).ToString();
     }
 
-    private void TakeScreenShot()
+    public void OnScreenShotClick()
     {
-        string imageName = $"Picture_{DateTime.Now.ToString("ssmmHHddMMyyyy")}.jpg";
-        File.WriteAllBytes(Path.Combine(screenShotFolderPath, imageName), UDPManager.Instance.RecievedData);
+        screenShotAnim.SetTrigger("ScreenShot");
+        TakeScreenShot();
     }
 }
