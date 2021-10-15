@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AutoMovementController : MovementController
 {
-    [SerializeField]
-    private int SCREEN_MID_SPAN = 100;
+    public bool IsRobotAtPosition { get; private set; }
 
-    [SerializeField]
-    private int FACE_OFFSET = 15;
+    [SerializeField] private int SCREEN_MID_SPAN = 100;
+
+    [SerializeField] private int FACE_OFFSET = 15;
 
     private int[] lastVals = new int[] { 90, 80,  100, 150};
 
@@ -46,7 +46,11 @@ public class AutoMovementController : MovementController
 
     public int[] CalculateTargetPos()
     {
-        int[] targetPosition = base.GetCurrentPositions();
+        int[] currentPosition = base.GetCurrentPositions();
+        int[] targetPosition = new int[4];
+        currentPosition.CopyTo(targetPosition, 0);
+
+        bool isRobotAtPosition = true;
 
         Camera raspCam = ApiManager.Instance.RaspCamera;
 
@@ -71,6 +75,16 @@ public class AutoMovementController : MovementController
         //shoulder, elbow and wrist / Zoom
         targetPosition = GetZoomPosition(targetPosition, (int)destination.z);
 
+        for (int i = 0; i < 4; i++)
+        {
+            if (currentPosition[i] != targetPosition[i])
+            {
+                isRobotAtPosition = false;
+                break;
+            }
+        }
+
+        this.IsRobotAtPosition = isRobotAtPosition;
         return targetPosition;
     }
 

@@ -7,12 +7,10 @@ using UnityEngine;
 public class UDPManager : MonoBehaviour
 {
     public static UDPManager Instance;
-    [HideInInspector]
-    public byte[] RecievedData;
+    [HideInInspector] public byte[] RecievedData;
     [HideInInspector] public bool RecievingError;
 
-    [SerializeField]
-    private int udpPort = 8000;
+    [SerializeField] private int udpPort = 8000;
     private Thread readThread;
     private UdpClient udpClient;
 
