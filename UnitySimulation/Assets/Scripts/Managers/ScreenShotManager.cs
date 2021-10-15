@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using TMPro;
 using UnityEngine;
 
@@ -5,51 +7,55 @@ public class ScreenShotManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI screenshotTimerText;
     [SerializeField] private Animator screenShotAnim;
-    private int SCREEN_MID_SPAN = 100;
-    private int FACE_OFFSET = 15;
+    [SerializeField] private AutoMovementController autoMovement;
 
-    private float screenshotTimer = 3.0f;
+    private float screenshotTimer = 4.0f;
+    private const string SS_FOLDER_NAME = "Pictures";
+    private string screenShotFolderPath;
 
-    public bool IsFaceInScreenMiddle()
+    private void Start()
     {
-        if (ApiManager.Instance?.FaceCount?.faceCount != 1)
-            return false;
+        screenShotFolderPath = Directory.GetCurrentDirectory();
 
+        screenShotFolderPath = Path.Combine(screenShotFolderPath, SS_FOLDER_NAME);
 
-        Vector2 screenMiddle = new Vector2(ApiManager.Instance.RaspCamera.width / 2, ApiManager.Instance.RaspCamera.height / 2);
-
-        Vector2 faceMiddle = new Vector2(ApiManager.Instance.Face.xPoint + (ApiManager.Instance.Face.width / 2),
-            ApiManager.Instance.Face.yPoint + (ApiManager.Instance.Face.height / 2));
-
-        Vector3 destination = new Vector3(faceMiddle.x - screenMiddle.x, faceMiddle.y - screenMiddle.y, SCREEN_MID_SPAN - ApiManager.Instance.Face.width);
-
-        // face in bound of box in all 3 directions
-        if ((destination.x > -FACE_OFFSET && destination.x < FACE_OFFSET)
-            && (destination.y > -FACE_OFFSET && destination.y < FACE_OFFSET)
-            && (destination.z > -FACE_OFFSET && destination.z < FACE_OFFSET))
-            return true;
-        return false;
+        if(!Directory.Exists(screenShotFolderPath))
+            Directory.CreateDirectory(screenShotFolderPath);
     }
-
 
     private void Update()
     {
-        if (!IsFaceInScreenMiddle())
+        if (ApiManager.Instance?.FaceCount == null || ApiManager.Instance.FaceCount.faceCount != 1)
         {
-            screenshotTimer = 3.0f;
             this.screenshotTimerText.gameObject.SetActive(false);
+            return;
+        }
+
+        if (autoMovement.IsRobotAtPosition)
+        {
+            screenshotTimer -= Time.deltaTime;
+            if (screenshotTimer < 1)
+            {
+                screenshotTimer = 4.0f;
+                this.screenshotTimerText.gameObject.SetActive(false);
+                screenShotAnim.SetTrigger("ScreenShot");
+                this.TakeScreenShot();
+                return;
+            }
+            else
+                this.screenshotTimerText.gameObject.SetActive(true);
         }
         else
         {
-            screenshotTimer -= Time.deltaTime;
-            if (screenshotTimer < 0)
-            {
-                //Take screen shot
-                screenshotTimer = 3.0f;
-                this.screenshotTimerText.gameObject.SetActive(false);
-                screenShotAnim.SetTrigger("ScreenShot");
-            }
+            screenshotTimer = 4.0f;
+            this.screenshotTimerText.gameObject.SetActive(false);
         }
         this.screenshotTimerText.text = ((int)screenshotTimer).ToString();
+    }
+
+    private void TakeScreenShot()
+    {
+        string imageName = $"Picture_{DateTime.Now.ToString("ssmmHHddMMyyyy")}.jpg";
+        File.WriteAllBytes(Path.Combine(screenShotFolderPath, imageName), UDPManager.Instance.RecievedData);
     }
 }

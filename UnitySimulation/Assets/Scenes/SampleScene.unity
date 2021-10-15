@@ -7304,7 +7304,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenshotTimerText: {fileID: 707691823}
-  screenShotAnim: {fileID: 0}
+  screenShotAnim: {fileID: 1972318944}
+  autoMovement: {fileID: 1703734145}
 --- !u!1 &997183214
 GameObject:
   m_ObjectHideFlags: 0
@@ -12528,7 +12529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4237225841415501487, guid: baeda88aa6e7f0040a6d98839da98b47, type: 3}
       propertyPath: url
-      value: http://192.168.2.11:5000/api
+      value: http://192.168.2.10:5000/api
       objectReference: {fileID: 0}
     - target: {fileID: 4237225841415501487, guid: baeda88aa6e7f0040a6d98839da98b47, type: 3}
       propertyPath: headGO
@@ -12819,6 +12820,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682945908}
   m_CullTransparentMesh: 1
+--- !u!114 &1703734145 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1133340985, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+  m_PrefabInstance: {fileID: 1548642379}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13f66a3610903694186d36ed81890097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1710330722
 GameObject:
   m_ObjectHideFlags: 0
@@ -14961,7 +14973,7 @@ GameObject:
   - component: {fileID: 1972318942}
   - component: {fileID: 1972318944}
   m_Layer: 5
-  m_Name: ScreenShotAnim
+  m_Name: ScreenShotAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
