@@ -18,7 +18,6 @@ public class PanelAnimManager : MonoBehaviour
 
     public void SetPanel(bool state)
     {
-        Debug.Log(anim.name);
         isPanelOpen = state;
         anim.SetBool("IsPanelOpen", isPanelOpen);
     }
