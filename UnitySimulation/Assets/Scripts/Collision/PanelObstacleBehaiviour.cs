@@ -55,13 +55,23 @@ public class PanelObstacleBehaiviour : MonoBehaviour
 
     public void OnCubeValueChanged()
     {
+        locationX.text = locationX.text.Replace(".", ",");
+        locationY.text = locationY.text.Replace(".", ",");
+        locationZ.text = locationZ.text.Replace(".", ",");
+        RotationX.text = RotationX.text.Replace(".", ",");
+        RotationY.text = RotationY.text.Replace(".", ",");
+        RotationZ.text = RotationZ.text.Replace(".", ",");
+        ScaleX.text = ScaleX.text.Replace(".", ",");
+        ScaleY.text = ScaleY.text.Replace(".", ",");
+        ScaleZ.text = ScaleZ.text.Replace(".", ",");
+
         try
         {
             Cube cube = new Cube
             {
-                Position = new Vector3(float.Parse(locationX.text, CultureInfo.InvariantCulture) * 10, float.Parse(locationY.text, CultureInfo.InvariantCulture) * 10, float.Parse(locationZ.text, CultureInfo.InvariantCulture) * 10),
-                Rotation = new Vector3(float.Parse(RotationX.text, CultureInfo.InvariantCulture) * 10, float.Parse(RotationY.text, CultureInfo.InvariantCulture) * 10, float.Parse(RotationZ.text, CultureInfo.InvariantCulture) * 10),
-                Scale = new Vector3(float.Parse(ScaleX.text, CultureInfo.InvariantCulture) * 10, float.Parse(ScaleY.text, CultureInfo.InvariantCulture) * 10, float.Parse(ScaleZ.text, CultureInfo.InvariantCulture) * 10)
+                Position = new Vector3(float.Parse(locationX.text) * 10, float.Parse(locationY.text) * 10, float.Parse(locationZ.text) * 10),
+                Rotation = new Vector3(float.Parse(RotationX.text) * 10, float.Parse(RotationY.text) * 10, float.Parse(RotationZ.text) * 10),
+                Scale = new Vector3(float.Parse(ScaleX.text) * 10, float.Parse(ScaleY.text) * 10, float.Parse(ScaleZ.text) * 10)
             };
 
             ChangePhyiscalObstacleData(cube);
@@ -76,7 +86,26 @@ public class PanelObstacleBehaiviour : MonoBehaviour
     private void ChangePhyiscalObstacleData(Cube cube)
     {
         physicalObstacle.transform.position = cube.Position;
-        physicalObstacle.transform.eulerAngles = cube.Rotation;
+        physicalObstacle.transform.eulerAngles = WrapRotationAngles(cube.Rotation);
         physicalObstacle.transform.localScale = cube.Scale;
+    }
+
+    private Vector3 WrapRotationAngles(Vector3 angles)
+    {
+        Vector3 result = new Vector3();
+
+        result.x = WrapAngle(angles.x);
+        result.y = WrapAngle(angles.y);
+        result.z = WrapAngle(angles.z);
+
+        return result;
+    }
+
+    private float WrapAngle(float angle)
+    {
+        angle %= 360;
+        if (angle > 180)
+            return angle - 360;
+        return angle;
     }
 }
