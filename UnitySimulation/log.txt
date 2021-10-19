@@ -1,1 +1,1 @@
-Warning : [08.10.2021 12:32:46] : "No serial port was selected!"
+Information : [19.10.2021 16:02:58] : "Robot collided with Obstacle(Clone)"

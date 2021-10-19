@@ -132,7 +132,6 @@ public sealed class SerialConnectionManager : IDisposable
         }
         catch (Exception e)
         {
-            Debug.LogError(e);
             Logger.Log.Warning("Failed to open serial connection!");
         }
 
