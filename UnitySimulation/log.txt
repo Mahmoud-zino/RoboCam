@@ -1,1 +1,2 @@
-Information : [19.10.2021 16:02:58] : "Robot collided with Obstacle(Clone)"
+Warning : [19.10.2021 18:08:36] : "Writing Serial Message Failed!"
+Warning : [19.10.2021 18:08:45] : "Serial connection lost!"

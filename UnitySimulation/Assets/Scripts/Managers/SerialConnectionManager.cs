@@ -86,16 +86,23 @@ public sealed class SerialConnectionManager : IDisposable
 
     private void WriteSerialMessage(string message)
     {
-        if (!this.serialPort.IsOpen)
+        try
         {
-            Debug.LogError("Trying to send serial message with a closed serial Connection");
-            Logger.Log.Warning("Serial connection closed!");
+            if (!this.serialPort.IsOpen)
+            {
+                Logger.Log.Warning("Serial connection closed!");
+                return;
+            }
+
+            this.serialPort.WriteLine(message);
+
+            this.serialPort.BaseStream.Flush();
+        }
+        catch (TimeoutException)
+        {
+            Logger.Log.Warning("Writing Serial Message Failed!");
             return;
         }
-
-        this.serialPort.WriteLine(message);
-
-        this.serialPort.BaseStream.Flush();
     }
 
     private string ReadSerialMessage()

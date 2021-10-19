@@ -107,7 +107,6 @@ public class SerialCanvasManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Connection Lost!");
             Logger.Log.Warning($"Serial connection lost!");
             SerialConnectionManager.Instance.CloseConnection();
             TriggerConnectionTextVisibility(true);
