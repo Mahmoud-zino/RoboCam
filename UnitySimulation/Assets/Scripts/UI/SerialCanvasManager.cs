@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.IO.Ports;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,7 +28,7 @@ public class SerialCanvasManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateComList();
+        StartCoroutine(UpdateComList());
     }
 
     private void Update()
@@ -35,17 +37,40 @@ public class SerialCanvasManager : MonoBehaviour
     }
 
     //Refreshes the list of available serial Ports
-    public void UpdateComList()
+    private IEnumerator UpdateComList()
     {
-        serialPortsDropDown.options.Clear();
-        foreach (string port in SerialConnectionManager.Instance.GetAvailablePorts())
+        yield return new WaitForSecondsRealtime(1);
+
+        List<string> comPorts = SerialConnectionManager.Instance.GetAvailablePorts();
+
+        //Remove Unlisted Ports
+        foreach (TMP_Dropdown.OptionData option in serialPortsDropDown.options.ToList())
         {
-            serialPortsDropDown.options.Add(new TMP_Dropdown.OptionData(port));
+            if (!comPorts.Contains(option.text))
+                serialPortsDropDown.options.Remove(option);
         }
+
+
+        List<string> options = serialPortsDropDown.options.Select(x => x.text).ToList();
+
+        //Add new Listed Porst
+        foreach (string port in comPorts)
+        {
+            if(!options.Contains(port))
+                serialPortsDropDown.options.Add(new TMP_Dropdown.OptionData(port));
+        }
+
+        StartCoroutine(UpdateComList());
     }
 
     private void ConnectSerially()
     {
+        if (serialPortsDropDown.options.Count <= serialPortsDropDown.value)
+        {
+            Logger.Log.Error("Selected Port is not active any more!");
+            return;
+        }
+
         string portName = serialPortsDropDown.options[serialPortsDropDown.value].text;
         int baudRate = int.Parse(baudRateDropDown.options[baudRateDropDown.value].text);
         Parity parity = (Parity)parityDropDown.value;
