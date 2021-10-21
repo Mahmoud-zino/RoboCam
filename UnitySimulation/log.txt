@@ -1,6 +1,2 @@
-Warning : [21.10.2021 13:59:19] : "Serial connection lost!"
-Warning : [21.10.2021 13:59:22] : "Failed to open serial connection!"
-Error : [21.10.2021 13:59:36] : "Selected Port is not active any more!"
-Warning : [21.10.2021 13:59:38] : "Serial connection lost!"
-Error : [21.10.2021 13:59:44] : "Selected Port is not active any more!"
-Warning : [21.10.2021 13:59:46] : "Serial connection lost!"
+Error : [21.10.2021 14:08:10] : "Selected Port is not active any more!"
+Warning : [21.10.2021 14:08:12] : "Serial connection lost!"
