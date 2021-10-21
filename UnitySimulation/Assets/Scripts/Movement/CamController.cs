@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CamController : MonoBehaviour
 {
     [SerializeField] private float roataionSpeed = 5;
+    [SerializeField] private GameObject cam;
 
     public void OnDrag()
     {
@@ -17,5 +19,10 @@ public class CamController : MonoBehaviour
             else
                 this.transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
         }
+    }
+
+    public void OnZoomValueChange(Slider slider)
+    {
+        cam.transform.localPosition = new Vector3(cam.transform.localPosition.x, cam.transform.localPosition.y, slider.value);
     }
 }
