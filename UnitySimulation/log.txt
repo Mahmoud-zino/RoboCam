@@ -1,2 +1,1 @@
-Warning : [19.10.2021 18:08:36] : "Writing Serial Message Failed!"
-Warning : [19.10.2021 18:08:45] : "Serial connection lost!"
+Warning : [21.10.2021 10:51:36] : "No serial port was selected!"
