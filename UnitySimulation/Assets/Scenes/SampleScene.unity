@@ -6715,7 +6715,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RecievedData: 
   RecievingError: 0
-  udpPort: 8000
 --- !u!1 &837632975
 GameObject:
   m_ObjectHideFlags: 0
@@ -13325,6 +13324,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7023693001042416284, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8968510834320149971, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
       propertyPath: m_Name
       value: Robot
@@ -13333,7 +13336,8 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 96515791, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b0e127c7fd3219446aaf84e51fdba38f, type: 3}
 --- !u!1 &1560685214
 GameObject:
