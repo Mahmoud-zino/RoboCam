@@ -10,7 +10,7 @@ public class ConsoleListController : MonoBehaviour
     [SerializeField] private Sprite informationIcon;
     [SerializeField] private Sprite errorIcon;
 
-    [SerializeField] private PanelAnimManager panelAnimManager;
+    [SerializeField] private SidePanelController panelAnimManager;
     [SerializeField] private ScrollRect scrollRect;
 
     [SerializeField] private GameObject elementTemplate;
