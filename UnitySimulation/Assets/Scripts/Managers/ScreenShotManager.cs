@@ -28,8 +28,12 @@ public class ScreenShotManager : MonoBehaviour
     {
         string imageName = $"Picture_{DateTime.Now.ToString("ssmmHHddMMyyyy")}.jpg";
         byte[] imageArray = UDPManager.Instance.RecievedData;
+
         if (imageArray.Length == 0 || imageArray[0] != 0xFF || imageArray[1] != 0xD8)
             return;
+
+        screenShotAnim.SetTrigger("ScreenShot");
+
         File.WriteAllBytes(Path.Combine(videoManager.ScreenShotFolderPath, imageName), imageArray);
     }
 
@@ -48,7 +52,6 @@ public class ScreenShotManager : MonoBehaviour
             {
                 screenshotTimer = 4.0f;
                 this.screenshotTimerText.gameObject.SetActive(false);
-                screenShotAnim.SetTrigger("ScreenShot");
                 this.TakeScreenShot();
                 return;
             }
@@ -65,7 +68,6 @@ public class ScreenShotManager : MonoBehaviour
 
     public void OnScreenShotClick()
     {
-        screenShotAnim.SetTrigger("ScreenShot");
         TakeScreenShot();
     }
 }

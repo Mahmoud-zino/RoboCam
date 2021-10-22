@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
 using System.Threading;
-using UnityEngine;
 
 //Serial Connection is multi threaded to avoid freezing the gui
 public sealed class SerialConnectionManager : IDisposable
@@ -65,12 +64,6 @@ public sealed class SerialConnectionManager : IDisposable
             return null;
 
         return inputQueue.Dequeue() as string;
-    }
-
-    public void FlushData()
-    {
-        inputQueue.Clear();
-        outputQueue.Clear();
     }
 
     #region MultiThread Setup & actions

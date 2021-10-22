@@ -16,8 +16,7 @@ public class ApiManager : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private string url;
-    [SerializeField] private GameObject headGo;
+    private string url = "http://192.168.2.10:5000/api";
 
     public FaceCount FaceCount { get; set; } = new FaceCount();
     public Face Face { get; set; } = new Face();
