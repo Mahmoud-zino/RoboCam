@@ -5,24 +5,23 @@ using UnityEngine.Networking;
 
 public class ApiManager : MonoBehaviour
 {
+    #region Singleton Setup
     public static ApiManager Instance;
-
-    [SerializeField]
-    private string url;
-    [SerializeField]
-    private GameObject headGo;
-
-    public FaceCount FaceCount { get; set; } = new FaceCount();
-    public Face Face { get; set; } = new Face();
-    public Camera RaspCamera { get; set; } = new Camera();
 
     private void Awake()
     {
-        //Unity singleton
         Instance = this;
 
         //TODO: Activate Asp.netcore web api
     }
+    #endregion
+
+    [SerializeField] private string url;
+    [SerializeField] private GameObject headGo;
+
+    public FaceCount FaceCount { get; set; } = new FaceCount();
+    public Face Face { get; set; } = new Face();
+    public Camera RaspCamera { get; set; } = new Camera();
 
 
     //instead of start
@@ -39,22 +38,23 @@ public class ApiManager : MonoBehaviour
 
     private IEnumerator GetApiData()
     {
-        StartCoroutine(RequestObjectRoutine("Camera", (value) =>
+        StartCoroutine(RequestObjectRoutine(nameof(Camera), (value) =>
         {
             this.RaspCamera = JsonUtility.FromJson<Camera>(value);
         }));
 
-        StartCoroutine(RequestObjectRoutine("FaceCount", (value) =>
+        StartCoroutine(RequestObjectRoutine(nameof(FaceCount), (value) =>
         {
             this.FaceCount = JsonUtility.FromJson<FaceCount>(value);
             if(this.FaceCount?.faceCount == 1)
             {
-                StartCoroutine(RequestObjectRoutine("Face", (value) =>
+                StartCoroutine(RequestObjectRoutine(nameof(Face), (value) =>
                 {
                     this.Face = JsonUtility.FromJson<Face>(value);
                 }));
             }
         }));
+
         yield return new WaitForSecondsRealtime(0.05f);
         yield return GetApiData();
     }
@@ -66,12 +66,8 @@ public class ApiManager : MonoBehaviour
         yield return req.SendWebRequest();
 
         if(req.result == UnityWebRequest.Result.Success)
-        {
             callback(req.downloadHandler.text);
-        }
         else
-        {
             Debug.Log($"{req.result}: {req.error}\nurl was: {url}/{section}");
-        }
     }
 }
