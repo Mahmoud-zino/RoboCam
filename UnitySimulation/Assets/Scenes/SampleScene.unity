@@ -19113,7 +19113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manualControls: {fileID: 1676578342}
   apiManager: {fileID: 860129581}
-  aboutScreen: {fileID: 0}
+  aboutScreen: {fileID: 92611796}
 --- !u!4 &2113887165
 Transform:
   m_ObjectHideFlags: 0
