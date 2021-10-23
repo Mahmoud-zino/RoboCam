@@ -1,1 +1,2 @@
-Error : [15.10.2021 12:46:41] : "Can't connect to auto control api!"
+Error : [23.10.2021 15:22:33] : "Can't connect to auto control api!"
+Warning : [23.10.2021 15:23:18] : "No serial port was selected!"

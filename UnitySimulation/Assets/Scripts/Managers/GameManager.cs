@@ -1,3 +1,5 @@
+using System.Diagnostics;
+using System.IO;
 using TMPro;
 using UnityEngine;
 
@@ -44,5 +46,11 @@ public class GameManager : MonoBehaviour
     public void OnBtnAboutOkClick()
     {
         this.aboutScreen.SetActive(false);
+    }
+
+    public void OnBtnRestartAPIClick()
+    {
+        string apiExeDirectory = $"{Directory.GetCurrentDirectory()}";
+        //Process.Start("C:\\");
     }
 }
