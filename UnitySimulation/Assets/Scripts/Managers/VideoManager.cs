@@ -33,7 +33,7 @@ public class VideoManager : MonoBehaviour
 
     public void TriggerVideo()
     {
-        if (animator.GetBool("IsPanelOpen"))
+        if (animator.GetBool("Open"))
         {
             udpManagerObj.SetActive(true);
             streamCoroutine = StartCoroutine(StreamRoutine());

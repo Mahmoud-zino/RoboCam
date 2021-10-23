@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject manualControls;
-    [SerializeField]
-    private GameObject apiManager;
+    [SerializeField] private GameObject manualControls;
+    [SerializeField] private GameObject apiManager;
+    [SerializeField] private GameObject aboutScreen;
 
     public void OnMenuSelectionChanged(TMP_Dropdown dropDown)
     {
@@ -26,5 +25,24 @@ public class GameManager : MonoBehaviour
             GameObject.Find("Robot").GetComponent<AutoMovementController>().enabled = true;
             GameObject.Find("Robot").GetComponent<ManualMovementController>().enabled = false;
         }
+    }
+
+
+    public void OnBtnExitClick()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
+
+    public void OnBtnAboutClick()
+    {
+        this.aboutScreen.SetActive(true);
+    }
+
+    public void OnBtnAboutOkClick()
+    {
+        this.aboutScreen.SetActive(false);
     }
 }

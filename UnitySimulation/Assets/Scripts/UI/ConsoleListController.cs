@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ public class ConsoleListController : MonoBehaviour
     [SerializeField] private Sprite informationIcon;
     [SerializeField] private Sprite errorIcon;
 
-    [SerializeField] private PanelAnimManager panelAnimManager;
+    [SerializeField] private SidePanelController panelAnimManager;
     [SerializeField] private ScrollRect scrollRect;
 
     [SerializeField] private GameObject elementTemplate;
@@ -17,6 +18,7 @@ public class ConsoleListController : MonoBehaviour
 
 
     public static ConsoleListController Instance;
+    public readonly ConcurrentQueue<Action> RunOnMainThread = new ConcurrentQueue<Action>();
 
 
     private void Awake()
@@ -33,7 +35,18 @@ public class ConsoleListController : MonoBehaviour
             scrollRect.verticalNormalizedPosition = 0.0f;
         }
     }
-        
+
+    void Update()
+    {
+        if (!RunOnMainThread.IsEmpty)
+        {
+            while (RunOnMainThread.TryDequeue(out var action))
+            {
+                action?.Invoke();
+            }
+        }
+    }
+
     public void Add(Log log)
     {
         //Opens panel on warning/error messages

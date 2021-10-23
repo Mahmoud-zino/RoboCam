@@ -27,7 +27,10 @@ public class ScreenShotManager : MonoBehaviour
     private void TakeScreenShot()
     {
         string imageName = $"Picture_{DateTime.Now.ToString("ssmmHHddMMyyyy")}.jpg";
-        File.WriteAllBytes(Path.Combine(videoManager.ScreenShotFolderPath, imageName), UDPManager.Instance.RecievedData);
+        byte[] imageArray = UDPManager.Instance.RecievedData;
+        if (imageArray.Length == 0 || imageArray[0] != 0xFF || imageArray[1] != 0xD8)
+            return;
+        File.WriteAllBytes(Path.Combine(videoManager.ScreenShotFolderPath, imageName), imageArray);
     }
 
     private void AutoScreenShotCapture()

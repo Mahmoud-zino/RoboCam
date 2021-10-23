@@ -43,8 +43,7 @@ public sealed class SerialConnectionManager : IDisposable
         }
         catch (Exception)
         {
-            Debug.LogError("Failed Create and start Thread pool");
-            //Logger.Log.Error("Failed Create and start Thread pool");
+            Logger.Log.Error("Failed Create and start Thread pool");
         }
     }
 
@@ -86,23 +85,29 @@ public sealed class SerialConnectionManager : IDisposable
 
     private void WriteSerialMessage(string message)
     {
-        if (!this.serialPort.IsOpen)
+        try
         {
-            Debug.LogError("Trying to send serial message with a closed serial Connection");
-            Logger.Log.Warning("Serial connection closed!");
+            if (!this.serialPort.IsOpen)
+            {
+                Logger.Log.Warning("Serial connection closed!");
+                return;
+            }
+
+            this.serialPort.WriteLine(message);
+
+            this.serialPort.BaseStream.Flush();
+        }
+        catch (TimeoutException)
+        {
+            Logger.Log.Warning("Writing Serial Message Failed!");
             return;
         }
-
-        this.serialPort.WriteLine(message);
-
-        this.serialPort.BaseStream.Flush();
     }
 
     private string ReadSerialMessage()
     {
         if (!this.serialPort.IsOpen)
         {
-            Debug.LogError("Trying to read serial message with a closed serial Connection");
             Logger.Log.Warning("Serial connection closed!");
             return null;
         }
@@ -130,9 +135,8 @@ public sealed class SerialConnectionManager : IDisposable
         {
             this.serialPort.Open();
         }
-        catch (Exception e)
+        catch
         {
-            Debug.LogError(e);
             Logger.Log.Warning("Failed to open serial connection!");
         }
 

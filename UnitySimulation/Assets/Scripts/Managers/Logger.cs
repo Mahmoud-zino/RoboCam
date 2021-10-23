@@ -75,7 +75,12 @@ public class Logger
     public void ExecuteLog(string message, LogType logType)
     {
         if (lastLog != null && lastLog.Equals(new Log(message, logType)))
-            ConsoleListController.Instance.Add();
+        {
+            ConsoleListController.Instance.RunOnMainThread.Enqueue(() =>
+            {
+                ConsoleListController.Instance.Add();
+            });
+        }
         else
         {
             LogFile(message, logType);
@@ -99,6 +104,10 @@ public class Logger
     {
         if(message.Length >= 50)
             message = $"{message.Substring(0, 50)}...";
-        ConsoleListController.Instance.Add(new Log(message, logType));
+
+        ConsoleListController.Instance.RunOnMainThread.Enqueue(() =>
+        {
+            ConsoleListController.Instance.Add(new Log(message, logType));
+        });
     }
 }
