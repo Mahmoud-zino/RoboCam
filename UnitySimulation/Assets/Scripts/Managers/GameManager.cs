@@ -8,7 +8,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject manualControls;
     [SerializeField] private GameObject apiManager;
     [SerializeField] private GameObject aboutScreen;
+    [SerializeField] private string apiExeDirectory;
 
+    Process apiProcess = null;
+
+    private void Start() =>
+        OnBtnRestartAPIClick();
+    
+    private void OnDisable()
+    {
+        try { this.apiProcess.Kill(); }
+        catch { }
+    }
+    
     public void OnMenuSelectionChanged(TMP_Dropdown dropDown)
     {
         //Manuall
@@ -50,7 +62,23 @@ public class GameManager : MonoBehaviour
 
     public void OnBtnRestartAPIClick()
     {
-        string apiExeDirectory = $"{Directory.GetCurrentDirectory()}";
-        //Process.Start("C:\\");
+        if(!File.Exists(apiExeDirectory))
+        {
+            apiExeDirectory = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).ToString(), "RoboCamApi\\RoboCamApi.exe");
+            if (!File.Exists(apiExeDirectory))
+            {
+                Logger.Log.Error("Api executable path not defined!");
+                return;
+            }
+        }
+            
+        if (this.apiProcess is null)
+            this.apiProcess = Process.Start(apiExeDirectory);
+        else
+        {
+            try { this.apiProcess.Kill(); }
+            catch { }
+            this.apiProcess = Process.Start(apiExeDirectory);
+        }
     }
 }

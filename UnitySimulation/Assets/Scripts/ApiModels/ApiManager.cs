@@ -18,6 +18,7 @@ public class ApiManager : MonoBehaviour
     public FaceCount FaceCount { get; set; } = new FaceCount();
     public Face Face { get; set; } = new Face();
     public Camera RaspCamera { get; set; } = new Camera();
+    public Camera connectionStateCamera { get; set; } = new Camera();
 
     private void Awake()
     {
@@ -39,7 +40,7 @@ public class ApiManager : MonoBehaviour
         StartCoroutine(GetApiData());
 
         yield return new WaitForSeconds(10);
-        if (this.RaspCamera.Equals(new Camera()))
+        if (this.connectionStateCamera.Equals(new Camera()))
         {
             GameObject.Find("Robot").GetComponent<AutoMovementController>().enabled = false;
             GameObject.Find("Robot").GetComponent<ManualMovementController>().enabled = true;
@@ -47,8 +48,11 @@ public class ApiManager : MonoBehaviour
 
             Logger.Log.Error("Can't connect to auto control api!");
             manualControls.SetActive(true);
+            StopAllCoroutines();
             this.gameObject.SetActive(false);
         }
+        this.connectionStateCamera = new Camera();
+        yield return HandleGetApiData();
     }
 
     //instead of OnDestroy
@@ -62,6 +66,7 @@ public class ApiManager : MonoBehaviour
         StartCoroutine(RequestObjectRoutine("Camera", (value) =>
         {
             this.RaspCamera = JsonUtility.FromJson<Camera>(value);
+            this.connectionStateCamera = this.RaspCamera;
         }));
 
         StartCoroutine(RequestObjectRoutine("FaceCount", (value) =>
