@@ -19130,7 +19130,8 @@ MonoBehaviour:
   manualControls: {fileID: 1676578342}
   apiManager: {fileID: 860129581}
   aboutScreen: {fileID: 92611796}
-  apiExeDirectory: 
+  apiExeDirectory: C:\Users\Simon\Documents\GitHub\RoboCamApi\RoboCamApi\bin\Release\net5.0\publish\RoboCamApi
+    - Kopie.exe
 --- !u!4 &2113887165
 Transform:
   m_ObjectHideFlags: 0
