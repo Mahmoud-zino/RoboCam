@@ -14,8 +14,8 @@ public class ConsoleListController : MonoBehaviour
     [SerializeField] private ScrollRect scrollRect;
 
     [SerializeField] private GameObject elementTemplate;
-    private GameObject lastElement;
 
+    private GameObject lastElement;
 
     public static ConsoleListController Instance;
     public readonly ConcurrentQueue<Action> RunOnMainThread = new ConcurrentQueue<Action>();
@@ -47,7 +47,7 @@ public class ConsoleListController : MonoBehaviour
         }
     }
 
-    public void Add(Log log)
+    public void AddLog(Log log)
     {
         //Opens panel on warning/error messages
         if (log.LogType != LogType.Information)
@@ -73,7 +73,7 @@ public class ConsoleListController : MonoBehaviour
             resetScrollbar = true;
     }
 
-    public void Add()
+    public void InvreaseLogCounter()
     {
         TextMeshProUGUI occurrenceCounter = lastElement.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         occurrenceCounter.text = $"{int.Parse(occurrenceCounter.text) + 1}";

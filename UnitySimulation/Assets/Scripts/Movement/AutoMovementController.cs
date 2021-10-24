@@ -10,7 +10,7 @@ public class AutoMovementController : MovementController
 
     [SerializeField] private int FACE_OFFSET = 15;
 
-    private int[] lastVals = new int[] { 90, 80,  100, 150};
+    private readonly int[] lastVals = new int[] { 90, 80,  100, 150};
 
 
     private void OnEnable()

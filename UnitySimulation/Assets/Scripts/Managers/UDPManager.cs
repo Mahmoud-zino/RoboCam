@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -10,7 +9,7 @@ public class UDPManager : MonoBehaviour
     [HideInInspector] public byte[] RecievedData;
     [HideInInspector] public bool RecievingError;
 
-    [SerializeField] private int udpPort = 8000;
+    private int udpPort = 8000;
     private Thread readThread;
     private UdpClient udpClient;
 

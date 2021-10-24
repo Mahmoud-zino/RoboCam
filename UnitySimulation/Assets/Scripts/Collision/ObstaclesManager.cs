@@ -1,13 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ObstaclesManager : MonoBehaviour
 {
     [SerializeField] private GameObject obstaclePanelPrefab;
     [SerializeField] private GameObject obstaclePrefab;
     [SerializeField] private GameObject obstaclesPanel;
+
     private ObstaclesSerializer obstaclesSerializer;
 
     private void Start()
@@ -41,9 +40,7 @@ public class ObstaclesManager : MonoBehaviour
         obstaclePanel.SendMessage("SetManager", this);
 
         if (cube != null)
-        {
             obstaclePanel.SendMessage("SetStartupData", cube);
-        }
     }
 
     public void LoadObstacles()

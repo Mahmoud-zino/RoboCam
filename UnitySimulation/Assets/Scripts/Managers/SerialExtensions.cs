@@ -7,8 +7,7 @@ public static class SerialExtensions
     {
         if (message.Length < 17)
         {
-            Debug.LogError("message contained less information than needed!");
-            Logger.Log.Warning("Serial read message too short!");
+            Logger.Log.Error("Recieved serial message is too short!");
             return null;
         }
         message = message.Remove(0, 1);
@@ -21,8 +20,7 @@ public static class SerialExtensions
 
             if(!int.TryParse(val, out res[i]))
             {
-                Debug.LogError($"Failed to convert the value: {val}");
-                Logger.Log.Warning("Serial read message couldn't be interpret!");
+                Logger.Log.Error("Failed to convert the value: {val}");
                 return null;
             }
         }
@@ -35,8 +33,7 @@ public static class SerialExtensions
 
         if (values.Length != 4)
         {
-            Debug.LogError("More or less values were sent to build the movement command");
-            Logger.Log.Warning("Serial sent values not 4!");
+            Logger.Log.Error("More or less values were sent to build the movement command!");
             return null;
         }
         string message = "[";

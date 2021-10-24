@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
-using UnityEngine.UI;
 
 public enum LogType
 {
@@ -78,7 +74,7 @@ public class Logger
         {
             ConsoleListController.Instance.RunOnMainThread.Enqueue(() =>
             {
-                ConsoleListController.Instance.Add();
+                ConsoleListController.Instance.InvreaseLogCounter();
             });
         }
         else
@@ -107,7 +103,7 @@ public class Logger
 
         ConsoleListController.Instance.RunOnMainThread.Enqueue(() =>
         {
-            ConsoleListController.Instance.Add(new Log(message, logType));
+            ConsoleListController.Instance.AddLog(new Log(message, logType));
         });
     }
 }
