@@ -29,13 +29,6 @@ public class ApiManager : MonoBehaviour
     }
     #endregion
 
-    private string url = "http://192.168.2.10:5000/api";
-
-    public FaceCount FaceCount { get; set; } = new FaceCount();
-    public Face Face { get; set; } = new Face();
-    public Camera RaspCamera { get; set; } = new Camera();
-
-
     //instead of start
     private void OnEnable()
     {
@@ -100,6 +93,5 @@ public class ApiManager : MonoBehaviour
 
         if(req.result == UnityWebRequest.Result.Success)
             callback(req.downloadHandler.text);
-        }
     }
 }
