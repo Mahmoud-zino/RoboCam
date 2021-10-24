@@ -1,17 +1,3 @@
-/* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
- * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
- * -----------------------------------------
- *     Version: 1.0 Release
- *      Author: G.Raf
- * Description:
- *   Function file for uart library
- * -----------------------------------------
- */
-
-
 #include "uart.h"
 
 // Initialize FILE stream

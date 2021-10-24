@@ -1,5 +1,6 @@
 #include "servo.h"
 
+// Timer used to control PWM signal 4 motors
 void timer0_init()
 {
 	//Mode: CTC
@@ -23,8 +24,17 @@ void servo_init()
 	sei();
 }
 
-static volatile unsigned int pwm_cycle = 0;
+int convert_degrees_to_motorsteps(unsigned char degree)
+{
+	return (degree * 10UL) / 9UL;
+}
 
+int convert_motorsteps_to_degrees(int motorsteps)
+{
+	return (motorsteps * 9UL) / 10UL;
+}
+
+static volatile unsigned int pwm_cycle = 0;
 static volatile unsigned char motor_vals[] = { ((SERVO_BASE_START * 10UL) / 9UL), ((SERVO_SHOULDER_START * 10UL) / 9UL), ((SERVO_ELBOW_START * 10UL) / 9UL), ((SERVO_WRIST_START * 10UL) / 9UL)};
 
 ISR(TIMER0_COMPA_vect)
@@ -66,32 +76,16 @@ ISR(TIMER0_COMPA_vect)
 	
 }
 
-unsigned int servo_get_base(void)
+unsigned int servo_get(unsigned char id)
 {
-	return (motor_vals[0] * 9) / 10;
-}
-
-unsigned int servo_get_shoulder(void)
-{
-	return (motor_vals[1] * 9) / 10;
-}
-
-unsigned int servo_get_elbow(void)
-{
-	return (motor_vals[2] * 9) / 10;
-}
-
-
-unsigned int servo_get_wrist(void)
-{
-	return (motor_vals[3] * 9) / 10;
+	return convert_motorsteps_to_degrees(motor_vals[id]);
 }
 
 unsigned char servo_allMotorsAtTarget(unsigned char targetDagrees[])
 {
 	for (unsigned char i = 0; i < 4; i++)
 	{
-		if(motor_vals[i] != ((targetDagrees[i] * 10UL) / 9UL))
+		if(motor_vals[i] != convert_degrees_to_motorsteps(targetDagrees[i]))
 			return 0;
 	}
 	
@@ -102,7 +96,7 @@ void servo_moveOneStepToTarget(unsigned char targetDagrees[])
 {
 	for (unsigned char i = 0; i < 4; i++)
 	{
-		unsigned char val = ((targetDagrees[i] * 10UL) / 9UL);
+		unsigned char val = convert_degrees_to_motorsteps(targetDagrees[i]);
 		if(val < motor_vals[i])
 			motor_vals[i]--;
 		else if(val > motor_vals[i])

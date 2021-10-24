@@ -1,16 +1,3 @@
-/* -----------------------------------------
- * Liebherr Lehrlingsausbildung
- * www.liebherr.com
- * -----------------------------------------
- *    Hardware: Megacard (ATmega16)
- * -----------------------------------------
- *     Version: 1.0 Release
- *      Author: G.Raf
- * Description:
- *   Header file for uart library
- * -----------------------------------------
- */
-
 #ifndef UART_H_
 #define UART_H_
 
@@ -41,30 +28,6 @@
 #ifndef UART_RXC_ECHO       // Setup if echo occurs on data receiving
     #define UART_RXC_ECHO
 #endif
-
-// Definition of UART processing (Enabled = Interrupt/Disabled = Polling)
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!! Interrupts are not included in this library !!!
-// !!! If interrupts are used, disable the polling !!!
-// !!! by uncommenting the next lines              !!!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-//#ifndef UARTRXCIE // Receiver Interrupt based processing
-//  #define UARTRXCIE
-//#endif
-
-//#ifndef UARTTXCIE // Transmitter Interrupt based processing
-//  #define UARTTXCIE
-//#endif
-
-//#ifndef UARTUDRIE // Transmitter Interrupt based processing
-//  #ifndef UARTTXCIE
-//      #define UARTUDRIE
-//  #else
-//      #undef UARTUDRIE
-//  #endif
-//#endif
 
 #include <stdio.h>
 #include <avr/io.h>

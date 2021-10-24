@@ -65,7 +65,7 @@ int main(void)
 				//Get Position (Print position)
 				else if(tbuffer[0] == 'G')
 				{
-					printf("[%3u;%3u;%3u;%3u;]\n\r", servo_get_base(), servo_get_shoulder(), servo_get_elbow(), servo_get_wrist());
+					printf("[%3u;%3u;%3u;%3u;]\n\r", servo_get(0), servo_get(1), servo_get(2), servo_get(3));
 					
 					continueFlag = 1;
 					break;
