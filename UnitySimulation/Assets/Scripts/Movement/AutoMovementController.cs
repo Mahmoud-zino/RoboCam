@@ -6,9 +6,8 @@ public class AutoMovementController : MovementController
 {
     public bool IsRobotAtPosition { get; private set; }
 
-    [SerializeField] private int SCREEN_MID_SPAN = 100;
-
-    [SerializeField] private int FACE_OFFSET = 15;
+    private const int SCREEN_MID_SPAN = 100;
+    private const int FACE_OFFSET = 25;
 
     private readonly int[] lastVals = new int[] { 90, 80,  100, 150};
 

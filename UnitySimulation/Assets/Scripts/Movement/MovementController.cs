@@ -62,7 +62,6 @@ public abstract class MovementController : MonoBehaviour
             (180 - Mathf.RoundToInt(WrapAngle(motors[3].transform.localEulerAngles.x)) + VALUE_SHIFT)};
     }
 
-    //Returns same angle value like the one in inspector
     private float WrapAngle(float angle)
     {
         angle %= 360;
