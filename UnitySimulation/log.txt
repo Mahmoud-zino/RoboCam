@@ -1,2 +1,2 @@
-Error : [25.10.2021 14:11:35] : "Api executable path not defined!"
-Error : [25.10.2021 14:11:48] : "Can't connect to auto control api!"
+Error : [25.10.2021 14:12:49] : "Api executable path not defined!"
+Error : [25.10.2021 14:13:02] : "Can't connect to auto control api!"
