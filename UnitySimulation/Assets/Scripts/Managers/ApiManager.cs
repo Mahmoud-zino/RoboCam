@@ -9,57 +9,58 @@ public class ApiManager : MonoBehaviour
     #region Singleton Setup
     public static ApiManager Instance;
 
-    [SerializeField]
-    private string url;
-    [SerializeField]
-    private GameObject headGo;
-    [SerializeField]
-    private GameObject manualControls;
+    private void Awake()
+    {
+        Instance = this;
+    }
+    #endregion
+
+    [SerializeField] private GameObject manualControls;
 
     public FaceCount FaceCount { get; set; } = new FaceCount();
     public Face Face { get; set; } = new Face();
     public Camera RaspCamera { get; set; } = new Camera();
-    private bool connectionState = false;
 
-    private void Awake()
-    {
-        Instance = this;
+    private string url = "http://192.168.2.10:5000/api";
+    private bool connectedToAPI;
 
-        //TODO: Activate Asp.netcore web api
-    }
-    #endregion
-
+    private Coroutine getApiDataCoroutine;
+    private Coroutine handleGetApiDataCoroutine;
 
     //instead of start
     private void OnEnable()
     {
-        StartCoroutine(HandleGetApiData());
+        getApiDataCoroutine = StartCoroutine(GetApiData());
+        handleGetApiDataCoroutine = StartCoroutine(HandleGetApiData());
     }
 
     private IEnumerator HandleGetApiData()
     {
-        StartCoroutine(GetApiData());
-
         yield return new WaitForSeconds(10);
-        if (!connectionState)
+        if (this.connectedToAPI)
         {
-            GameObject.Find("Robot").GetComponent<AutoMovementController>().enabled = false;
-            GameObject.Find("Robot").GetComponent<ManualMovementController>().enabled = true;
+            this.connectedToAPI = false;
+            handleGetApiDataCoroutine = StartCoroutine(HandleGetApiData());
+        }
+        else
+        {
+            GameObject robotGO = GameObject.Find("Robot");
+            robotGO.GetComponent<AutoMovementController>().enabled = false;
+            robotGO.GetComponent<ManualMovementController>().enabled = true;
+
             GameObject.Find("GameModeDropDown").GetComponent<TMP_Dropdown>().value = 0;
 
             Logger.Log.Error("Can't connect to auto control api!");
+
             manualControls.SetActive(true);
-            StopAllCoroutines();
             this.gameObject.SetActive(false);
         }
-        this.connectionState = false;
-        yield return HandleGetApiData();
     }
 
-    //instead of OnDestroy
     private void OnDisable()
     {
-        StopAllCoroutines();
+        StopCoroutine(this.getApiDataCoroutine);
+        StopCoroutine(this.handleGetApiDataCoroutine);
     }
 
     private IEnumerator GetApiData()
@@ -67,7 +68,7 @@ public class ApiManager : MonoBehaviour
         StartCoroutine(RequestObjectRoutine(nameof(Camera), (value) =>
         {
             this.RaspCamera = JsonUtility.FromJson<Camera>(value);
-            this.connectionState = true;
+            this.connectedToAPI = true;
         }));
 
         StartCoroutine(RequestObjectRoutine(nameof(FaceCount), (value) =>

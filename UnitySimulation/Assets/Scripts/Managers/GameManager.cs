@@ -12,8 +12,10 @@ public class GameManager : MonoBehaviour
 
     Process apiProcess = null;
 
-    private void Start() =>
+    private void Start()
+    {
         OnBtnRestartAPIClick();
+    }
     
     private void OnDisable()
     {
