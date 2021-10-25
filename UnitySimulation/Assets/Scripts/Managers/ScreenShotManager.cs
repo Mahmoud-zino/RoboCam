@@ -16,12 +16,7 @@ public class ScreenShotManager : MonoBehaviour
     private void Update()
     {
         if (autoMovement.isActiveAndEnabled)
-        {
             AutoScreenShotCapture();
-            btnScreenShot.SetActive(false);
-        }
-        else
-            btnScreenShot.SetActive(true);
     }
 
     private void TakeScreenShot()
