@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public static class SerialExtensions
 {
     //"[000;000;000;000] => int[]{0,0,0,0}

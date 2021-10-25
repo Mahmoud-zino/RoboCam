@@ -92,7 +92,7 @@ public sealed class SerialConnectionManager : IDisposable
         }
         catch (TimeoutException)
         {
-            Logger.Log.Warning("Writing Serial Message Failed!");
+            Logger.Log.Error("Writing Serial Message Failed!");
             return;
         }
     }
@@ -130,7 +130,7 @@ public sealed class SerialConnectionManager : IDisposable
         }
         catch
         {
-            Logger.Log.Warning("Failed to open serial connection!");
+            Logger.Log.Error("Failed to open serial connection!");
         }
 
         while (IsLooping())
