@@ -8,23 +8,16 @@ using UnityEngine.UI;
 
 public class SerialCanvasManager : MonoBehaviour
 {
-    [SerializeField]
-    private TMP_Dropdown serialPortsDropDown;
-    [SerializeField]
-    private TMP_Text connectionButtonText;
-    [SerializeField]
-    private TMP_Text disconnectionButtonText;
-    [SerializeField]
-    private Button sendButton;
+    [SerializeField] private TMP_Dropdown serialPortsDropDown;
+    [SerializeField] private TMP_Text connectionButtonText;
+    [SerializeField] private TMP_Text disconnectionButtonText;
+    [SerializeField] private Button sendButton;
+
     [Header("Serial Settings")]
-    [SerializeField]
-    private TMP_Dropdown baudRateDropDown;
-    [SerializeField]
-    private TMP_Dropdown parityDropDown;
-    [SerializeField]
-    private TMP_Dropdown dataBitsDropDown;
-    [SerializeField]
-    private TMP_Dropdown StopBitsDropDown;
+    [SerializeField] private TMP_Dropdown baudRateDropDown;
+    [SerializeField] private TMP_Dropdown parityDropDown;
+    [SerializeField] private TMP_Dropdown dataBitsDropDown;
+    [SerializeField] private TMP_Dropdown StopBitsDropDown;
 
     private void Start()
     {
@@ -60,7 +53,7 @@ public class SerialCanvasManager : MonoBehaviour
                 serialPortsDropDown.options.Add(new TMP_Dropdown.OptionData(port));
         }
 
-        StartCoroutine(UpdateComList());
+        yield return UpdateComList();
     }
 
     private void ConnectSerially()
@@ -103,9 +96,6 @@ public class SerialCanvasManager : MonoBehaviour
             TriggerConnectionTextVisibility(false);
 
             StartCoroutine(CheckConnectionRoutine());
-
-            //Send movement command
-            //GameObject.Find("Robot").GetComponent<ManualMovementController>().OnSendPositionClick(sendButton);
         }
         //Disconnecting
         else
@@ -132,7 +122,7 @@ public class SerialCanvasManager : MonoBehaviour
         }
         else
         {
-            Logger.Log.Warning($"Serial connection lost!");
+            Logger.Log.Error($"Serial connection lost!");
             SerialConnectionManager.Instance.CloseConnection();
             TriggerConnectionTextVisibility(true);
         }
