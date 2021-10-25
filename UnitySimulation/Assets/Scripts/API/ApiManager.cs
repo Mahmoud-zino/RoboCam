@@ -19,7 +19,7 @@ public class ApiManager : MonoBehaviour
     public FaceCount FaceCount { get; set; } = new FaceCount();
     public Face Face { get; set; } = new Face();
     public Camera RaspCamera { get; set; } = new Camera();
-    public Camera connectionStateCamera { get; set; } = new Camera();
+    private bool connectionState = false;
 
     private void Awake()
     {
@@ -28,12 +28,6 @@ public class ApiManager : MonoBehaviour
         //TODO: Activate Asp.netcore web api
     }
     #endregion
-
-    private string url = "http://192.168.2.10:5000/api";
-
-    public FaceCount FaceCount { get; set; } = new FaceCount();
-    public Face Face { get; set; } = new Face();
-    public Camera RaspCamera { get; set; } = new Camera();
 
 
     //instead of start
@@ -47,7 +41,7 @@ public class ApiManager : MonoBehaviour
         StartCoroutine(GetApiData());
 
         yield return new WaitForSeconds(10);
-        if (this.connectionStateCamera.Equals(new Camera()))
+        if (!connectionState)
         {
             GameObject.Find("Robot").GetComponent<AutoMovementController>().enabled = false;
             GameObject.Find("Robot").GetComponent<ManualMovementController>().enabled = true;
@@ -58,7 +52,7 @@ public class ApiManager : MonoBehaviour
             StopAllCoroutines();
             this.gameObject.SetActive(false);
         }
-        this.connectionStateCamera = new Camera();
+        this.connectionState = false;
         yield return HandleGetApiData();
     }
 
@@ -73,7 +67,7 @@ public class ApiManager : MonoBehaviour
         StartCoroutine(RequestObjectRoutine(nameof(Camera), (value) =>
         {
             this.RaspCamera = JsonUtility.FromJson<Camera>(value);
-            this.connectionStateCamera = this.RaspCamera;
+            this.connectionState = true;
         }));
 
         StartCoroutine(RequestObjectRoutine(nameof(FaceCount), (value) =>
