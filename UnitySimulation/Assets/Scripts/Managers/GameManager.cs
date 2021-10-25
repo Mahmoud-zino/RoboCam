@@ -12,8 +12,11 @@ public class GameManager : MonoBehaviour
 
     Process apiProcess = null;
 
+    GameObject robotGO;
+
     private void Start()
     {
+        robotGO = GameObject.Find("Robot");
         OnBtnRestartAPIClick();
     }
     
@@ -25,22 +28,10 @@ public class GameManager : MonoBehaviour
     
     public void OnMenuSelectionChanged(TMP_Dropdown dropDown)
     {
-        //Manuall
-        if(dropDown.value == 0)
-        {
-            manualControls.SetActive(true);
-            apiManager.SetActive(false);
-            GameObject.Find("Robot").GetComponent<AutoMovementController>().enabled = false;
-            GameObject.Find("Robot").GetComponent<ManualMovementController>().enabled = true;
-        }
-        //Auto
-        else
-        {
-            manualControls.SetActive(false);
-            apiManager.SetActive(true);
-            GameObject.Find("Robot").GetComponent<AutoMovementController>().enabled = true;
-            GameObject.Find("Robot").GetComponent<ManualMovementController>().enabled = false;
-        }
+        manualControls.SetActive(dropDown.value == 0);
+        apiManager.SetActive(dropDown.value != 0);
+        robotGO.GetComponent<AutoMovementController>().enabled = (dropDown.value != 0);
+        robotGO.GetComponent<ManualMovementController>().enabled = (dropDown.value == 0);
     }
 
 
@@ -52,14 +43,9 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void OnBtnAboutClick()
+    public void OnBtnAboutClick(bool active)
     {
-        this.aboutScreen.SetActive(true);
-    }
-
-    public void OnBtnAboutOkClick()
-    {
-        this.aboutScreen.SetActive(false);
+        this.aboutScreen.SetActive(active);
     }
 
     public void OnBtnRestartAPIClick()
@@ -78,8 +64,14 @@ public class GameManager : MonoBehaviour
             this.apiProcess = Process.Start(apiExeDirectory);
         else
         {
-            try { this.apiProcess.Kill(); }
-            catch { }
+            try 
+            { 
+                this.apiProcess.Kill();
+            }
+            catch 
+            {
+            }
+
             this.apiProcess = Process.Start(apiExeDirectory);
         }
     }
