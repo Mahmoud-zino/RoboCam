@@ -22,12 +22,12 @@ public class PanelObstacleBehaiviour : MonoBehaviour
     private GameObject physicalObstacle;
     private ObstaclesManager obstaclesManager;
 
-    private void SetPhysicalObstacleRef(GameObject physicalObstacle)
+    public void SetPhysicalObstacleRef(GameObject physicalObstacle)
     {
         this.physicalObstacle = physicalObstacle;
     }
 
-    private void SetStartupData(Cube cube)
+    public void SetStartupData(Cube cube)
     {
         locationX.text = cube.Position.x.ToString();
         locationY.text = cube.Position.y.ToString();
@@ -40,7 +40,7 @@ public class PanelObstacleBehaiviour : MonoBehaviour
         ScaleZ.text = cube.Scale.z.ToString();
     }
 
-    private void SetManager(ObstaclesManager obstaclesManager)
+    public void SetManager(ObstaclesManager obstaclesManager)
     {
         this.obstaclesManager = obstaclesManager;
     }

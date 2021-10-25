@@ -15,29 +15,32 @@ public class ObstaclesManager : MonoBehaviour
         LoadObstacles();
     }
 
-    //called from gui
-    public void AddObstacle()
+    private GameObject SetupObstacle()
     {
         GameObject obstaclePanel = Instantiate(obstaclePanelPrefab, obstaclesPanel.transform);
 
         GameObject obstacle = Instantiate(obstaclePrefab, this.transform);
 
-        obstaclePanel.SendMessage("SetPhysicalObstacleRef", obstacle);
+        PanelObstacleBehaiviour POB = obstaclePanel.GetComponent<PanelObstacleBehaiviour>();
 
-        obstaclePanel.SendMessage("SetManager", this);
+        POB.SetPhysicalObstacleRef(obstacle);
+        POB.SetManager(this);
+
+
+        return obstaclePanel;
+    }
+
+    //called from gui
+    public void AddObstacle()
+    {
+        this.SetupObstacle();
 
         SaveObstacles();
     }
 
     public void AddObstacle(Cube cube)
     {
-        GameObject obstaclePanel = Instantiate(obstaclePanelPrefab, obstaclesPanel.transform);
-
-        GameObject obstacle = Instantiate(obstaclePrefab, this.transform);
-
-        obstaclePanel.SendMessage("SetPhysicalObstacleRef", obstacle);
-
-        obstaclePanel.SendMessage("SetManager", this);
+        GameObject obstaclePanel = this.SetupObstacle();
 
         if (cube != null)
             obstaclePanel.SendMessage("SetStartupData", cube);
