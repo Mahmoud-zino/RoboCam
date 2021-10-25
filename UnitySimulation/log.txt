@@ -1,1 +1,1 @@
-Warning : [24.10.2021 15:17:41] : "Serial connection lost!"
+Error : [25.10.2021 13:42:32] : "Can't connect to auto control api!"
