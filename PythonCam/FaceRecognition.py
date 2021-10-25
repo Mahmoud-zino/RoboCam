@@ -10,14 +10,14 @@ import socket
 
 
 # ArgParser parse all the arguments defined by the user
-# Argumentlist:
-# mendatory => ip, port
+# Argument list:
+# mandatory => ip, port
 # optional => width, height, framerate, jpeg_quality
 class ArgParser:
     def __init__(self):
         self.argParser = argparse.ArgumentParser(allow_abbrev=False)
 
-        # Mendatory
+        # Mandatory
         self.argParser.add_argument("-ip", action="store", required=True)
         self.argParser.add_argument("-port", action="store", required=True)
         self.argParser.add_argument("-api", action="store", required=True)
@@ -32,7 +32,7 @@ class ArgParser:
         try:
             return self.argParser.parse_args()
         except Exception as e:
-            print("Can't Extract Arguments:\n" + e)
+            print(f"Can't Extract Arguments:\n{e}")
 
 
 class Camera:
@@ -44,14 +44,14 @@ class Camera:
             self.cam.saturation = 20
             self.cam.rotation = 90
             self.cam.hflip = True
-            self.raw_capture = self.init_rawcapture(args)
+            self.raw_capture = self.init_raw_capture(args)
             # warm up camera
             self.cam.start_preview()
             time.sleep(2)
         except Exception as e:
-            print('Cant initialize Cam' + e)
+            print(f'Cant initialize Cam {e}')
 
-    def init_rawcapture(self, args):
+    def init_raw_capture(self, args):
         try:
             return PiRGBArray(self.cam, size=(args.width, args.height))
         except Exception as e:
@@ -62,32 +62,32 @@ class ApiManager:
     def __init__(self, url):
         self.url = url
 
-    def PostCamera(self, args):
+    def post_camera(self, args):
         data = {'width': args.width, 'height': args.height}
-        r = requests.post(url=self.url + '/Camera', json=data, verify=False)
-        if (r.status_code != 200):
-            print('status code: ' + str(r.status_code))
+        request = requests.post(url=self.url + '/Camera', json=data, verify=False)
+        if request.status_code != 200:
+            print(f'status code: {str(request.status_code)}')
             time.sleep(1)
             print('post camera failed, trying it again!')
-            self.PostCamera(args)
+            self.post_camera(args)
 
-    def PostFace(self, x, y, width, height):
+    def post_face(self, x, y, width, height):
         data = {'xPoint': x, 'yPoint': y, 'width': width, 'height': height}
-        r = requests.post(url=self.url + '/face', json=data, verify=False)
-        if (r.status_code != 200):
-            print('status code: ' + str(r.status_code))
+        request = requests.post(url=f'{self.url}/face', json=data, verify=False)
+        if request.status_code != 200:
+            print(f'status code: {str(request.status_code)}')
             time.sleep(1)
             print('post Face failed, trying it again!')
-            self.PostFace(x, y, width, height)
+            self.post_face(x, y, width, height)
 
-    def PostFaceCount(self, count):
+    def post_face_count(self, count):
         data = {'faceCount': int(count)}
-        r = requests.post(url=self.url + '/faceCount', json=data, verify=False)
-        if (r.status_code != 200):
-            print('status code: ' + str(r.status_code))
+        request = requests.post(url=f'{self.url}/faceCount', json=data, verify=False)
+        if request.status_code != 200:
+            print(f'status code: {str(request.status_code)}')
             time.sleep(1)
             print('post Face Count failed, trying it again!')
-            self.PostFaceCount(count)
+            self.post_face_count(count)
 
 
 class StreamManager:
@@ -98,7 +98,7 @@ class StreamManager:
         self.ip = args.ip
         self.port = args.port
 
-    def SendImage(self, img):
+    def send_image(self, img):
         buffer = cv2.imencode('.JPEG', img, self.encode_param)[1].tobytes()
         self.client.sendto(buffer, (str(self.ip), int(self.port)))
 
@@ -106,57 +106,61 @@ class StreamManager:
 def main():
     last_face_count = -1
     args = ArgParser().extract_args()
-    picam = Camera(args)
+    pi_cam = Camera(args)
 
     apiManager = ApiManager(args.api)
     streamManager = StreamManager(args)
 
-    raw_capture = picam.raw_capture
-    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-    # Try is here so when ctrl + c is clicked the program stoppes
+    raw_capture = pi_cam.raw_capture
+    face_cascade = cv2.CascadeClassifier(f"{cv2.data.haarcascades}haarcascade_frontalface_default.xml")
+
+    # Try is here so when ctrl + c is clicked the program stop
     try:
         # Main Routine
-        while (1):
-            apiManager.PostCamera(args)
-            # Capturing Camera photage
-            for frame in picam.cam.capture_continuous(raw_capture, format="bgr", use_video_port=True):
+        while True:
+            apiManager.post_camera(args)
+
+            # Capturing Camera footage
+            for frame in pi_cam.cam.capture_continuous(raw_capture, format="bgr", use_video_port=True):
                 try:
                     # assign Captured frame
                     captured_frame_array = frame.array
 
-                    streamManager.SendImage(captured_frame_array)
+                    streamManager.send_image(captured_frame_array)
                     # convert captured frame array to gray
                     gray_captured_frame = cv2.cvtColor(captured_frame_array, cv2.COLOR_BGR2GRAY)
                     # detect faces on frame
                     faces = face_cascade.detectMultiScale(gray_captured_frame, 1.2, 5)
                     print("Detected Faces: {0:d}".format(len(faces)))
-                    if (last_face_count != len(faces)):
+                    if last_face_count != len(faces):
                         last_face_count = len(faces)
-                        apiManager.PostFaceCount(len(faces))
+                        apiManager.post_face_count(len(faces))
                 except Exception as e:
                     print("Face Recognition Error" + str(e))
                     raw_capture.truncate(0)
                     continue
+
                 # Get Face Positions
                 try:
                     # only one face was recognized
                     if len(faces) == 1:
-                        # iterate through faces and get its dimentsions
+                        # iterate through faces and get its dimensions
                         for (x, y, width, height) in faces:
                             # draw rectangle around face
                             cv2.rectangle(captured_frame_array, (x, y), (x + width, y + height), (255, 255, 0), 2)
                             print(
                                 "Face Position: x = {0:d}, y = {1:d}, width = {2:d}, height = {3:d}".format(x, y, width,
                                                                                                             height))
-                            apiManager.PostFace(int(x), int(y), int(width), int(height))
+                            apiManager.post_face(int(x), int(y), int(width), int(height))
                     else:
                         print("Detected {0:d} Faces".format(len(faces)))
                 except Exception as e:
-                    print("Error getting face position" + str(e))
+                    print(f"Error getting face position {str(e)}")
                     raw_capture.truncate(0)
+
                 # send image per udp
-                streamManager.SendImage(captured_frame_array)
-                # display video for test perposes
+                streamManager.send_image(captured_frame_array)
+                # display video for test purposes
                 # cv2.imshow("Frame", captured_frame_array)
                 # cv2.waitKey(1) & 0xFF
                 raw_capture.truncate(0)
@@ -167,5 +171,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-

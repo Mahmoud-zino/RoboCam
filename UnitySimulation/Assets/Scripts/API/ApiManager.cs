@@ -94,6 +94,5 @@ public class ApiManager : MonoBehaviour
 
         if(req.result == UnityWebRequest.Result.Success)
             callback(req.downloadHandler.text);
-        }
     }
 }
