@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 
-public abstract class PanelController : MonoBehaviour
+public class PanelController : MonoBehaviour
 {
     public bool IsPanelOpen { get; protected set; }
 
     protected Animator animator;
+
+    private void Start()
+    {
+        this.animator = this.GetComponent<Animator>();
+    }
 
     public virtual void SetPanel(bool state)
     {

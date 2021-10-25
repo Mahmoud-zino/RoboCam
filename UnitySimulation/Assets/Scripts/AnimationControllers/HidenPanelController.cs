@@ -2,14 +2,9 @@ using UnityEngine;
 
 public class HidenPanelController : PanelController
 {
-    private void Start()
-    {
-        base.animator = this.GetComponent<Animator>();
-    }
-
     public void OnPointerEnter()
     {
-        base.animator.SetBool("Open", true);
+        this.animator.SetBool("Open", true);
     }
 
     public void OnPointerExit()
