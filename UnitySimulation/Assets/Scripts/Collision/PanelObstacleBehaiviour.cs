@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using System;
-using UnityEngine.UI;
-using System.Globalization;
+using UnityEngine;
 
 public class PanelObstacleBehaiviour : MonoBehaviour
 {
+    private const float MILLI_TO_CENTI_CONVERSION_RATE = 10.0f;
+
     [SerializeField] private TMP_InputField locationX;
     [SerializeField] private TMP_InputField locationY;
     [SerializeField] private TMP_InputField locationZ;
@@ -21,6 +18,8 @@ public class PanelObstacleBehaiviour : MonoBehaviour
 
     private GameObject physicalObstacle;
     private ObstaclesManager obstaclesManager;
+
+
 
     public void SetPhysicalObstacleRef(GameObject physicalObstacle)
     {
@@ -69,17 +68,16 @@ public class PanelObstacleBehaiviour : MonoBehaviour
         {
             Cube cube = new Cube
             {
-                Position = new Vector3(float.Parse(locationX.text) * 10, float.Parse(locationY.text) * 10, float.Parse(locationZ.text) * 10),
-                Rotation = new Vector3(float.Parse(RotationX.text) * 10, float.Parse(RotationY.text) * 10, float.Parse(RotationZ.text) * 10),
-                Scale = new Vector3(float.Parse(ScaleX.text) * 10, float.Parse(ScaleY.text) * 10, float.Parse(ScaleZ.text) * 10)
+                Position = new Vector3(float.Parse(locationX.text) * MILLI_TO_CENTI_CONVERSION_RATE, float.Parse(locationY.text) * MILLI_TO_CENTI_CONVERSION_RATE, float.Parse(locationZ.text) * MILLI_TO_CENTI_CONVERSION_RATE),
+                Rotation = new Vector3(float.Parse(RotationX.text) * MILLI_TO_CENTI_CONVERSION_RATE, float.Parse(RotationY.text) * MILLI_TO_CENTI_CONVERSION_RATE, float.Parse(RotationZ.text) * MILLI_TO_CENTI_CONVERSION_RATE),
+                Scale = new Vector3(float.Parse(ScaleX.text) * MILLI_TO_CENTI_CONVERSION_RATE, float.Parse(ScaleY.text) * MILLI_TO_CENTI_CONVERSION_RATE, float.Parse(ScaleZ.text) * MILLI_TO_CENTI_CONVERSION_RATE)
             };
 
             ChangePhyiscalObstacleData(cube);
             this.obstaclesManager.SaveObstacles();
         }
-        catch (Exception)
+        catch
         {
-            return;
         }
     }
 

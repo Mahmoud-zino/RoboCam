@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class ObstaclesManager : MonoBehaviour
 {
+    private const float MILLI_TO_CENTI_CONVERSION_RATE = 10.0f;
+
     [SerializeField] private GameObject obstaclePanelPrefab;
     [SerializeField] private GameObject obstaclePrefab;
     [SerializeField] private GameObject obstaclesPanel;
 
     private ObstaclesSerializer obstaclesSerializer;
+
 
     private void Start()
     {
@@ -15,19 +18,19 @@ public class ObstaclesManager : MonoBehaviour
         LoadObstacles();
     }
 
-    private GameObject SetupObstacle()
+    private PanelObstacleBehaiviour SetupObstacle()
     {
         GameObject obstaclePanel = Instantiate(obstaclePanelPrefab, obstaclesPanel.transform);
 
         GameObject obstacle = Instantiate(obstaclePrefab, this.transform);
 
-        PanelObstacleBehaiviour POB = obstaclePanel.GetComponent<PanelObstacleBehaiviour>();
+        PanelObstacleBehaiviour panelObstacleBehaiviour = obstaclePanel.GetComponent<PanelObstacleBehaiviour>();
 
-        POB.SetPhysicalObstacleRef(obstacle);
-        POB.SetManager(this);
+        panelObstacleBehaiviour.SetPhysicalObstacleRef(obstacle);
+        panelObstacleBehaiviour.SetManager(this);
 
 
-        return obstaclePanel;
+        return panelObstacleBehaiviour;
     }
 
     //called from gui
@@ -40,10 +43,10 @@ public class ObstaclesManager : MonoBehaviour
 
     public void AddObstacle(Cube cube)
     {
-        GameObject obstaclePanel = this.SetupObstacle();
+        PanelObstacleBehaiviour panelObstacleBehaiviour = this.SetupObstacle();
 
         if (cube != null)
-            obstaclePanel.SendMessage("SetStartupData", cube);
+            panelObstacleBehaiviour.SetStartupData(cube);
     }
 
     public void LoadObstacles()
@@ -51,9 +54,7 @@ public class ObstaclesManager : MonoBehaviour
         List<Cube> cubes = obstaclesSerializer.LoadCubes();
 
         foreach (Cube cube in cubes)
-        {
             AddObstacle(cube);
-        }
     }
 
     public void SaveObstacles()
@@ -63,9 +64,9 @@ public class ObstaclesManager : MonoBehaviour
         {
             cubes.Add(new Cube()
             {
-                Position = t.position / 10,
-                Rotation = t.eulerAngles / 10,
-                Scale = t.localScale / 10
+                Position = t.position / MILLI_TO_CENTI_CONVERSION_RATE,
+                Rotation = t.eulerAngles / MILLI_TO_CENTI_CONVERSION_RATE,
+                Scale = t.localScale / MILLI_TO_CENTI_CONVERSION_RATE
             });
         }
 
