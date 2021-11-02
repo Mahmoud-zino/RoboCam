@@ -16,11 +16,15 @@ public class GameManager : MonoBehaviour
 
     GameObject robotGO;
 
+    private void Awake()
+    {
+        apiExeDirectory = $"{Application.streamingAssetsPath}/API/RoboCamApi.exe";
+        OnBtnRestartAPIClick();
+    }
+
     private void Start()
     {
         robotGO = GameObject.Find("Robot");
-        apiExeDirectory = $"{Application.streamingAssetsPath}/API/RoboCamApi.exe";
-        OnBtnRestartAPIClick();
     }
     
     private void OnDisable()
