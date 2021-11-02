@@ -26,11 +26,13 @@ int main(void)
 {
 	uart_init();
 	servo_init();
+	
 	_delay_ms(100);
 	
 	sei();
 	
 	servo_moveToStartPosition();
+	
 	unsigned char continueFlag = 0;	
 
 	while(1)
@@ -38,6 +40,7 @@ int main(void)
 		clear_buffer(tbuffer);
 		continueFlag = 0;
 		
+		//Read Command
 		for (unsigned char i = 0;i < 18; i++)
 		{
 			if(scanf("%c", &tbuffer[i]) != 1)
@@ -51,6 +54,7 @@ int main(void)
 			if(i == 0)
 			{
 				//Reset Position
+				// for test propuses
 				if(tbuffer[0] == 'R')
 				{
 					printf("esetting motors.\n\r");
@@ -59,7 +63,9 @@ int main(void)
 					continueFlag = 1;
 					break;
 				}
+				
 				//Get Position (Print position)
+				// for test propuses
 				else if(tbuffer[0] == 'G')
 				{
 					printf("[%3u;%3u;%3u;%3u;]\n\r", servo_get(0), servo_get(1), servo_get(2), servo_get(3));
