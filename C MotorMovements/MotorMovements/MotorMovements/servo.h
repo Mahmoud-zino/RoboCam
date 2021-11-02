@@ -111,7 +111,7 @@
 
 
 #ifndef DELAY_TIME
-#define DELAY_TIME 20
+#define DELAY_TIME 15
 #endif
 
 #ifndef F_CPU
@@ -132,9 +132,6 @@ unsigned char servo_allMotorsAtTarget(unsigned char targetDagrees[]);
 void servo_moveOneStepToTarget(unsigned char targetDagrees[]);
 void servo_moveToStartPosition(void);
 void timer0_init();
-unsigned int servo_get_base(void);
-unsigned int servo_get_shoulder(void);
-unsigned int servo_get_elbow(void);
-unsigned int servo_get_wrist(void);
+unsigned int servo_get(unsigned char id);
 
 #endif
