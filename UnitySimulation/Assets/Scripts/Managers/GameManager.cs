@@ -2,13 +2,15 @@ using System.Diagnostics;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject manualControls;
     [SerializeField] private GameObject apiManager;
     [SerializeField] private GameObject aboutScreen;
-    [SerializeField] private string apiExeDirectory;
+    
+    private string apiExeDirectory;
 
     Process apiProcess = null;
 
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         robotGO = GameObject.Find("Robot");
+        apiExeDirectory = $"{Application.streamingAssetsPath}/API/RoboCamApi.exe";
         OnBtnRestartAPIClick();
     }
     
@@ -50,16 +53,12 @@ public class GameManager : MonoBehaviour
 
     public void OnBtnRestartAPIClick()
     {
-        if(!File.Exists(apiExeDirectory))
+        if (!File.Exists(apiExeDirectory))
         {
-            apiExeDirectory = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).ToString(), "RoboCamApi\\RoboCamApi.exe");
-            if (!File.Exists(apiExeDirectory))
-            {
-                Logger.Log.Error("Api executable path not defined!");
-                return;
-            }
+            Logger.Log.Error("Api executable path not defined!");
+            return;
         }
-            
+
         if (this.apiProcess is null)
             this.apiProcess = Process.Start(apiExeDirectory);
         else
