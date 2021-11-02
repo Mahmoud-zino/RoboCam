@@ -3,8 +3,7 @@ using UnityEngine.UI;
 
 public class ManualMovementController : MovementController
 {
-    [SerializeField]
-    private Slider[] sliders;
+    [SerializeField] private Slider[] sliders;
 
     private void OnEnable()
     {
