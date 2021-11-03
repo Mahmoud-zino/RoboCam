@@ -1,1 +1,1 @@
-Error : [25.10.2021 13:42:32] : "Can't connect to auto control api!"
+Information : [03.11.2021 08:06:58] : "Collision was detected!"

@@ -6,8 +6,8 @@ public class AutoMovementController : MovementController
 {
     public bool IsRobotAtPosition { get; private set; }
 
-    private const int SCREEN_MID_SPAN = 100;
-    private const int FACE_OFFSET = 25;
+    [SerializeField] private int SCREEN_MID_SPAN = 150;
+    [SerializeField] private int FACE_OFFSET = 25;
 
     private readonly int[] lastVals = new int[] { 90, 80,  100, 150};
 
@@ -47,9 +47,8 @@ public class AutoMovementController : MovementController
     {
         int[] currentPosition = base.GetCurrentPositions();
         int[] targetPosition = new int[4];
-        currentPosition.CopyTo(targetPosition, 0);
 
-        bool isRobotAtPosition = true;
+        currentPosition.CopyTo(targetPosition, 0);
 
         Camera raspCam = ApiManager.Instance.RaspCamera;
 
@@ -69,22 +68,24 @@ public class AutoMovementController : MovementController
 
         //Base / Horizontal
         targetPosition[0] = GetHorizontalPostion(targetPosition[0], (int)destination.x);
-        //Wrist / Vertical
-        targetPosition[3] = GetVerticalPosition(targetPosition[3], (int)destination.y);
+        // Wrist Vertical
+        targetPosition = GetVerticalPosition(targetPosition, (int)destination.y);
         //shoulder, elbow and wrist / Zoom
         targetPosition = GetZoomPosition(targetPosition, (int)destination.z);
 
-        for (int i = 0; i < 4; i++)
-        {
-            if (currentPosition[i] != targetPosition[i])
-            {
-                isRobotAtPosition = false;
-                break;
-            }
-        }
 
-        this.IsRobotAtPosition = isRobotAtPosition;
+        this.IsRobotAtPosition = IsFaceInMiddleOfScreen(destination);
         return targetPosition;
+    }
+
+    private bool IsFaceInMiddleOfScreen(Vector3 destination)
+    {
+        //face has the right width & height
+        return (destination.z > -FACE_OFFSET && destination.z < FACE_OFFSET
+             // face is in middle horizontal 
+             && destination.x > -FACE_OFFSET && destination.x < FACE_OFFSET
+             // face is in middle vertical
+             && destination.y > -FACE_OFFSET && destination.y < FACE_OFFSET);
     }
 
     //controlling only the base motor
@@ -111,22 +112,24 @@ public class AutoMovementController : MovementController
     }
 
     //controlling only the wrist motor
-    private int GetVerticalPosition(int currentPos, int destination)
+    private int[] GetVerticalPosition(int[] currentPos, int destination)
     {
         //Y is inverted 
         //Target moved down
-        if (destination > FACE_OFFSET)
+        if (destination < -FACE_OFFSET)
         {
-            if(currentPos < base.wristLimit.Max)
-                return ++currentPos;
+            if (currentPos[3] > base.wristLimit.Min)
+            {
+                --currentPos[3];
+            }
         }
-        //Target moved up
-        else if (destination < -FACE_OFFSET)
+        else if(destination > FACE_OFFSET)
         {
-            if(currentPos > base.wristLimit.Min)
-                return --currentPos;
+            if (currentPos[3] < base.wristLimit.Max)
+            {
+                ++currentPos[3];
+            }
         }
-
         return currentPos;
     }
 
