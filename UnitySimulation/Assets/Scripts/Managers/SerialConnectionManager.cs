@@ -131,6 +131,7 @@ public sealed class SerialConnectionManager : IDisposable
         catch
         {
             Logger.Log.Error("Failed to open serial connection!");
+            return;
         }
 
         while (IsLooping())
