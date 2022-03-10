@@ -1,1 +1,1 @@
-Information : [03.11.2021 08:06:58] : "Collision was detected!"
+Information : [10.03.2022 13:24:15] : "Collision was detected!"
