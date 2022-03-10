@@ -49,6 +49,7 @@ class Camera:
             self.cam.start_preview()
             time.sleep(2)
         except Exception as e:
+            # Mayor error
             print(f'Cant initialize Cam {e}')
 
     def init_raw_capture(self, args):
@@ -63,30 +64,42 @@ class ApiManager:
         self.url = url
 
     def post_camera(self, args):
-        data = {'width': args.width, 'height': args.height}
-        request = requests.post(url=self.url + '/Camera', json=data, verify=False)
-        if request.status_code != 200:
-            print(f'status code: {str(request.status_code)}')
-            time.sleep(1)
-            print('post camera failed, trying it again!')
+        try:
+            data = {'width': args.width, 'height': args.height}
+            request = requests.post(url=self.url + '/Camera', json=data, verify=False, timeout=1)
+            if request.status_code != 200:
+                print(f'status code: {str(request.status_code)}')
+                time.sleep(1)
+                print('post camera failed, trying it again!')
+                self.post_camera(args)
+        except:
+            print("Post camera request timed out, trying it again!")
             self.post_camera(args)
 
     def post_face(self, x, y, width, height):
-        data = {'xPoint': x, 'yPoint': y, 'width': width, 'height': height}
-        request = requests.post(url=f'{self.url}/face', json=data, verify=False)
-        if request.status_code != 200:
-            print(f'status code: {str(request.status_code)}')
-            time.sleep(1)
-            print('post Face failed, trying it again!')
+        try:
+            data = {'xPoint': x, 'yPoint': y, 'width': width, 'height': height}
+            request = requests.post(url=f'{self.url}/face', json=data, verify=False, timeout=1)
+            if request.status_code != 200:
+                print(f'status code: {str(request.status_code)}')
+                time.sleep(1)
+                print('post Face failed, trying it again!')
+                self.post_face(x, y, width, height)
+        except:
+            print("Post face request timed out, trying it again!")
             self.post_face(x, y, width, height)
 
     def post_face_count(self, count):
-        data = {'faceCount': int(count)}
-        request = requests.post(url=f'{self.url}/faceCount', json=data, verify=False)
-        if request.status_code != 200:
-            print(f'status code: {str(request.status_code)}')
-            time.sleep(1)
-            print('post Face Count failed, trying it again!')
+        try:
+            data = {'faceCount': int(count)}
+            request = requests.post(url=f'{self.url}/faceCount', json=data, verify=False, timeout=1)
+            if request.status_code != 200:
+                print(f'status code: {str(request.status_code)}')
+                time.sleep(1)
+                print('post Face Count failed, trying it again!')
+                self.post_face_count(count)
+        except:
+            print("Post face count request timed out, trying it again!")
             self.post_face_count(count)
 
 
@@ -126,7 +139,7 @@ def main():
                     # assign Captured frame
                     captured_frame_array = frame.array
 
-                    streamManager.send_image(captured_frame_array)
+                    #streamManager.send_image(captured_frame_array)
                     # convert captured frame array to gray
                     gray_captured_frame = cv2.cvtColor(captured_frame_array, cv2.COLOR_BGR2GRAY)
                     # detect faces on frame
@@ -161,8 +174,8 @@ def main():
                 # send image per udp
                 streamManager.send_image(captured_frame_array)
                 # display video for test purposes
-                # cv2.imshow("Frame", captured_frame_array)
-                # cv2.waitKey(1) & 0xFF
+                #cv2.imshow("Frame", captured_frame_array)
+                #cv2.waitKey(1) & 0xFF
                 raw_capture.truncate(0)
     except KeyboardInterrupt:
         print("closing Program after user interrupt")
